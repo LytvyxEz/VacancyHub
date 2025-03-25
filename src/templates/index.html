@@ -3,26 +3,33 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vanacy Hub</title>
+    <title>Vanacy Hub | Smart Job Market Analytics</title>
+    <meta name="description" content="Get data-driven insights on job market trends, salary benchmarks, and skill requirements to boost your career.">
     <link rel="icon" href="/static/img/logo.jpg" type="image/jpg">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="/static/css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="/static/css/welcome.css">
 </head>
 <body>
     <header>
         <div class="container">
             <nav>
-                <div class="logo">
-                    <img src="/static/img/logo.jpg" alt="Vanacy Hub Logo">
-                    Vanacy Hub
-                </div>
+                <a href="/" class="logo">
+                    <img src="/static/img/logo.jpg" alt="Vanacy Hub Logo" loading="lazy">
+                    <span>Vanacy Hub</span>
+                </a>
                 <ul class="nav-links">
-                    <li><a href="#">Home</a></li>
-                    <li><a href="#">Features</a></li>
-                    <li><a href="#" class="btn btn-outline">Login</a></li>
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/features">Features</a></li>
+                    <li><a href="/about">About Us</a></li>
+                    <li><a href="/privacy">Privacy Policy</a></li>
+                    <li><a href="/auth" class="btn btn-outline">Login <i class="fas fa-arrow-right"></i></a></li>
                 </ul>
+                <button class="mobile-menu-toggle" aria-label="Toggle navigation">
+
+                </button>
             </nav>
         </div>
     </header>
@@ -30,57 +37,78 @@
     <main>
         <section class="hero">
             <div class="container">
-                <h1>Smart <span>Vacancy Analytics</span> for Your Career</h1>
-                <p>Vanacy Hub analyzes thousands of job postings to give you insights on market trends, salary expectations, and required skills to boost your career.</p>
-                <div class="cta-buttons">
-                    <a href="#" class="btn btn-primary">Get Started</a>
+                <div class="hero-content">
+                    <h1><span>Vacancy Analytics</span> for Your Career</h1>
+                    <p>Vanacy Hub analyzes thousands of job postings to give you insights on market trends, salary expectations, and required skills to boost your career.</p>
+                    <div class="cta-buttons">
+                        <a href="/parse" class="btn btn-primary">Get Started <i class="fas fa-rocket"></i></a>
+                    </div>
+                    <div class="trust-badges">
+                        <div class="badge-item">
+                            <i class="fas fa-check-circle"></i>
+                            <span>Trusted by 10,000+ professionals</span>
+                        </div>
+                        <div class="badge-item">
+                            <i class="fas fa-database"></i>
+                            <span>100,000+ job listings analyzed</span>
+                        </div>
+                    </div>
                 </div>
                 <div class="dashboard-preview">
-                    <img src="https://via.placeholder.com/900x500?text=Vanacy+Hub+Dashboard+Preview" alt="Dashboard Preview">
+                    <div class="preview-highlight"></div>
                 </div>
             </div>
         </section>
-
-        <section class="features">
+        <section class="testimonials">
             <div class="container">
                 <div class="section-title">
+                    <h2>Trusted by Professionals</h2>
+                    <br>
                     <h2>Powerful Features</h2>
                     <p>Discover how Vanacy Hub can transform your job search with data-driven insights</p>
                 </div>
                 <div class="features-grid">
-                    <div class="feature-card">
-                        <div class="feature-icon">📊</div>
+                    <div class="feature-card" data-aos="fade-up">
+                        <div class="feature-icon"><i class="fas fa-chart-pie"></i></div>
                         <h3>Market Trends Analysis</h3>
                         <p>See real-time data on which industries are hiring, growing salaries, and emerging job roles.</p>
+                        <a href="/features#trends" class="feature-link">Learn more <i class="fas fa-arrow-right"></i></a>
                     </div>
-                    <div class="feature-card">
-                        <div class="feature-icon">💼</div>
+                    <div class="feature-card" data-aos="fade-up" data-aos-delay="100">
+                        <div class="feature-icon"><i class="fas fa-lightbulb"></i></div>
                         <h3>Skill Gap Identification</h3>
                         <p>Discover which skills are most in-demand for your target positions and how to bridge your gaps.</p>
+                        <a href="/features#skills" class="feature-link">Learn more <i class="fas fa-arrow-right"></i></a>
                     </div>
-                    <div class="feature-card">
-                        <div class="feature-icon">💰</div>
+                    <div class="feature-card" data-aos="fade-up" data-aos-delay="200">
+                        <div class="feature-icon"><i class="fas fa-money-bill-wave"></i></div>
                         <h3>Salary Benchmarking</h3>
                         <p>Compare salary ranges across companies, locations, and experience levels to negotiate better.</p>
+                        <a href="/features#salaries" class="feature-link">Learn more <i class="fas fa-arrow-right"></i></a>
                     </div>
-                    <div class="feature-card">
-                        <div class="feature-icon">🔍</div>
+                    <div class="feature-card" data-aos="fade-up">
+                        <div class="feature-icon"><i class="fas fa-bullseye"></i></div>
                         <h3>Smart Job Matching</h3>
                         <p>Our algorithm matches your profile with the most suitable vacancies based on multiple factors.</p>
+                        <a href="/features#matching" class="feature-link">Learn more <i class="fas fa-arrow-right"></i></a>
                     </div>
-                    <div class="feature-card">
-                        <div class="feature-icon">📈</div>
+                    <div class="feature-card" data-aos="fade-up" data-aos-delay="100">
+                        <div class="feature-icon"><i class="fas fa-building"></i></div>
                         <h3>Company Insights</h3>
                         <p>Get detailed analytics on companies' hiring patterns, growth trends, and employee satisfaction.</p>
+                        <a href="/features#companies" class="feature-link">Learn more <i class="fas fa-arrow-right"></i></a>
                     </div>
-                    <div class="feature-card">
-                        <div class="feature-icon">🤖</div>
+                    <div class="feature-card" data-aos="fade-up" data-aos-delay="200">
+                        <div class="feature-icon"><i class="fas fa-robot"></i></div>
                         <h3>AI Recommendations</h3>
                         <p>Receive personalized career path suggestions based on market data and your goals.</p>
+                        <a href="/features#ai" class="feature-link">Learn more <i class="fas fa-arrow-right"></i></a>
                     </div>
                 </div>
             </div>
         </section>
+
+
     </main>
 
     <footer>
@@ -88,34 +116,32 @@
             <div class="footer-content">
                 <div class="footer-column">
                     <h3>Vanacy Hub</h3>
-                    <p>Smart vacancy analytics platform helping job seekers and recruiters make data-driven decisions.</p>
+                    <p>Vacancy analytics platform helping job seekers and recruiters make data-driven decisions.</p>
                 </div>
                 <div class="footer-column">
                     <h3>Product</h3>
                     <ul class="footer-links">
-                        <li><a href="#">Features</a></li>
+                        <li><a href="/features">Features</a></li>
                         <li><a href="/docs">API</a></li>
+                        <li><a href="/about">About Us</a></li>
                     </ul>
                 </div>
                 <div class="footer-column">
-                    <h3>Resources</h3>
+                    <h3>Legal</h3>
                     <ul class="footer-links">
-                        <li><a href="#">Blog</a></li>
-                        <li><a href="#">Help Center</a></li>
-                    </ul>
-                </div>
-                <div class="footer-column">
-                    <h3>Company</h3>
-                    <ul class="footer-links">
-                        <li><a href="#">About Us</a></li>
-                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="/privacy">Privacy Policy</a></li>
+                        <li><a href="/terms">Terms of Service</a></li>
+                        <li><a href="/cookie">Cookie Policy</a></li>
                     </ul>
                 </div>
             </div>
-            <div class="copyright">
-                &copy; 2025 Vanacy Hub. All rights reserved.
+            <div class="footer-bottom">
+                <div class="copyright">
+                    &copy; 2025 Vanacy Hub. All rights reserved.
+                </div>
             </div>
         </div>
     </footer>
+
 </body>
 </html>

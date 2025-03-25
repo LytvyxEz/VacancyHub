@@ -5,15 +5,33 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Do u have an account?</title>
     <link rel="icon" href="/static/img/logo.jpg" type="image/jpg">
+    <link rel="stylesheet" href="/static/css/auth.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
 </head>
 <body>
+    <div id="customConfirm" class="custom-modal">
+        <div class="modal-content">
+            <div class="modal-message">Do you have an account?</div>
+            <div class="modal-buttons">
+                <button id="confirmYes" class="modal-button yes-button">Yes</button>
+                <button id="confirmNo" class="modal-button no-button">No</button>
+            </div>
+        </div>
+    </div>
+
     <script>
-        if (confirm('Do you have an account?')) {
-            window.location.href = 'login';
-        } else {
-            window.location.href = 'register';
-        }
+        document.addEventListener('DOMContentLoaded', function() {
+            const modal = document.getElementById('customConfirm');
+            modal.style.display = 'flex';
+
+            document.getElementById('confirmYes').addEventListener('click', function() {
+                window.location.href = 'login';
+            });
+
+            document.getElementById('confirmNo').addEventListener('click', function() {
+                window.location.href = 'register';
+            });
+        });
     </script>
 </body>
 </html>
-
