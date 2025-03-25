@@ -3,7 +3,9 @@ from string import punctuation
 from fastapi import HTTPException
 from src.utils import hash_password
 
+
 speacial_chars = punctuation
+
 
 class User(BaseModel):
     _id: PositiveInt
