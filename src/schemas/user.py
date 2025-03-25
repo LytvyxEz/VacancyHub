@@ -1,8 +1,10 @@
-from pydantic import BaseModel, EmailStr, Field, field_validator, PositiveInt
+from pydantic import BaseModel, EmailStr, Field, field_validator, PositiveInt, constr
 from string import punctuation
 from fastapi import HTTPException
 
+
 speacial_chars = punctuation
+
 
 class User(BaseModel):
     _id: PositiveInt
