@@ -74,6 +74,25 @@
         </div>
     </div>
 
+<script>
+    document.querySelector(".auth-form").addEventListener("submit", async function(event) {
+        event.preventDefault(); // Prevent default form submission
+
+        const formData = new FormData(this);
+
+        const response = await fetch(this.action, {
+            method: "POST",
+            body: formData
+        });
+
+        if (response.ok) {
+            window.location.href = "/auth/login"; // Redirect to login page after successful signup
+        } else {
+            alert("Signup failed. Please try again.");
+        }
+    });
+</script>
+
     <script src="/static/js/auth.js"></script>
 </body>
 </html>

@@ -1,6 +1,6 @@
 from pydantic import BaseModel, EmailStr, Field, field_validator, PositiveInt, constr
 from string import punctuation
-from fastapi import HTTPException
+from fastapi import HTTPException, Form
 from src.utils import hash_password
 
 
@@ -8,8 +8,8 @@ speacial_chars = punctuation
 
 
 class User(BaseModel):
-    email: EmailStr = Field(max_length=256)
-    password: constr(min_length=8, max_length=64)
+    email: EmailStr = Form(max_length=256)
+    password: constr(min_length=8, max_length=64) = Form()
 
 
     @field_validator("password")
