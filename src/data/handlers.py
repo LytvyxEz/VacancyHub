@@ -1,23 +1,35 @@
 import asyncio
-from database import async_client
+
+from database import get_async_client
 from src.schemas import User
-import logging
 
 
-logging.basicConfig(level=logging.DEBUG)
+class DatabaseHandlers:
+    """Клас для зручної роботи з хендлерами і уникненю пошуку роботи функції."""
+    def __init__(self, async_client):
+        """Ініціалізація об'єкту класу і отримання з'єднання з БД"""
+        self.async_client = async_client
+
+    async def get_all(self):
+        """Проста функція для перевірки чи є під'єднання до БД(з часом можливо видалю)."""
+        response = await self.async_client.table("users").select("*").execute()
+        print(response.data)
+
+    async def add_new_user(self, user: User):
+        """Функція для додавання нового користувача у БД, з данних потрібно тільки email і password."""
+        info = {
+            "email": user.email,
+            "password": user.password
+        }
+        response = await self.async_client.table("users").insert(info).execute()
+        return response
+
+    async def get_hashed_password_by_email(self, email: str):
+        """Функція планується для перевірки дійсності паролю
+         шляхом витягування захешованого пароля з БД і порівняння з введеним щойно користувачем"""
+        response = await self.async_client.table("users").select("password").eq("email", email).execute()
+        return response.data[0]["password"]
 
 
-async def get_all():
-    response = await async_client.table("users").select("*").execute()
-    print(response.data)
-
-
-async def add_new_user(user: User):
-    info = {
-        "email": user.email,
-        "password": user.password
-    }
-    response = await async_client.table("users").insert(info).execute()
-
-user = User(_id=1, email='emaildfs@gmail.com', password='03gub12f80')
-asyncio.run(add_new_user(user))
+a_client = asyncio.run(get_async_client())
+handlers_manager = DatabaseHandlers(a_client)
