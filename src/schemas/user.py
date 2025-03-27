@@ -8,7 +8,6 @@ speacial_chars = punctuation
 
 
 class User(BaseModel):
-    _id: PositiveInt
     email: EmailStr = Field(max_length=256)
     password: constr(min_length=8, max_length=64)
 
