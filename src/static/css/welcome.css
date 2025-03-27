@@ -512,3 +512,253 @@ footer {
     grid-template-columns: 1fr;
   }
 }
+/* Features Page Styles */
+.features-hero {
+    background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+    color: white;
+    padding: 180px 0 100px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.features-hero .hero-content h1 {
+    font-size: 3.5rem;
+    margin-bottom: 20px;
+    animation: fadeInUp 0.8s ease-out;
+}
+
+.features-hero .hero-content p {
+    font-size: 1.3rem;
+    max-width: 700px;
+    margin: 0 auto 40px;
+    opacity: 0.9;
+    animation: fadeInUp 0.8s ease-out 0.2s both;
+}
+
+.features-section {
+    padding: 100px 0;
+    background-color: white;
+}
+
+.feature-card {
+    background-color: white;
+    border-radius: 12px;
+    padding: 40px 30px;
+    transition: var(--transition);
+    border: 1px solid var(--light-gray);
+    box-shadow: var(--shadow-sm);
+    margin-bottom: 30px;
+}
+
+.feature-card:hover {
+    transform: translateY(-10px);
+    box-shadow: var(--shadow-lg);
+    border-color: var(--primary-light);
+}
+
+.feature-icon {
+    font-size: 2.5rem;
+    color: var(--primary);
+    margin-bottom: 20px;
+    transition: var(--transition);
+}
+
+.feature-card:hover .feature-icon {
+    transform: scale(1.2);
+    color: var(--secondary);
+}
+
+.feature-highlights {
+    margin-top: 20px;
+    text-align: left;
+}
+
+.feature-highlights span {
+    display: block;
+    margin-bottom: 8px;
+    color: var(--medium-gray);
+    font-size: 0.95rem;
+}
+
+.feature-highlights i {
+    color: var(--success);
+    margin-right: 8px;
+}
+
+/* About Page Styles */
+.about-hero {
+    background: linear-gradient(135deg, var(--secondary) 0%, #3a0ca3 100%);
+    color: white;
+    padding: 180px 0 100px;
+    text-align: center;
+    position: relative;
+}
+
+.about-hero .hero-content h1 {
+    font-size: 3.5rem;
+    margin-bottom: 20px;
+    animation: fadeInUp 0.8s ease-out;
+}
+
+.about-hero .hero-content h1 span {
+    color: var(--accent);
+}
+
+.about-hero .hero-content p {
+    font-size: 1.3rem;
+    max-width: 700px;
+    margin: 0 auto 40px;
+    opacity: 0.9;
+    animation: fadeInUp 0.8s ease-out 0.2s both;
+}
+
+.about-story {
+    padding: 80px 0;
+    background-color: white;
+}
+
+.story-content {
+    max-width: 800px;
+    margin: 0 auto;
+    text-align: center;
+    font-size: 1.1rem;
+    line-height: 1.8;
+}
+
+.mission-values {
+    padding: 60px 0;
+    background-color: var(--light);
+}
+
+.mission-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.mission-card, .values-card {
+    background-color: white;
+    border-radius: 12px;
+    padding: 40px;
+    box-shadow: var(--shadow-sm);
+    transition: var(--transition);
+}
+
+.mission-card:hover, .values-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-md);
+}
+
+.card-icon {
+    font-size: 2rem;
+    color: var(--primary);
+    margin-bottom: 20px;
+}
+
+.values-card .card-icon {
+    color: var(--accent);
+}
+
+.values-card ul {
+    list-style: none;
+    margin-top: 20px;
+}
+
+.values-card li {
+    margin-bottom: 10px;
+    color: var(--medium-gray);
+}
+
+.values-card i {
+    color: var(--success);
+    margin-right: 8px;
+}
+
+.team-section {
+    padding: 80px 0;
+    background-color: white;
+}
+
+.team-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 30px;
+    max-width: 1000px;
+    margin: 40px auto 0;
+}
+
+.team-member {
+    text-align: center;
+    padding: 30px;
+    border-radius: 12px;
+    transition: var(--transition);
+    background-color: white;
+    box-shadow: var(--shadow-sm);
+}
+
+.team-member:hover {
+    transform: translateY(-10px);
+    box-shadow: var(--shadow-md);
+}
+
+.member-photo {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    background-color: var(--light-gray);
+    margin: 0 auto 20px;
+    background-size: cover;
+    background-position: center;
+}
+
+.team-member h3 {
+    margin-bottom: 5px;
+    color: var(--dark);
+}
+
+.role {
+    color: var(--primary);
+    font-weight: 500;
+    margin-bottom: 15px;
+    font-size: 0.9rem;
+}
+
+.bio {
+    color: var(--medium-gray);
+    font-size: 0.9rem;
+    line-height: 1.6;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .features-hero .hero-content h1,
+    .about-hero .hero-content h1 {
+        font-size: 2.5rem;
+    }
+
+    .features-hero .hero-content p,
+    .about-hero .hero-content p {
+        font-size: 1.1rem;
+    }
+
+    .feature-card,
+    .mission-card,
+    .values-card {
+        padding: 30px 20px;
+    }
+}
+
+@media (max-width: 576px) {
+    .features-hero,
+    .about-hero {
+        padding: 150px 0 80px;
+    }
+
+    .features-hero .hero-content h1,
+    .about-hero .hero-content h1 {
+        font-size: 2rem;
+    }
+}
