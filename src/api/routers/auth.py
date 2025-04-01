@@ -1,7 +1,8 @@
-from fastapi import APIRouter, Request, Form
+from fastapi import APIRouter, Request, Form, status, HTTPException
 from fastapi.responses import RedirectResponse, HTMLResponse
 from fastapi.templating import Jinja2Templates
 from typing import Annotated
+from fastapi.responses import JSONResponse
 
 from src.data import handlers_manager
 from src.utils import hash_password
@@ -21,24 +22,34 @@ async def register(request: Request):
     return templates.TemplateResponse('register.html', request=request, context={'request': request})
 
 
-@auth_router.post('/auth/register', response_class=HTMLResponse)
+@auth_router.post('/auth/register')
 async def register_user(
         request: Request,
         email: Annotated[str, Form()],
         password: Annotated[str, Form()],
         confirm_password: Annotated[str, Form()]
 ):
-    user_create = UserCreate(
-        email=email,
-        password=password,
-        confirm_password=confirm_password
-    )
+    try:
 
-    user_in_db = UserInDB.create_from_user(user_create)
+        if password != confirm_password:
+            raise HTTPException(400, "Passwords don't match")
 
-    handlers_manager.add_new_user(user_in_db)
+        user_create = User(
+            email=email,
+            password=password,
+        )
 
-    return RedirectResponse(url="/auth/login", status_code=status.HTTP_303_SEE_OTHER)
+        user_in_db = UserInDB.create_from_user(user_create)
+
+        await handlers_manager.add_new_user(user_in_db)
+
+        return RedirectResponse(url="/auth/login", status_code=303)
+
+    except HTTPException as e:
+        return JSONResponse(
+            status_code=e.status_code,
+            content={"detail": e.detail}
+        )
 
 
  
