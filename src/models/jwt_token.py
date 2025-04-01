@@ -26,3 +26,10 @@ class JWT:
     def decode_jwt(token: str):
         return jwt.decode(token, key=SECRET_KEY, algorithms=[TOKEN_ALG])
 
+    @staticmethod
+    def verify_token(token: str):
+        try:
+            payload = jwt.decode(token, SECRET_KEY, algorithms=[TOKEN_ALG])
+            return payload["sub"]
+        except Exception as e:
+            return None

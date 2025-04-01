@@ -68,5 +68,5 @@ async def login(request: Request):
 
 
 @auth_router.post('/auth/login')
-async def login(request: Request):
+async def login(request: Request, ):
     return templates.TemplateResponse('login.html', request=request, context={'request': request})
