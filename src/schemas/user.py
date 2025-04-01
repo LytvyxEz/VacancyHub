@@ -10,7 +10,6 @@ special_chars = punctuation
 class User(BaseModel):
     email: EmailStr
     password: str = Field(..., min_length=8, max_length=128)
-    confirm_password: str
 
     @field_validator('password')
     def validate_password(cls, value: str):
@@ -31,19 +30,16 @@ class User(BaseModel):
 
         return value
 
-    @field_validator('confirm_password')
-    def validate_confirm_password(cls, value: str, values):
-        if 'password' in values.data and value != values.data['password']:
-            raise HTTPException(400, "Passwords don't match")
-        return value
 
 
-class UserInDB(User):
-    hashed_password: User
+
+class UserInDB(BaseModel):
+    email: EmailStr
+    password: str
 
     @classmethod
     def create_from_user(cls, user_create: User):
         return cls(
             email=user_create.email,
-            hashed_password=hash_password(user_create.password)
+            password=hash_password(user_create.password)
         )

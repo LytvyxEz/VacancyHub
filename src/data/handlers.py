@@ -14,7 +14,7 @@ class DatabaseHandlers:
     #     """Проста функція для перевірки чи є під'єднання до БД(з часом можливо видалю)."""
     #     response = await self.async_client.table("users").select("*").execute()
 
-    async def check_if_user_exists(self, user: User):
+    async def check_if_user_exists(self, user: UserInDB):
         """Функція для перевірки чи є користувач у БД"""
         try:
             response = await self.async_client.table("users").select("*").eq("email", user.email).execute()
@@ -22,7 +22,7 @@ class DatabaseHandlers:
         except Exception as e:
             raise ValueError("Invalid email")
 
-    async def add_new_user(self, user: User) -> dict:
+    async def add_new_user(self, user: UserInDB) -> dict:
         """Функція для додавання нового користувача у БД, з данних потрібно тільки email і password."""
         try:
             info = {
@@ -32,7 +32,7 @@ class DatabaseHandlers:
             response = await self.async_client.table("users").insert(info).execute()
             return response.data[0]
         except Exception as e:
-            raise ValueError("Failed to create user")
+            raise ValueError(e)
 
     async def get_hashed_password_by_email(self, email: str) -> dict:
         """Функція планується для перевірки дійсності паролю

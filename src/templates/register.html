@@ -36,7 +36,7 @@
                 <p>Join our community today</p>
             </div>
 
-            <form class="auth-form" action="/register" method="POST">
+            <form class="auth-form" action="/auth/register" method="POST">
                 <div class="form-group">
                     <label for="email">Email Address</label>
                     <input type="email" id="email" name="email" required placeholder="Enter your email">
@@ -58,7 +58,7 @@
                 <div class="form-group">
                     <label for="confirm-password">Confirm Password</label>
                     <div class="password-input-container">
-                        <input type="password" id="confirm-password" name="confirm-password" required placeholder="Confirm your password">
+                        <input type="password" id="confirm-password" name="confirm_password" required placeholder="Confirm your password">
                         <button type="button" class="toggle-password" aria-label="Show password">
                             <i class="fas fa-eye"></i>
                         </button>
@@ -75,22 +75,31 @@
     </div>
 
 <script>
-    document.querySelector(".auth-form").addEventListener("submit", async function(event) {
-        event.preventDefault(); // Prevent default form submission
+document.querySelector(".auth-form").addEventListener("submit", async function(event) {
+    event.preventDefault();
 
-        const formData = new FormData(this);
+    const formData = new FormData(this);
 
+    try {
         const response = await fetch(this.action, {
             method: "POST",
-            body: formData
+            body: formData,
+            headers: {
+                'Accept': 'application/json'
+            }
         });
 
+        const data = await response.json();
+
         if (response.ok) {
-            window.location.href = "/auth/login"; // Redirect to login page after successful signup
+            window.location.href = "/auth/login";
         } else {
-            alert("Signup failed. Please try again.");
+            alert(data.detail || "Signup failed. Please try again.");
         }
-    });
+    } catch (error) {
+        alert('Error:', error);
+    }
+});
 </script>
 
     <script src="/static/js/auth.js"></script>

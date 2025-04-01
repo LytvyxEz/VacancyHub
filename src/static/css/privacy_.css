@@ -5,17 +5,20 @@
   --primary-dark: #3a56d4;
   --secondary: #3f37c9;
   --accent: #4cc9f0;
+  --white: #ffffff;
   --light: #f8f9fa;
   --dark: #212529;
   --dark-gray: #343a40;
   --medium-gray: #6c757d;
   --light-gray: #e9ecef;
   --success: #4ad66d;
+  --error: #ff3333;
   --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.12);
   --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
   --shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.1);
   --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
+
 
 * {
   margin: 0;
