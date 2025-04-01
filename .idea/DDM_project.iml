@@ -5,7 +5,11 @@
       <excludeFolder url="file://$MODULE_DIR$/.venv" />
     </content>
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
     <orderEntry type="jdk" jdkName="Python 3.12 (DDM_project)" jdkType="Python SDK" />
+=======
+    <orderEntry type="jdk" jdkName="Python 3.12 (VacancyHub)" jdkType="Python SDK" />
+>>>>>>> Stashed changes
 =======
     <orderEntry type="jdk" jdkName="Python 3.12 (VacancyHub)" jdkType="Python SDK" />
 >>>>>>> Stashed changes
