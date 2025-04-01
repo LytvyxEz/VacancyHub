@@ -1,6 +1,7 @@
 from fastapi import APIRouter, Request, Form, status, HTTPException
-from fastapi.responses import RedirectResponse, HTMLResponse
+from fastapi.responses import RedirectResponse, HTMLResponse, Response
 from fastapi.templating import Jinja2Templates
+from fastapi.security import HTTPBearer
 from typing import Annotated
 from fastapi.responses import JSONResponse
 
@@ -9,7 +10,9 @@ from src.utils import hash_password
 from src.schemas import User, UserInDB
 
 auth_router = APIRouter()
+security = HTTPBearer()
 templates = Jinja2Templates(directory="templates")
+handlers_manager.init()
 
 
 @auth_router.get('/auth/')
@@ -59,5 +62,6 @@ async def login(request: Request):
 
 
 @auth_router.post('/auth/login')
-async def login(request: Request, ):
+async def login(request: Request):
+
     return templates.TemplateResponse('login.html', request=request, context={'request': request})
