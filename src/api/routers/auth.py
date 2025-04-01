@@ -31,9 +31,8 @@ async def register(request: Request, user: User):
 
     return
 
+ 
 @auth_router.get('/auth/login')
 async def login(request: Request):
-
-
 
     return templates.TemplateResponse('login.html', request=request, context={'request': request})
