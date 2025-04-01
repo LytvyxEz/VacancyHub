@@ -44,10 +44,13 @@ class DatabaseHandlers:
         except Exception as e:
             raise ValueError("Invalid email")
 
-    # async def delete_user_by_email(self, email: str):
-    #     """Функція для видалення користувача по ел. пошті."""
-    #     response = await self.async_client.table("users").delete().eq("email", email).execute()
+
+    async def delete_user_by_email(self, email: str):
+        """Функція для видалення користувача по ел. пошті."""
+        response = await self.async_client.table("users").delete().eq("email", email).execute()
+        return None
 
 
 a_client = asyncio.run(get_async_client())
 handlers_manager = DatabaseHandlers(a_client)
+
