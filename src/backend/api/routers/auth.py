@@ -8,7 +8,7 @@ from src.backend.utils import hash_password
 from src.backend.schemas import User, UserInDB
 
 auth_router = APIRouter()
-templates = Jinja2Templates(directory="src/frontend/templates")
+templates = Jinja2Templates(directory="frontend/templates")
 
 
 @auth_router.get('/auth/')

@@ -1,11 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="Black">
-    <option name="sdkName" value="Python 3.12 (db-async)" />
+    <option name="sdkName" value="Python 3.12" />
   </component>
-<<<<<<< Updated upstream
-  <component name="ProjectRootManager" version="2" project-jdk-name="Python 3.12 (DDM_project)" project-jdk-type="Python SDK" />
-=======
-  <component name="ProjectRootManager" version="2" project-jdk-name="Python 3.12 (VacancyHub)" project-jdk-type="Python SDK" />
->>>>>>> Stashed changes
+  <component name="ProjectRootManager" version="2" project-jdk-name="Python 3.12" project-jdk-type="Python SDK" />
 </project>

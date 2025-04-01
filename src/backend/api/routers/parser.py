@@ -6,7 +6,7 @@ import plotly
 import json
 
 parser_route = APIRouter()
-templates = Jinja2Templates(directory="src/frontend/templates")
+templates = Jinja2Templates(directory="frontend/templates")
 
 
 
@@ -17,5 +17,5 @@ async def get_skills(request: Request):
 
     return templates.TemplateResponse(
         "parser.html",
-        {"request": request, "skill_counts": json.dumps(skill_counts)},  # Передаємо JSON у шаблон
+        {"request": request, "skill_counts": json.dumps(skill_counts)}
     )
