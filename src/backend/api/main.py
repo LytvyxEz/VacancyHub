@@ -7,11 +7,12 @@ from src.backend.api import root_router, auth_router, parser_route
 app = FastAPI()
 
 
-base_dir = Path(__file__).resolve().parent.parent
-static_path = base_dir / "static"
+base_dir = Path(__file__).resolve().parent.parent.parent
 
-
+static_path = base_dir / 'frontend/static'
 app.mount("/static", StaticFiles(directory=static_path), name="static")
+
+
 
 
 app.include_router(root_router)

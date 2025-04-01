@@ -4,7 +4,7 @@ from fastapi.templating import Jinja2Templates
 
 
 parser_route = APIRouter()
-templates = Jinja2Templates(directory="src/frontend/templates")
+templates = Jinja2Templates(directory="frontend/templates")
 
 
 
