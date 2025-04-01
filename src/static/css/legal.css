@@ -38,77 +38,79 @@ body {
 }
 
 /* Header Styles */
+/* Header Styles */
 header {
-  background-color: rgba(255, 255, 255, 0.98);
-  box-shadow: var(--shadow-sm);
+  background-color: var(--white);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
   position: fixed;
   width: 100%;
   z-index: 1000;
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
+  padding: 15px 0;
 }
 
 nav {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 15px 0;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
 }
 
 .logo {
   display: flex;
   align-items: center;
   font-weight: 700;
-  font-size: 24px;
-  color: var(--primary);
+  font-size: 1.5rem;
+  color: var(--dark);
   text-decoration: none;
-  transition: var(--transition);
-}
-
-.logo:hover {
-  transform: translateY(-2px);
 }
 
 .logo img {
-  height: 40px;
+  height: 32px;
   margin-right: 10px;
-  border-radius: 8px;
-  transition: var(--transition);
 }
 
 .nav-links {
   display: flex;
   list-style: none;
   align-items: center;
-  gap: 25px;
+  gap: 30px;
 }
 
 .nav-links a {
   text-decoration: none;
   color: var(--dark-gray);
   font-weight: 500;
-  transition: var(--transition);
-  position: relative;
-  padding: 5px 0;
+  font-size: 0.95rem;
+  transition: color 0.2s ease;
 }
 
-.nav-links a:not(.btn):after {
-  content: '';
-  position: absolute;
-  width: 0;
-  height: 2px;
-  bottom: 0;
-  left: 0;
-  background-color: var(--primary);
-  transition: var(--transition);
-}
-
-.nav-links a:not(.btn):hover:after {
-  width: 100%;
-}
-
-.nav-links a:not(.btn):hover {
+.nav-links a:hover {
   color: var(--primary);
+}
+
+.btn-outline {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  border-radius: 6px;
+  border: 1px solid var(--primary);
+  color: var(--primary);
+  background: transparent;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.btn-outline:hover {
+  background-color: var(--primary);
+  color: var(--white);
+}
+
+/* Adjust auth container to account for fixed header */
+.auth-container {
+  padding-top: 80px;
 }
 
 /* Button Styles */

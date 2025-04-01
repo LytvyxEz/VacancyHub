@@ -1,7 +1,7 @@
 import asyncio
 from supabase import AsyncClient
-from database import get_async_client
-from src.schemas import User
+from ..data.database import get_async_client
+from src.schemas import User, UserInDB
 
 
 class DatabaseHandlers:
