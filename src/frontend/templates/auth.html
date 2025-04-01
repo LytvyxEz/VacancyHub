@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Do you have an account? | Vanacy Hub</title>
+    <link rel="icon" href="src/frontend/static/img/logo.jpg" type="image/jpg">
+    <link rel="stylesheet" href="src/frontend/static/css/auth_.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div id="customConfirm" class="custom-modal show">
+        <div class="modal-content">
+            <div class="logo" style="margin-bottom: 20px;">
+                <img src="/static/img/logo.jpg" alt="Vanacy Hub Logo" style="height: 60px; border-radius: 12px;">
+            </div>
+            <div class="modal-message">Do you already have a Vanacy Hub account?</div>
+            <div class="modal-buttons">
+                <button id="confirmYes" class="modal-button yes-button">
+                    <i class="fas fa-sign-in-alt"></i> Yes, log in
+                </button>
+                <button id="confirmNo" class="modal-button no-button">
+                    <i class="fas fa-user-plus"></i> No, register
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const modal = document.getElementById('customConfirm');
+
+            // Show modal with animation
+            setTimeout(() => {
+                modal.classList.add('show');
+            }, 50);
+
+            document.getElementById('confirmYes').addEventListener('click', function() {
+                window.location.href = 'login';
+            });
+
+            document.getElementById('confirmNo').addEventListener('click', function() {
+                window.location.href = 'register';
+            });
+        });
+    </script>
+</body>
+</html>

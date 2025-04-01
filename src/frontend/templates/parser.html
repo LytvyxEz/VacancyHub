@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<<<<<<< HEAD:src/templates/parser.html
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <title>Аналіз Навичок</title>
+    <style>
+        #chart-container {
+            width: 100%;
+            overflow-x: auto;
+            white-space: nowrap;
+        }
+        #chart {
+            width: 1200px;
+        }
+    </style>
+=======
+    <title>Parser</title>
+    <link rel="icon" href="/src/frontend/static/img/logo.jpg" type="image/jpg">
+>>>>>>> b122428f3f315f5a37895521c91dfd524062acaa:src/frontend/templates/parser.html
+</head>
+<body>
+    <h2>Аналіз популярних навичок</h2>
+    <div id="chart-container">
+        <div id="chart"></div>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const data = JSON.parse('{{ skill_counts | safe }}');
+            console.log("Отримані дані:", data);
+
+            if (!data || Object.keys(data).length === 0) {
+                document.getElementById("chart").innerHTML = "<p>Дані відсутні</p>";
+                return;
+            }
+
+            const skills = Object.keys(data);
+            const counts = Object.values(data);
+
+            // Відображаємо тільки перші 10, але залишаємо всі у графіку
+            const visibleSkills = skills.slice(0, 10);
+            const visibleCounts = counts.slice(0, 10);
+
+            const chartData = [{
+                x: skills,
+                y: counts,
+                type: "bar",
+                marker: { color: "rgb(0, 123, 255)" }
+            }];
+
+            const layout = {
+                title: "Популярність навичок",
+                xaxis: {
+                    title: { text: "Навички", standoff: 20 },
+                    tickangle: -30,
+                    range: [0, 9] // Показуємо тільки перші 10, решта доступні через скрол
+                },
+                yaxis: { title: "Кількість згадувань" },
+                bargap: 0.3
+            };
+
+            Plotly.newPlot("chart", chartData, layout);
+        });
+    </script>
+</body>
+</html>

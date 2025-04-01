@@ -1,0 +1,148 @@
+:root {
+  --primary: #4361ee;
+  --primary-light: #4f7cff;
+  --primary-dark: #3a56d4;
+  --secondary: #3f37c9;
+  --accent: #4cc9f0;
+  --white: #ffffff;
+  --light: #f8f9fa;
+  --dark: #212529;
+  --dark-gray: #343a40;
+  --medium-gray: #6c757d;
+  --light-gray: #e9ecef;
+  --success: #4ad66d;
+  --error: #ff3333;
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.12);
+  --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.1);
+  --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Roboto', 'Poppins', sans-serif;
+  background-color: #f9faff;
+  color: var(--dark);
+  line-height: 1.6;
+  overflow-x: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+/* Modal Styles */
+.custom-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 10000;
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+}
+
+.modal-content {
+  background-color: var(--white);
+  border-radius: 16px;
+  padding: 40px;
+  width: 100%;
+  max-width: 450px;
+  text-align: center;
+  box-shadow: var(--shadow-lg);
+  transform: translateY(20px);
+  opacity: 0;
+  transition: all 0.3s ease-out;
+  border: 1px solid var(--light-gray);
+}
+
+.custom-modal.show {
+  display: flex;
+}
+
+.custom-modal.show .modal-content {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+.modal-message {
+  font-size: 1.5rem;
+  font-weight: 500;
+  margin-bottom: 30px;
+  color: var(--dark);
+  line-height: 1.4;
+}
+
+.modal-buttons {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+}
+
+.modal-button {
+  padding: 12px 28px;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: var(--transition);
+  border: none;
+  min-width: 120px;
+}
+
+.yes-button {
+  background-color: var(--primary);
+  color: var(--white);
+  box-shadow: 0 4px 14px rgba(67, 97, 238, 0.3);
+}
+
+.yes-button:hover {
+  background-color: var(--primary-dark);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(67, 97, 238, 0.4);
+}
+
+.no-button {
+  background-color: var(--white);
+  color: var(--primary);
+  border: 2px solid var(--primary);
+}
+
+.no-button:hover {
+  background-color: var(--primary);
+  color: var(--white);
+  transform: translateY(-3px);
+}
+
+/* Responsive Design */
+@media (max-width: 576px) {
+  .modal-content {
+    padding: 30px 25px;
+    max-width: 90%;
+    margin: 0 20px;
+  }
+
+  .modal-message {
+    font-size: 1.3rem;
+    margin-bottom: 25px;
+  }
+
+  .modal-buttons {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .modal-button {
+    width: 100%;
+  }
+}
