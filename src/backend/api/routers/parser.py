@@ -17,5 +17,5 @@ async def get_skills(request: Request):
 
     return templates.TemplateResponse(
         "parser.html",
-        {"request": request, "skill_counts": json.dumps(skill_counts)},  # Передаємо JSON у шаблон
+        {"request": request, "skill_counts": json.dumps(skill_counts)}
     )
