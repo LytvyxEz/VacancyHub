@@ -30,9 +30,11 @@ async def register_user(
         confirm_password: Annotated[str, Form()]
 ):
     try:
-
         if password != confirm_password:
             raise HTTPException(400, "Passwords don't match")
+
+        if await handlers_manager.check_if_user_exists(email):
+            raise HTTPException(400, 'User already exists')
 
         user_create = User(
             email=email,
@@ -40,7 +42,6 @@ async def register_user(
         )
 
         user_in_db = UserInDB.create_from_user(user_create)
-
         await handlers_manager.add_new_user(user_in_db)
 
         return RedirectResponse(url="/auth/login", status_code=303)

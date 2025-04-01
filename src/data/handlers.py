@@ -20,7 +20,7 @@ class DatabaseHandlers:
             response = await self.async_client.table("users").select("*").eq("email", user.email).execute()
             return bool(response.data)
         except Exception as e:
-            raise ValueError("Invalid email")
+                raise ValueError(e)
 
     async def add_new_user(self, user: UserInDB) -> dict:
         """Функція для додавання нового користувача у БД, з данних потрібно тільки email і password."""

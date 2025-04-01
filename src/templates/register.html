@@ -80,7 +80,6 @@ document.querySelector(".auth-form").addEventListener("submit", async function(e
 
     const formData = new FormData(this);
 
-    try {
         const response = await fetch(this.action, {
             method: "POST",
             body: formData,
@@ -96,10 +95,8 @@ document.querySelector(".auth-form").addEventListener("submit", async function(e
         } else {
             alert(data.detail || "Signup failed. Please try again.");
         }
-    } catch (error) {
-        alert('Error:', error);
-    }
-});
+
+    });
 </script>
 
     <script src="/static/js/auth.js"></script>
