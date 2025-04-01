@@ -9,6 +9,7 @@ from src.backend.schemas import User, UserInDB
 
 auth_router = APIRouter()
 templates = Jinja2Templates(directory="frontend/templates")
+handlers_manager.init()
 
 
 @auth_router.get('/auth/')
