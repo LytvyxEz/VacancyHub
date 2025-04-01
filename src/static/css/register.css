@@ -53,6 +53,8 @@ nav {
 }
 
 .logo {
+  height: 32px;
+  margin-right: 30px;
   display: flex;
   align-items: center;
   font-weight: 700;
@@ -63,7 +65,7 @@ nav {
 
 .logo img {
   height: 32px;
-  margin-right: 10px;
+  margin-right: 30px;
 }
 
 .nav-links {

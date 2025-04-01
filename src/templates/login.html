@@ -62,6 +62,33 @@
             </form>
         </div>
     </div>
+    <script>
+        <script>
+    document.querySelector(".auth-form").addEventListener("submit", async function(event) {
+    event.preventDefault();
+    const formData = new FormData(this);
+
+    try {
+        const response = await fetch(this.action, {
+            method: "POST",
+            body: formData,
+            headers: {
+                'Accept': 'application/json'
+            }
+        });
+
+        if (response.ok) {
+            alert("Successfully signed in!");
+            window.location.href = "/";
+        } else {
+            const errorData = await response.json();
+            alert(`Error: ${errorData.detail || 'Sign in failed. Please try again.'}`);
+        }
+    } catch (error) {
+        alert("Error": error);
+    }
+});
+</script>
 
     <script src="/static/js/auth.js"></script>
 </body>

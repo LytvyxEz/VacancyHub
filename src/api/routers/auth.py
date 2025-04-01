@@ -25,16 +25,16 @@ async def register(request: Request):
 @auth_router.post('/auth/register')
 async def register_user(
         request: Request,
-        email: Annotated[str, Form()],
+        email:  Annotated[str, Form()],
         password: Annotated[str, Form()],
         confirm_password: Annotated[str, Form()]
 ):
     try:
         if password != confirm_password:
-            raise HTTPException(400, "Passwords don't match")
+            raise HTTPException(status_code=400, detail="Passwords don't match")
 
         if await handlers_manager.check_if_user_exists(email):
-            raise HTTPException(400, 'User already exists')
+            raise HTTPException(status_code=400, detail='User already exists')
 
         user_create = User(
             email=email,
@@ -44,12 +44,20 @@ async def register_user(
         user_in_db = UserInDB.create_from_user(user_create)
         await handlers_manager.add_new_user(user_in_db)
 
-        return RedirectResponse(url="/auth/login", status_code=303)
+        return JSONResponse(
+            status_code=200,
+            content={"message": "Registration successful"}
+        )
 
     except HTTPException as e:
         return JSONResponse(
             status_code=e.status_code,
             content={"detail": e.detail}
+        )
+    except Exception as e:
+        return JSONResponse(
+            status_code=500,
+            content={"detail": str(e)}
         )
 
 

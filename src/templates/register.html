@@ -75,11 +75,11 @@
     </div>
 
 <script>
-document.querySelector(".auth-form").addEventListener("submit", async function(event) {
+    document.querySelector(".auth-form").addEventListener("submit", async function(event) {
     event.preventDefault();
-
     const formData = new FormData(this);
 
+    try {
         const response = await fetch(this.action, {
             method: "POST",
             body: formData,
@@ -88,15 +88,17 @@ document.querySelector(".auth-form").addEventListener("submit", async function(e
             }
         });
 
-        const data = await response.json();
-
         if (response.ok) {
+            alert("Successfully signed up!");
             window.location.href = "/auth/login";
         } else {
-            alert(data.detail || "Signup failed. Please try again.");
+            const errorData = await response.json();
+            alert(`Error: ${errorData.detail || 'Signup failed. Please try again.'}`);
         }
-
-    });
+    } catch (error) {
+        alert("Network error. Please try again.");
+    }
+});
 </script>
 
     <script src="/static/js/auth.js"></script>
