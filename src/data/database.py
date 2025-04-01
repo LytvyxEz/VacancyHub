@@ -1,5 +1,5 @@
 from supabase import create_async_client, AsyncClient
-from config import DB_KEY, DB_URL
+from .config import DB_KEY, DB_URL
 
 
 async def get_async_client():
