@@ -3,7 +3,7 @@ from src.backend.models import JWT
 
 
 async def auth_middleware(request: Request, call_next):
-    if request.url.path in ("/get-skills",):
+    if request.url.path not in ("/get-skills",):
         return await call_next(request)
 
     token = request.cookies.get("access_token")
