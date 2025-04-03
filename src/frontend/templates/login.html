@@ -37,7 +37,7 @@
                 <p>Sign in to access your account</p>
             </div>
 
-            <form class="auth-form" action="/login" method="POST">
+            <form class="auth-form" action="/auth/login" method="POST">
                 <div class="form-group">
                     <label for="email">Email Address</label>
                     <input type="email" id="email" name="email" required placeholder="Enter your email">
@@ -62,8 +62,19 @@
             </form>
         </div>
     </div>
-    <script>
-        <script>
+
+<script>
+    fetch('http://127.0.0.1:1111/auth/login', {
+  method: 'POST',
+  credentials: 'include',
+  headers: {
+    'Content-Type': 'application/json'
+  },
+  body: JSON.stringify({ email, password })
+});
+</script>
+
+<script>
     document.querySelector(".auth-form").addEventListener("submit", async function(event) {
     event.preventDefault();
     const formData = new FormData(this);
@@ -75,17 +86,20 @@
             headers: {
                 'Accept': 'application/json'
             }
-        });
 
+        });
+        console.log(response)
         if (response.ok) {
-            alert("Successfully signed in!");
+            console.log('work')
+            alert("Successfully signed up!");
             window.location.href = "/";
         } else {
+            console.log('doesnt work')
             const errorData = await response.json();
             alert(`Error: ${errorData.detail || 'Sign in failed. Please try again.'}`);
         }
     } catch (error) {
-        alert("Error": error);
+        alert("Network error. Please try again.");
     }
 });
 </script>

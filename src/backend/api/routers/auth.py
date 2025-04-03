@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Request, Form, HTTPException
+from fastapi import APIRouter, Request, Form, HTTPException, status
 from fastapi.templating import Jinja2Templates
 from typing import Annotated
 from fastapi.responses import JSONResponse, Response, RedirectResponse
@@ -32,7 +32,7 @@ async def login(request: Request):
 @auth_router.post('/auth/register')
 async def register_user(
         request: Request,
-        email:  Annotated[str, Form()],
+        email: Annotated[str, Form()],
         password: Annotated[str, Form()],
         confirm_password: Annotated[str, Form()]
 ):
@@ -51,7 +51,11 @@ async def register_user(
         user_in_db = UserInDB.create_from_user(user_create)
         await handlers_manager.add_new_user(user_in_db)
 
-        return RedirectResponse(url='/auth/login')
+        return JSONResponse(
+            status_code=status.HTTP_200_OK,
+            content={'message': 'Successfully signed up'}
+
+        )
 
     except HTTPException as e:
         return JSONResponse(
@@ -92,7 +96,10 @@ async def login(request: Request,
             secure=False,
         )
 
-        return RedirectResponse(url='/')
+        return JSONResponse(
+            status_code=status.HTTP_200_OK,
+            content={'message': 'Successfully signed up'}
+        )
 
     except HTTPException as e:
         return JSONResponse(
