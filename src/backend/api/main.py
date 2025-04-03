@@ -11,6 +11,16 @@ app = FastAPI(debug=True)
 
 
 base_dir = Path(__file__).resolve().parent.parent.parent
+<<<<<<< HEAD
+
+static_path = base_dir / 'frontend/static'
+app.mount("/static", StaticFiles(directory=static_path), name="static")
+
+
+
+app.middleware("http")(auth_middleware)
+=======
+>>>>>>> 3f411b49cb56e483c38184ef3867b47abd8f36cc
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["http://localhost:1111", "http://127.0.0.1:1111"],
