@@ -63,16 +63,7 @@
         </div>
     </div>
 
-<script>
-    fetch('http://127.0.0.1:1111/auth/login', {
-  method: 'POST',
-  credentials: 'include',
-  headers: {
-    'Content-Type': 'application/json'
-  },
-  body: JSON.stringify({ email, password })
-});
-</script>
+
 
 <script>
     document.querySelector(".auth-form").addEventListener("submit", async function(event) {
@@ -103,7 +94,7 @@
     }
 });
 </script>
-
+    <script src="/static/js/cookie.js"></script>
     <script src="/static/js/auth.js"></script>
 </body>
 </html>
