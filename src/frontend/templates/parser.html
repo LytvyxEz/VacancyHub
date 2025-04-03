@@ -1,68 +1,292 @@
 <!DOCTYPE html>
-<html lang="uk">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Parser</title>
-    <link rel="icon" href="/static/img/logo.jpg" type="image/jpg">
-
+    <title>Job Analytics Dashboard</title>
+     <meta name="description" content="Get data-driven insights on job market trends, salary benchmarks, and skill requirements to boost your career.">
+    <link rel="icon" href="static/img/logo.jpg" type="image/jpg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="static/css/parser.css">
     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
-    <title>Аналіз Навичок</title>
-    <style>
-        #chart-container {
-            width: 100%;
-            overflow-x: auto;
-            white-space: nowrap;
-        }
-        #chart {
-            width: 1200px;
-        }
-    </style>
 </head>
 <body>
-    <h2>Аналіз популярних навичок</h2>
-    <div id="chart-container">
-        <div id="chart"></div>
-    </div>
+    <header>
+        <div class="container">
+            <nav>
+                <a href="/" class="logo">
+                    <img src="/static/img/logo.jpg" alt="Vanacy Hub Logo" loading="lazy">
+                    <span>Vanacy Hub</span>
+                </a>
+                <ul class="nav-links">
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/features">Features</a></li>
+                    <li><a href="/about">About Us</a></li>
+                    <li><a href="/privacy">Privacy Policy</a></li>
+                    <li><a href="/auth" class="btn btn-outline">Login <i class="fas fa-arrow-right"></i></a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <div class="container">
+            <!-- Search Section -->
+            <section class="search-section">
+                <h1 class="search-title">Job Market Vacancy Analysis</h1>
+                <div class="search-container">
+                    <input type="text" class="search-input" placeholder="Enter keywords, position or company...">
+                    <button class="btn btn-primary search-btn"><i class="fas fa-search"></i> Search</button>
+                </div>
+
+                <div class="filter-toggle">
+                    <i class="fas fa-sliders-h"></i>
+                    <span>Search Filters</span>
+                </div>
+
+                <div class="filter-section">
+                    <div class="filter-grid">
+                        <div class="filter-group">
+                            <label class="filter-label">Region</label>
+                            <select class="filter-select">
+                                <option value="">All Regions</option>
+                                <option value="kyiv">Kyiv</option>
+                                <option value="lviv">Lviv</option>
+                                <option value="kharkiv">Kharkiv</option>
+                                <option value="odesa">Odesa</option>
+                            </select>
+                        </div>
+
+                        <div class="filter-group">
+                            <label class="filter-label">Category</label>
+                            <select class="filter-select">
+                                <option value="">All Categories</option>
+                                <option value="it">IT</option>
+                                <option value="finance">Finance</option>
+                                <option value="marketing">Marketing</option>
+                                <option value="hr">HR</option>
+                            </select>
+                        </div>
+
+                        <div class="filter-group">
+                            <label class="filter-label">Experience</label>
+                            <select class="filter-select">
+                                <option value="">Any</option>
+                                <option value="no-exp">No experience</option>
+                                <option value="1-3">1-3 years</option>
+                                <option value="3-5">3-5 years</option>
+                                <option value="5+">5+ years</option>
+                            </select>
+                        </div>
+
+                        <div class="filter-group">
+                            <label class="filter-label">Salary from</label>
+                            <input type="number" class="filter-input" placeholder="UAH">
+                        </div>
+                    </div>
+
+                    <button class="btn btn-primary apply-filters"><i class="fas fa-check"></i> Apply Filters</button>
+                </div>
+            </section>
+
+
+            <div class="results-section">
+                <aside class="sidebar">
+                    <div class="quick-stats">
+                        <h3 class="sidebar-title"><i class="fas fa-chart-pie"></i> Quick Stats</h3>
+                        <div class="stat-item">
+                            <span class="stat-label">Vacancies analyzed</span>
+                            <span class="stat-value">12,458</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">Average salary</span>
+                            <span class="stat-value">35,000 ₴</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">Top category</span>
+                            <span class="stat-value">IT</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">Active companies</span>
+                            <span class="stat-value">1,245</span>
+                        </div>
+                    </div>
+
+                    <div class="top-skills">
+                        <h3 class="sidebar-title"><i class="fas fa-star"></i> Top Skills</h3>
+                        <ul class="skills-list">
+                            <li>JavaScript</li>
+                            <li>Python</li>
+                            <li>React</li>
+                            <li>SQL</li>
+                            <li>Git</li>
+                            <li>Docker</li>
+                            <li>Node.js</li>
+                            <li>HTML/CSS</li>
+                        </ul>
+                    </div>
+                </aside>
+
+                <!-- Main Content -->
+                <div class="analytics-content">
+                    <!-- Skills Chart -->
+                    <section class="analytics-section">
+
+
+                        <div class="chart-container">
+                            <div class="chart-card">
+                                <h3 class="chart-title"><i class="fas fa-code"></i> Skills in Vacancies</h3>
+                                <div id="skills-chart"></div>
+                            </div>
+                        </div>
+
+                        <div class="skills-table-container">
+                            <h3 class="chart-title"><i class="fas fa-list-ol"></i> Detailed Skills List</h3>
+                            <table class="skills-table">
+                                <thead>
+                                    <tr>
+                                        <th>Skill</th>
+                                        <th>Mention Count</th>
+                                        <th>% of Total</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td class="skill-name">JavaScript</td>
+                                        <td class="skill-count">4,258</td>
+                                        <td>34.2%</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="skill-name">Python</td>
+                                        <td class="skill-count">3,876</td>
+                                        <td>31.1%</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="skill-name">React</td>
+                                        <td class="skill-count">3,245</td>
+                                        <td>26.0%</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="skill-name">SQL</td>
+                                        <td class="skill-count">2,987</td>
+                                        <td>24.0%</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="skill-name">Git</td>
+                                        <td class="skill-count">2,543</td>
+                                        <td>20.4%</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>Vanacy Hub</h3>
+                    <p>Vacancy analytics platform helping job seekers and recruiters make data-driven decisions.</p>
+                </div>
+                <div class="footer-column">
+                    <h3>Product</h3>
+                    <ul class="footer-links">
+                        <li><a href="/features">Features</a></li>
+                        <li><a href="/docs">API</a></li>
+                        <li><a href="/about">About Us</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Legal</h3>
+                    <ul class="footer-links">
+                        <li><a href="/privacy">Privacy Policy</a></li>
+                        <li><a href="/terms">Terms of Service</a></li>
+                        <li><a href="/cookie">Cookie Policy</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <div class="copyright">
+                    &copy; 2025 Vanacy Hub. All rights reserved.
+                </div>
+            </div>
+        </div>
+    </footer>
 
     <script>
         document.addEventListener("DOMContentLoaded", function() {
+            // Toggle filter section
+            const filterToggle = document.querySelector('.filter-toggle');
+            const filterSection = document.querySelector('.filter-section');
+
+            filterToggle.addEventListener('click', function() {
+                this.classList.toggle('active');
+                filterSection.classList.toggle('active');
+            });
+
+            // Chart data
             const data = JSON.parse('{{ skill_counts | safe }}');
-            console.log("Отримані дані:", data);
+            console.log("Received data:", data);
 
             if (!data || Object.keys(data).length === 0) {
-                document.getElementById("chart").innerHTML = "<p>Дані відсутні</p>";
+                document.getElementById("skills-chart").innerHTML = "<p>No data available</p>";
                 return;
             }
 
             const skills = Object.keys(data);
             const counts = Object.values(data);
 
-            // Відображаємо тільки перші 10, але залишаємо всі у графіку
-            const visibleSkills = skills.slice(0, 10);
-            const visibleCounts = counts.slice(0, 10);
-
             const chartData = [{
                 x: skills,
                 y: counts,
                 type: "bar",
-                marker: { color: "rgb(0, 123, 255)" }
+                marker: {
+                    color: "rgba(67, 97, 238, 0.7)",
+                    line: {
+                        color: 'rgba(67, 97, 238, 1)',
+                        width: 1.5
+                    }
+                }
             }];
 
             const layout = {
-                title: "Популярність навичок",
+                title: "",
                 xaxis: {
-                    title: { text: "Навички", standoff: 20 },
-                    tickangle: -30,
-                    range: [0, 9] // Показуємо тільки перші 10, решта доступні через скрол
+                    title: { text: "Skills", standoff: 20 },
+                    tickangle: -45,
+                    automargin: true
                 },
-                yaxis: { title: "Кількість згадувань" },
-                bargap: 0.3
+                yaxis: {
+                    title: "Mention Count",
+                    gridcolor: 'rgba(0, 0, 0, 0.05)'
+                },
+                bargap: 0.2,
+                plot_bgcolor: 'rgba(0, 0, 0, 0)',
+                paper_bgcolor: 'rgba(0, 0, 0, 0)',
+                margin: { t: 0, b: 150 },
+                hovermode: 'closest'
             };
 
-            Plotly.newPlot("chart", chartData, layout);
+            const config = {
+                responsive: true,
+                displayModeBar: true,
+                scrollZoom: true
+            };
+
+            Plotly.newPlot("skills-chart", chartData, layout, config);
+
+            // Make chart responsive
+            window.addEventListener('resize', function() {
+                Plotly.Plots.resize('skills-chart');
+            });
         });
     </script>
-    <script src="/static/js/cookie.js"></script>
 </body>
 </html>
