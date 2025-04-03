@@ -9,30 +9,30 @@ templates = Jinja2Templates(directory="frontend/templates")
 
 
 @root_router.get('/')
-async def home(request: Request, user: str = Depends(get_current_user)):
+async def home(request: Request):
     return templates.TemplateResponse('index.html', {"request": request})
 
 
 @root_router.get('/about')
-async def about(request: Request, user: str = Depends(get_current_user)):
+async def about(request: Request):
     return templates.TemplateResponse('about.html', {"request": request})
 
 
 @root_router.get('/features')
-async def features(request: Request, user: str = Depends(get_current_user)):
+async def features(request: Request):
     return templates.TemplateResponse('features.html', {"request": request})
 
 
 @root_router.get('/privacy')
-async def privacy(request: Request, user: str = Depends(get_current_user)):
+async def privacy(request: Request):
     return templates.TemplateResponse('privacy.html', {"request": request})
 
 
 @root_router.get('/terms')
-async def privacy(request: Request, user: str = Depends(get_current_user)):
+async def privacy(request: Request):
     return templates.TemplateResponse('terms.html', {"request": request})
 
 
 @root_router.get('/cookie')
-async def privacy(request: Request, user: str = Depends(get_current_user)):
+async def privacy(request: Request):
     return templates.TemplateResponse('cookie.html', {"request": request})
