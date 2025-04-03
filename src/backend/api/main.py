@@ -14,12 +14,7 @@ base_dir = Path(__file__).resolve().parent.parent.parent
 
 static_path = base_dir / 'frontend/static'
 app.mount("/static", StaticFiles(directory=static_path), name="static")
-<<<<<<< HEAD
-
 app.middleware("http")(auth_middleware)
-=======
-# app.middleware("http")(auth_middleware)
->>>>>>> cafa16c1a0e2c61e884da29504e721d609358106
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["http://localhost:1111", "http://127.0.0.1:1111"],
