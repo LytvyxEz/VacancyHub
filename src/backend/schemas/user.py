@@ -30,8 +30,6 @@ class User(BaseModel):
         return value
 
 
-
-
 class UserInDB(BaseModel):
     email: EmailStr
     password: str
