@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Request, Form, HTTPException
 from fastapi.templating import Jinja2Templates
 from typing import Annotated
-from fastapi.responses import JSONResponse, Response
+from fastapi.responses import JSONResponse, Response, RedirectResponse
 from passlib.context import CryptContext
 
 from src.backend.data import handlers_manager
@@ -51,10 +51,7 @@ async def register_user(
         user_in_db = UserInDB.create_from_user(user_create)
         await handlers_manager.add_new_user(user_in_db)
 
-        return JSONResponse(
-            status_code=200,
-            content={"message": "Registration successful"}
-        )
+        return RedirectResponse(url='/auth/login')
 
     except HTTPException as e:
         return JSONResponse(
@@ -95,16 +92,13 @@ async def login(request: Request,
             secure=False,
         )
 
-        return JSONResponse(
-            status_code=200,
-            content={"message": "Login successful"}
-        )
+        return RedirectResponse(url='/')
 
-    # except HTTPException as e:
-    #     return JSONResponse(
-    #         status_code=e.status_code,
-    #         content={"detail": "Http"}
-    #     )
+    except HTTPException as e:
+        return JSONResponse(
+            status_code=e.status_code,
+            content={"detail": "Http"}
+        )
 
     except Exception as e:
         return JSONResponse(
