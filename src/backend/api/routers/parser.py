@@ -1,7 +1,8 @@
-from fastapi import APIRouter, Request
+from fastapi import APIRouter, Request, Depends
 from fastapi.responses import RedirectResponse, JSONResponse
 from fastapi.templating import Jinja2Templates
 from src.test import run, get_info, get_link
+from src.backend.service import get_current_user
 import plotly
 import json
 
@@ -9,9 +10,8 @@ parser_route = APIRouter()
 templates = Jinja2Templates(directory="frontend/templates")
 
 
-
 @parser_route.get("/get-skills")
-async def get_skills(request: Request):
+async def get_skills(request: Request, user: str = Depends(get_current_user)):
     job_links = await run()
     skill_counts = await get_info(job_links)
 

@@ -16,7 +16,7 @@ class JWT:
         utc_now = datetime.utcnow()
         payload = {
             'sub': email,
-            'exp': utc_now + timedelta(minutes=10),
+            'exp': utc_now + timedelta(minutes=30),
             'iat': utc_now,
             'type': 'ACCESS_TOKEN_TYPE'
         }
@@ -24,7 +24,7 @@ class JWT:
 
     @staticmethod
     def decode_jwt(token: str):
-        return jwt.decode(token, key=SECRET_KEY, algorithms=[TOKEN_ALG])
+        return jwt.decode(token.split()[1], key=SECRET_KEY, algorithms=[TOKEN_ALG])
 
     @staticmethod
     def verify_token(token: str):
