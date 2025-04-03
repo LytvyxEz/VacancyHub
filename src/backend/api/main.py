@@ -14,6 +14,7 @@ base_dir = Path(__file__).resolve().parent.parent.parent
 
 static_path = base_dir / 'frontend/static'
 app.mount("/static", StaticFiles(directory=static_path), name="static")
+
 app.middleware("http")(auth_middleware)
 app.add_middleware(
     CORSMiddleware,
