@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Request
 from fastapi.responses import RedirectResponse, JSONResponse
 from fastapi.templating import Jinja2Templates
-from src.test import run, get_info, get_link
+from src.test import run, get_info, get_links
 import plotly
 import json
 
