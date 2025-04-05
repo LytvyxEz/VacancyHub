@@ -96,15 +96,14 @@ async def login(request: Request,
             secure=False,
         )
 
-        return JSONResponse(
-            status_code=status.HTTP_200_OK,
-            content={'message': 'Successfully signed up'}
-        )
+        response.status_code = 200
+        response.body = b'{"message": "Successfully signed up"}'
+        return response
 
     except HTTPException as e:
         return JSONResponse(
             status_code=e.status_code,
-            content={"detail": "Http"}
+            content={"detail": "Invalid password or email"}
         )
 
     except Exception as e:
