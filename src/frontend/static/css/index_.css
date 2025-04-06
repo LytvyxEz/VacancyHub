@@ -120,6 +120,7 @@ nav {
 }
 
 /* Button Styles */
+/* Base button styles - remove border:none */
 .btn {
   display: inline-flex;
   align-items: center;
@@ -153,10 +154,35 @@ nav {
   background: transparent;
 }
 
+
 .btn-outline:hover {
   background-color: var(--primary);
   color: white;
   transform: translateY(-3px);
+}
+
+.btn-outline-red {
+  border: 2px solid var(--error);
+  color: var(--error);
+  background: transparent;
+  padding: 12px 28px;
+  border-radius: 50px;
+  font-weight: 500;
+  transition: var(--transition);
+  cursor: pointer;
+  font-size: 16px;
+  white-space: nowrap;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+}
+
+.btn-outline-red:hover {
+  background-color: var(--error);
+  color: white;
+  transform: translateY(-3px);
+  box-shadow: 0 4px 14px rgba(255, 51, 51, 0.3);
 }
 
 /* Hero Section */

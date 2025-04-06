@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Job Analytics Dashboard - Results</title>
+    <meta name="description"
+          content="Get data-driven insights on job market trends, salary benchmarks, and skill requirements to boost your career.">
+    <link rel="icon" href="static/img/logo.jpg" type="image/jpg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+          rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="static/css/parser.css">
+    <link rel="stylesheet" href="static/css/results.css">
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+</head>
+<body>
+<header>
+    <div class="container">
+        <nav>
+            <a href="/" class="logo">
+                <img src="/static/img/logo.jpg" alt="Vanacy Hub Logo" loading="lazy">
+                <span>Vanacy Hub</span>
+            </a>
+            <ul class="nav-links">
+                <li><a href="/">Home</a></li>
+                <li><a href="/features">Features</a></li>
+                <li><a href="/about">About Us</a></li>
+                <li><a href="/privacy">Privacy Policy</a></li>
+                <li><a href="/auth" class="btn btn-outline">Login <i class="fas fa-arrow-right"></i></a></li>
+            </ul>
+        </nav>
+    </div>
+</header>
+
+<main class="main-content">
+    <div class="container">
+        <div class="results-section">
+            <aside class="sidebar">
+                <div class="quick-stats">
+                    <h3 class="sidebar-title"><i class="fas fa-chart-pie"></i> Quick Stats</h3>
+                    <div class="stat-item">
+                        <span class="stat-label">Vacancies analyzed</span>
+                        <span class="stat-value">{{vacansies_count}}</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">Average salary</span>
+                        <span class="stat-value">{{salary}}</span>
+                    </div>
+                </div>
+
+                <div class="top-skills">
+                    <h3 class="sidebar-title"><i class="fas fa-star"></i> Top Skills</h3>
+                    <ul class="skills-list">
+                        <li>JavaScript</li>
+                        <li>Python</li>
+                        <li>React</li>
+                        <li>SQL</li>
+                        <li>Git</li>
+                        <li>Docker</li>
+                        <li>Node.js</li>
+                        <li>HTML/CSS</li>
+                    </ul>
+                </div>
+            </aside>
+
+            <!-- Main Content -->
+            <div class="analytics-content">
+                <!-- Skills Chart -->
+                <section class="analytics-section">
+                    <div class="chart-container">
+                        <div class="chart-card">
+                            <h3 class="chart-title"><i class="fas fa-code"></i> Skills in Vacancies</h3>
+                            <div id="skills-chart"></div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+</main>
+
+<footer>
+    <div class="container">
+        <div class="footer-content">
+            <div class="footer-column">
+                <h3>Vanacy Hub</h3>
+                <p>Vacancy analytics platform helping job seekers and recruiters make data-driven decisions.</p>
+            </div>
+            <div class="footer-column">
+                <h3>Product</h3>
+                <ul class="footer-links">
+                    <li><a href="/features">Features</a></li>
+                    <li><a href="/docs">API</a></li>
+                    <li><a href="/about">About Us</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3>Legal</h3>
+                <ul class="footer-links">
+                    <li><a href="/privacy">Privacy Policy</a></li>
+                    <li><a href="/terms">Terms of Service</a></li>
+                    <li><a href="/cookie">Cookie Policy</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <div class="copyright">
+                &copy; 2025 Vanacy Hub. All rights reserved.
+            </div>
+        </div>
+    </div>
+</footer>
+<script src="/static/js/filters.js"></script>
+</body>
+</html>

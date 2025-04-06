@@ -4,7 +4,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from pathlib import Path
 from src.backend.data import handlers_manager
 
-from src.backend.api import root_router, auth_router, parser_route
+from src.backend.api import root_router, auth_router, parser_router
 from src.backend.api import auth_middleware
 
 app = FastAPI(debug=True)
@@ -28,4 +28,4 @@ app.middleware("http")(auth_middleware)
 
 app.include_router(root_router)
 app.include_router(auth_router)
-app.include_router(parser_route)
+app.include_router(parser_router)
