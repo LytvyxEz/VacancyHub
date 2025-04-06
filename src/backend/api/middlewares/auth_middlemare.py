@@ -17,4 +17,3 @@ async def auth_middleware(request: Request, call_next):
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED)
 
     return await call_next(request)
-    

@@ -69,6 +69,11 @@ async def register_user(
         )
 
 
+@auth_router.post('/auth/logout')
+async def logout(request: Request):
+    pass
+
+
 @auth_router.post('/auth/login')
 async def login(request: Request,
                 response: Response,
