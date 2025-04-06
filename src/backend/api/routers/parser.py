@@ -1,6 +1,7 @@
 from fastapi import APIRouter, Request, Depends, Query, HTTPException
 from fastapi.responses import HTMLResponse, JSONResponse
 from fastapi.templating import Jinja2Templates
+from src.backend.service import get_current_user
 from typing import Optional
 import json
 import plotly
@@ -16,7 +17,8 @@ async def parse_jobs(
         position: Optional[str] = Query(None),
         location: Optional[str] = Query(None),
         experience: Optional[str] = Query(None),
-        salary_min: Optional[int] = Query(None)
+        salary_min: Optional[int] = Query(None),
+        user: str = Depends(get_current_user)
 ):
     skill_counts = {}
     vacancies_count = 0
@@ -57,7 +59,8 @@ async def get_job_stats(
         # position: str,
         location: Optional[str] = None,
         experience: Optional[str] = None,
-        salary_min: Optional[int] = None
+        salary_min: Optional[int] = None,
+        user: str = Depends(get_current_user)
 ):
     try:
         # skill_counts = await job_parser.analyze_job_market(position, location)
