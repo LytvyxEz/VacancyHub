@@ -4,6 +4,7 @@ from playwright.async_api import async_playwright
 import re
 from collections import Counter
 
+
 if sys.platform == 'win32':
     asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
 
