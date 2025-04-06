@@ -40,9 +40,9 @@ body {
 /* Header Styles */
 header {
   background-color: var(--white);
-  box-shadow: var(--shadow-sm);
-  position: sticky;
-  top: 0;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  position: fixed;
+  width: 100%;
   z-index: 1000;
   padding: 15px 0;
 }
@@ -51,6 +51,9 @@ nav {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
 }
 
 .logo {
@@ -65,7 +68,6 @@ nav {
 .logo img {
   height: 32px;
   margin-right: 10px;
-  border-radius: 4px;
 }
 
 .nav-links {
@@ -80,7 +82,7 @@ nav {
   color: var(--dark-gray);
   font-weight: 500;
   font-size: 0.95rem;
-  transition: var(--transition);
+  transition: color 0.2s ease;
 }
 
 .nav-links a:hover {

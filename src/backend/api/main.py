@@ -12,8 +12,8 @@ app = FastAPI(debug=True)
 
 base_dir = Path(__file__).resolve().parent.parent.parent
 
-static_path = base_dir / 'frontend/static'
-app.mount("/static", StaticFiles(directory=static_path), name="static")
+static_path = base_dir / 'frontend' / 'static'
+app.mount("/static", StaticFiles(directory=str(static_path)), name="static")
 
 
 app.add_middleware(

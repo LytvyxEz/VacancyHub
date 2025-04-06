@@ -25,13 +25,13 @@
                     <li><a href="/features" class="active">Features</a></li>
                     <li><a href="/about">About Us</a></li>
                     <li><a href="/privacy">Privacy Policy</a></li>
-                    <li>
-                        <a href="{% if not is_login %}/logout{% else %}/login{% endif %}"
-                           class="{% if not is_login %}btn btn-outline-red{% else %}btn btn-outline{% endif %}">
-                            {% if not is_login %}Logout{% else %}Login{% endif %}
-                            <i class="fas fa-arrow-right"></i>
-                        </a>
-                    </li>
+                <li>
+                    <a href="{% if is_authenticated %}/auth/logout{% else %}/auth/login{% endif %}"
+                       class="{% if is_authenticated %}btn btn-outline-red{% else %}btn btn-outline{% endif %}">
+                        {% if is_authenticated %}Logout{% else %}Login{% endif %}
+                        <i class="fas fa-arrow-right"></i>
+                    </a>
+                </li>
                 </ul>
             </nav>
         </div>
