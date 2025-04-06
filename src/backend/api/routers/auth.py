@@ -75,6 +75,9 @@ async def logout(request: Request, response: Response):
         response.delete_cookie(key="access_token")
         response.status_code = 200
         response.body = b"{'message': 'Quit'}"
+    else:
+        response.status_code = 401
+        response.body = b"{'message': 'You are unauthorized'}"
     return response
 
 
