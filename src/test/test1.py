@@ -4,8 +4,8 @@ from playwright.async_api import async_playwright
 import re
 from collections import Counter
 
-if sys.platform == 'win32':
-    asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
+# if sys.platform == 'win32':
+#     asyncio.set_event_loop_policy(asyncio.WindowsProactorEventLoopPolicy())
 
 
 async def get_links(page):
@@ -15,12 +15,14 @@ async def get_links(page):
 
 async def run():
     async with async_playwright() as p:
-        browser = await p.chromium.launch(headless=False)
+        browser = await p.chromium.launch(
+            headless=False,
+        )
         page = await browser.new_page()
 
-        await page.goto("https://www.work.ua/")
+        await page.goto("https://www.work.ua/", wait_until="networkidle")
         await page.locator("#search").fill("python")
-        await page.locator(".js-main-region").fill(" ")
+        await page.locator(".js-main-region").fill("Київ")
         await page.locator("#sm-but").click()
         await page.wait_for_load_state("networkidle")
 
@@ -34,7 +36,7 @@ async def run():
         print(f"Знайдено вакансій: {total_vacancies}")
 
         jobs = []
-        while len(jobs) < total_vacancies:
+        while len(jobs) < min(total_vacancies, 10):
             page_jobs = await get_links(page)
             jobs.extend(page_jobs)
 
@@ -42,7 +44,7 @@ async def run():
             if await next_button.is_visible():
                 await next_button.click()
                 await page.wait_for_load_state("networkidle")
-                await asyncio.sleep(0.1)
+                await asyncio.sleep(1)
             else:
                 break
 
@@ -54,14 +56,26 @@ async def get_info(list_links):
     async with async_playwright() as p:
         browser = await p.chromium.launch(headless=False)
         page = await browser.new_page()
-        all_skill_list = []
+        all_skills = []
 
         for link in list_links:
-            await page.goto(link)
-            skills = page.locator("div ul .label-skill span")
-            if await skills.count() > 0:
-                skills_list = await skills.all_text_contents()
-                all_skill_list.extend(skills_list)
+            try:
+                await page.goto(link, wait_until="networkidle")
 
-        await browser.close()
-        return dict(Counter(all_skill_list))
+                skills = await page.locator(".mt-2xl .js-toggle-block li span").all_text_contents()
+
+                all_skills.extend(skills)
+                print(all_skills)
+
+            except Exception as e:
+                print(f"Помилка на {link}: {e}")
+                continue
+
+        return dict(Counter(all_skills))
+
+
+
+
+if __name__ == "__main__":
+    qwe = asyncio.run(run())
+    print(asyncio.run(get_info(qwe)))

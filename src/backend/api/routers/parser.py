@@ -1,21 +1,33 @@
-from fastapi import APIRouter, Request, Depends
-from fastapi.responses import RedirectResponse, JSONResponse
-from fastapi.templating import Jinja2Templates
-from src.backend.service import get_current_user
-from src.test import run, get_info, get_links
-import plotly
-import json
+import sys
+from fastapi import APIRouter, Request
+from starlette.templating import Jinja2Templates
+import asyncio
+from src.test import run, get_info
 
 parser_route = APIRouter()
 templates = Jinja2Templates(directory="frontend/templates")
 
+@parser_route.get('/skills')
+async def skills(request: Request):
+    try:
+        # Don't set event loop policy here - let Playwright handle it
+        links = await run()
+        info = await get_info(links)
+        print(info)
 
-@parser_route.get("/get-skills")
-async def get_skills(request: Request, user: str = Depends(get_current_user)):
-    job_links = await run()
-    skill_counts = await get_info(job_links)
+        chart_data = {
+            "labels": list(info.keys()),
+            "values": list(info.values())
+        }
 
-    return templates.TemplateResponse(
-        "parser.html",
-        {"request": request, "skill_counts": json.dumps(skill_counts)}
-    )
+        return templates.TemplateResponse('parser.html', {
+            "request": request,
+            "jobs": links,
+            "skills": info,
+            "chart_data": chart_data
+        })
+    except Exception as e:
+        return templates.TemplateResponse('error.html', {
+            "request": request,
+            "error": str(e)
+        })
