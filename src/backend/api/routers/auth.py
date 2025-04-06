@@ -70,8 +70,15 @@ async def register_user(
 
 
 @auth_router.post('/auth/logout')
-async def logout(request: Request):
-    pass
+async def logout(request: Request, response: Response):
+    if request.cookies.get('access_token'):
+        response.delete_cookie(key="access_token")
+        response.status_code = 200
+        response.body = b"{'message': 'Quit'}"
+    else:
+        response.status_code = 401
+        response.body = b"{'message': 'You are unauthorized'}"
+    return response
 
 
 @auth_router.post('/auth/login')
