@@ -11,7 +11,7 @@ templates = Jinja2Templates(directory="frontend/templates")
 
 
 @parser_route.get("/parse")
-async def parse(request: Request):
+async def parse(request: Request, user: str = Depends(get_current_user)):
     # job_links = await run()
     # skill_counts = await get_info(job_links)
 
