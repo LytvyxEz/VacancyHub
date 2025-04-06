@@ -17,5 +17,6 @@ async def parse(request: Request, user: str = Depends(get_current_user)):
 
     return templates.TemplateResponse(
         "parser.html",
-        {"request": request, "skill_counts": json.dumps('hello world!')}
+        {"request": request, "skill_counts": json.dumps('hello world!'),
+                                               'is_login': True if request.cookies.get("access_token") else False}
     )
