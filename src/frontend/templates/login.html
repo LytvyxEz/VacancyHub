@@ -23,7 +23,13 @@
                     <li><a href="/features">Features</a></li>
                     <li><a href="/about">About Us</a></li>
                     <li><a href="/privacy">Privacy Policy</a></li>
-                    <li><a href="/auth" class="btn btn-outline">Login <i class="fas fa-arrow-right"></i></a></li>
+                <li>
+                    <a href="{% if is_authenticated %}/auth/logout{% else %}/auth/login{% endif %}"
+                       class="{% if is_authenticated %}btn btn-outline-red{% else %}btn btn-outline{% endif %}">
+                        {% if is_authenticated %}Logout{% else %}Login{% endif %}
+                        <i class="fas fa-arrow-right"></i>
+                    </a>
+                </li>
                 </ul>
 
             </nav>
@@ -37,7 +43,7 @@
                 <p>Sign in to access your account</p>
             </div>
 
-            <form class="auth-form" action="/login" method="POST">
+            <form class="auth-form" action="/auth/login" method="POST">
                 <div class="form-group">
                     <label for="email">Email Address</label>
                     <input type="email" id="email" name="email" required placeholder="Enter your email">
@@ -62,8 +68,10 @@
             </form>
         </div>
     </div>
-    <script>
-        <script>
+
+
+
+<script>
     document.querySelector(".auth-form").addEventListener("submit", async function(event) {
     event.preventDefault();
     const formData = new FormData(this);
@@ -75,21 +83,24 @@
             headers: {
                 'Accept': 'application/json'
             }
-        });
 
+        });
+        console.log(response)
         if (response.ok) {
-            alert("Successfully signed in!");
+            console.log('work')
+            alert("Successfully signed up!");
             window.location.href = "/";
         } else {
+            console.log('doesnt work')
             const errorData = await response.json();
             alert(`Error: ${errorData.detail || 'Sign in failed. Please try again.'}`);
         }
     } catch (error) {
-        alert("Error": error);
+        alert("Network error. Please try again.");
     }
 });
 </script>
-
+    <script src="/static/js/cookie.js"></script>
     <script src="/static/js/auth.js"></script>
 </body>
 </html>

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>About Us | Vanacy Hub</title>
+    <title>About Us | Vacancy Hub</title>
     <link rel="icon" href="/static/img/logo.jpg" type="image/jpg">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -16,15 +16,21 @@
         <div class="container">
             <nav>
                 <a href="/" class="logo">
-                    <img src="/static/img/logo.jpg" alt="Vanacy Hub Logo" loading="lazy">
-                    <span>Vanacy Hub</span>
+                    <img src="/static/img/logo.jpg" alt="Vacancy Hub Logo" loading="lazy">
+                    <span>Vacancy Hub</span>
                 </a>
                 <ul class="nav-links">
                     <li><a href="/">Home</a></li>
                     <li><a href="/features">Features</a></li>
                     <li><a href="/about">About Us</a></li>
                     <li><a href="/privacy">Privacy Policy</a></li>
-                    <li><a href="/auth" class="btn btn-outline">Login <i class="fas fa-arrow-right"></i></a></li>
+                <li>
+                    <a href="{% if is_authenticated %}/auth/logout{% else %}/auth/login{% endif %}"
+                       class="{% if is_authenticated %}btn btn-outline-red{% else %}btn btn-outline{% endif %}">
+                        {% if is_authenticated %}Logout{% else %}Login{% endif %}
+                        <i class="fas fa-arrow-right"></i>
+                    </a>
+                </li>
                 </ul>
             </nav>
         </div>
@@ -33,7 +39,7 @@
     <main>
         <section class="about-hero">
             <div class="container">
-                <h1>About Vanacy Hub</h1>
+                <h1>About Vacancy Hub</h1>
                 <p>Revolutionizing the way job seekers and employers connect through data-driven insights</p>
             </div>
         </section>
@@ -42,7 +48,7 @@
             <div class="container">
                 <div class="story-section">
                     <h2>Our Story</h2>
-                    <p>Founded in 2023, Vanacy Hub began as a small team of data scientists and HR professionals who recognized a fundamental problem in the job market. We saw that both job seekers and employers were making decisions without access to real-time market data, leading to inefficiencies and mismatches.</p>
+                    <p>Founded in 2023, Vacancy Hub began as a small team of data scientists and HR professionals who recognized a fundamental problem in the job market. We saw that both job seekers and employers were making decisions without access to real-time market data, leading to inefficiencies and mismatches.</p>
                     <p>What started as a research project quickly evolved into a comprehensive platform that now serves thousands of users across multiple industries, helping them make smarter, data-driven career and hiring decisions.</p>
                 </div>
 
@@ -144,7 +150,7 @@
         <div class="container">
             <div class="footer-content">
                 <div class="footer-column">
-                    <h3>Vanacy Hub</h3>
+                    <h3>Vacancy Hub</h3>
                     <p>Vacancy analytics platform helping job seekers and recruiters make data-driven decisions.</p>
                 </div>
                 <div class="footer-column">
@@ -166,7 +172,7 @@
             </div>
             <div class="footer-bottom">
                 <div class="copyright">
-                    &copy; 2025 Vanacy Hub. All rights reserved.
+                    &copy; 2025 Vacancy Hub. All rights reserved.
                 </div>
             </div>
         </div>

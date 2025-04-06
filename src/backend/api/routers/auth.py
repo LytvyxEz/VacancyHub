@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Request, Form, HTTPException
+from fastapi import APIRouter, Request, Form, HTTPException, status
 from fastapi.templating import Jinja2Templates
 from typing import Annotated
 from fastapi.responses import JSONResponse, Response, RedirectResponse
@@ -16,7 +16,9 @@ pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
 @auth_router.get('/auth/')
 async def auth(request: Request):
-    return templates.TemplateResponse('auth.html', request=request, context={'request': request})
+    return templates.TemplateResponse('auth.html',
+                                      request=request,
+                                      context={'request': request})
 
 
 @auth_router.get('/auth/register')
@@ -32,7 +34,7 @@ async def login(request: Request):
 @auth_router.post('/auth/register')
 async def register_user(
         request: Request,
-        email:  Annotated[str, Form()],
+        email: Annotated[str, Form()],
         password: Annotated[str, Form()],
         confirm_password: Annotated[str, Form()]
 ):
@@ -51,7 +53,11 @@ async def register_user(
         user_in_db = UserInDB.create_from_user(user_create)
         await handlers_manager.add_new_user(user_in_db)
 
-        return RedirectResponse(url='/auth/login')
+        return JSONResponse(
+            status_code=status.HTTP_200_OK,
+            content={'message': 'Successfully signed up'}
+
+        )
 
     except HTTPException as e:
         return JSONResponse(
@@ -63,6 +69,22 @@ async def register_user(
             status_code=500,
             content={"detail": str(e)}
         )
+
+
+@auth_router.get('/auth/logout/confirm')
+async def logout_confirm(request: Request):
+    return templates.TemplateResponse('logout.html', {'request': request})
+
+
+@auth_router.get('/auth/logout')
+async def logout(request: Request):
+
+    response = RedirectResponse(url="/", status_code=303)
+
+    if request.cookies.get('access_token'):
+        response.delete_cookie(key="access_token")
+
+    return response
 
 
 @auth_router.post('/auth/login')
@@ -86,18 +108,20 @@ async def login(request: Request,
         response.set_cookie(
             key="access_token",
             value=f"Bearer {token}",
+            path="/",
             max_age=60*60*24,
             httponly=False,
-            samesite="lax",
             secure=False,
         )
 
-        return RedirectResponse(url='/')
+        response.status_code = 200
+        response.body = b'{"message": "Successfully signed up"}'
+        return response
 
     except HTTPException as e:
         return JSONResponse(
             status_code=e.status_code,
-            content={"detail": "Http"}
+            content={"detail": "Invalid password or email"}
         )
 
     except Exception as e:
