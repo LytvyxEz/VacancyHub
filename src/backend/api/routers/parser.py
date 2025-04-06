@@ -39,7 +39,7 @@ async def parse_jobs(
             raise HTTPException(status_code=500, detail=str(e))
 
     return templates.TemplateResponse(
-        "parser.html",
+        "parser_.html",
         {
             "request": request,
             "skill_counts": json.dumps(skill_counts),
@@ -53,21 +53,15 @@ async def parse_jobs(
 
 @parser_router.get("/parse/results")
 async def get_job_stats(
-        position: str,
+        request: Request,
+        # position: str,
         location: Optional[str] = None,
         experience: Optional[str] = None,
         salary_min: Optional[int] = None
 ):
     try:
         # skill_counts = await job_parser.analyze_job_market(position, location)
-        return {
-            "success": True,
-            "data": {
-                "skills": 1,
-                "count": len(2) * 3,
-                "avg_salary": 45000
-            }
-        }
+        return templates.TemplateResponse('results.html', {'request': request})
     except Exception as e:
         return JSONResponse(
             status_code=500,
