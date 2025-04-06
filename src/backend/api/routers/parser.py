@@ -24,7 +24,7 @@ async def parse_jobs(
 
     if position:
         try:
-            skill_counts = await job_parser.analyze_job_market(position, location)
+            # skill_counts = await job_parser.analyze_job_market(position, location)
 
             vacancies_count = len(skill_counts) * 3
             avg_salary = 45000
