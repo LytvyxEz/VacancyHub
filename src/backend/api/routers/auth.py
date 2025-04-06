@@ -16,7 +16,9 @@ pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
 @auth_router.get('/auth/')
 async def auth(request: Request):
-    return templates.TemplateResponse('auth.html', request=request, context={'request': request})
+    return templates.TemplateResponse('auth.html',
+                                      request=request,
+                                      context={'request': request})
 
 
 @auth_router.get('/auth/register')
