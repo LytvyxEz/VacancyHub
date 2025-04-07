@@ -3,23 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <title>Logout</title>
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            document.getElementById('confirmYes').addEventListener('click', async function() {
-                const response = await fetch('/auth/logout', {
-                    method: 'GET',
-                    credentials: 'include'
-                });
-                if (response.ok) {
-                    window.location.href = '/auth/logout';
-                }
-            });
-
-            document.getElementById('confirmNo').addEventListener('click', function() {
-                window.location.href = '/';
-            });
-        });
-    </script>
 </head>
 <body>
     <div id="customConfirm" class="custom-modal show">
@@ -29,12 +12,13 @@
             </div>
             <div class="modal-message">Are you sure you want to logout?</div>
             <div class="modal-buttons">
-                <button id="confirmYes" class="modal-button yes-button">
+                <button id="confirmYes" class="modal-button yes-button"><a href="/auth/logout">
                     <i class="fas fa-sign-in-alt"></i> Yes, Logout
+                    </a>
                 </button>
-                <button id="confirmNo" class="modal-button no-button">
+                <button id="confirmNo" class="modal-button no-button"><a href="/">
                     <i class="fas fa-times"></i> Cancel
-                </button>
+                </a></button>
             </div>
         </div>
     </div>

@@ -20,7 +20,7 @@ def get_info_sync(links):
     return asyncio.run(get_info(links))
 
 
-@parser_route.get('/skills')
+@parser_route.get('/parse/search')
 async def skills(request: Request):
     try:
         with ThreadPoolExecutor() as executor:

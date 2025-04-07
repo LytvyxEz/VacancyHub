@@ -14,14 +14,14 @@ base_dir = Path(__file__).resolve().parent.parent.parent
 
 static_path = base_dir / 'frontend/static'
 app.mount("/static", StaticFiles(directory=static_path), name="static")
-app.middleware("http")(auth_middleware)
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["http://localhost:1111", "http://127.0.0.1:1111"],
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
+# app.middleware("http")(auth_middleware)
+# app.add_middleware(
+#     CORSMiddleware,
+#     allow_origins=["http://localhost:1111", "http://127.0.0.1:1111"],
+#     allow_credentials=True,
+#     allow_methods=["*"],
+#     allow_headers=["*"],
+# )
 
 app.include_router(root_router)
 app.include_router(auth_router)
