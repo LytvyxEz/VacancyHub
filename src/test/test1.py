@@ -4,9 +4,6 @@ from playwright.async_api import async_playwright
 import re
 from collections import Counter
 
-# if sys.platform == 'win32':
-#     asyncio.set_event_loop_policy(asyncio.WindowsProactorEventLoopPolicy())
-
 
 async def get_links(page):
     jobs = await page.locator("#pjax-job-list .job-link div h2 a").evaluate_all("elements => elements.map(e => e.href)")
@@ -14,10 +11,11 @@ async def get_links(page):
 
 
 async def run():
+    if sys.platform == 'win32':
+        asyncio.set_event_loop_policy(asyncio.WindowsProactorEventLoopPolicy())
+
     async with async_playwright() as p:
-        browser = await p.chromium.launch(
-            headless=False,
-        )
+        browser = await p.chromium.launch(headless=False)
         page = await browser.new_page()
 
         await page.goto("https://www.work.ua/", wait_until="networkidle")
@@ -58,24 +56,21 @@ async def get_info(list_links):
         page = await browser.new_page()
         all_skills = []
 
-        for link in list_links:
+        for link in list_links[:10]:  # Обмежуємо кількість для тесту
             try:
                 await page.goto(link, wait_until="networkidle")
-
                 skills = await page.locator(".mt-2xl .js-toggle-block li span").all_text_contents()
-
                 all_skills.extend(skills)
-                print(all_skills)
-
             except Exception as e:
                 print(f"Помилка на {link}: {e}")
                 continue
 
+        await browser.close()
         return dict(Counter(all_skills))
 
 
-
-
 if __name__ == "__main__":
-    qwe = asyncio.run(run())
-    print(asyncio.run(get_info(qwe)))
+    # Для тестування окремо
+    links = asyncio.run(run())
+    skills_data = asyncio.run(get_info(links))
+    print(skills_data)

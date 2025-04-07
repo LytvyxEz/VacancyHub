@@ -115,6 +115,15 @@ nav {
   padding-top: 80px;
 }
 
+.hero-content-title {
+  font-size: 3.5rem;
+  font-weight: 700;
+  margin-bottom: 20px;
+  color: var(--dark);
+  line-height: 1.2;
+  animation: fadeInUp 0.8s ease-out;
+}
+
 /* Button Styles - Consistent with About.css */
 .btn {
   display: inline-flex;
@@ -408,4 +417,5 @@ footer {
     transform: translateY(20px);
   }
   to {
-    opacity: 1
+    opacity: 1}
+  }
