@@ -115,14 +115,6 @@ nav {
   padding-top: 80px;
 }
 
-.hero-content-title {
-  font-size: 3.5rem;
-  font-weight: 700;
-  margin-bottom: 20px;
-  color: var(--dark);
-  line-height: 1.2;
-  animation: fadeInUp 0.8s ease-out;
-}
 
 /* Button Styles - Consistent with About.css */
 .btn {
@@ -168,7 +160,6 @@ nav {
 .features-hero {
   padding: 180px 0 20px;
   text-align: center;
-  color: white;
   position: relative;
   overflow: hidden;
 }
@@ -205,6 +196,26 @@ nav {
   opacity: 0.9;
   animation: fadeInUp 0.8s ease-out 0.2s both;
 }
+
+.hero-content-title {
+  font-size: 3.5rem;
+  font-weight: 700;
+  margin-bottom: 20px;
+  color: var(--dark);
+  line-height: 1.2;
+  animation: fadeInUp 0.8s ease-out;
+}
+
+
+.hero-content-text{
+  font-size: 3.5rem;
+  font-weight: 700;
+  margin-bottom: 20px;
+  color: var(--dark);
+  line-height: 1.2;
+  animation: fadeInUp 0.8s ease-out;
+}
+
 
 /* Features Section */
 .features-section {
