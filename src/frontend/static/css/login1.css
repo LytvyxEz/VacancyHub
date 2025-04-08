@@ -34,6 +34,7 @@ body {
 
 /* Header Styles */
 /* Header Styles */
+/* Header Styles */
 header {
   background-color: var(--white);
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
@@ -53,8 +54,6 @@ nav {
 }
 
 .logo {
-  height: 32px;
-  margin-right: 30px;
   display: flex;
   align-items: center;
   font-weight: 700;
@@ -65,7 +64,7 @@ nav {
 
 .logo img {
   height: 32px;
-  margin-right: 30px;
+  margin-right: 10px;
 }
 
 .nav-links {
@@ -75,7 +74,7 @@ nav {
   gap: 30px;
 }
 
-.nav-links a {
+.nav-item-links {
   text-decoration: none;
   color: var(--dark-gray);
   font-weight: 500;
@@ -83,33 +82,94 @@ nav {
   transition: color 0.2s ease;
 }
 
-.nav-links a:hover {
+.nav-item-links:hover {
   color: var(--primary);
 }
 
-.btn-outline {
+
+/* Стилі для навігаційних посилань */
+.nav-links {
+  display: flex;
+  list-style: none;
+  align-items: center;
+  gap: 30px;
+}
+
+.nav-item-links {
+  text-decoration: none;
+  color: var(--dark-gray);
+  font-weight: 500;
+  font-size: 0.95rem;
+  transition: color 0.2s ease;
+}
+
+.nav-item-links:hover {
+  color: var(--primary);
+}
+
+/* Загальні стилі для кнопок авторизації */
+.auth-btn {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-  padding: 8px 16px;
-  border-radius: 6px;
-  border: 1px solid var(--primary);
-  color: var(--primary);
-  background: transparent;
+  padding: 10px 25px;
+  border-radius: 30px;
+  font-size: 16px;
   font-weight: 500;
-  transition: all 0.2s ease;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  border: 2px solid;
+  min-width: 100px;
+  margin-left: 15px;
 }
 
-.btn-outline:hover {
+.auth-btn i {
+  margin-left: 8px;
+  transition: transform 0.3s ease;
+}
+
+.auth-btn:hover i {
+  transform: translateX(5px);
+}
+
+/* Стилі для кнопки входу */
+.login-btn {
+  color: var(--primary);
+  border-color: var(--primary);
+  background-color: transparent;
+}
+
+.login-btn:hover {
   background-color: var(--primary);
-  color: var(--white);
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(67, 97, 238, 0.3);
+}
+
+/* Стилі для кнопки виходу */
+.logout-btn {
+  color: var(--error);
+  border-color: var(--error);
+  background-color: transparent;
+}
+
+.logout-btn:hover {
+  background-color: var(--error);
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(255, 51, 51, 0.3);
 }
 
 /* Adjust auth container to account for fixed header */
 .auth-container {
   padding-top: 80px;
 }
+/* Adjust auth container to account for fixed header */
+.auth-container {
+  padding-top: 80px;
+}
+
 /* Button Styles */
+/* Base button styles - remove border:none */
 .btn {
   display: inline-flex;
   align-items: center;
@@ -143,10 +203,35 @@ nav {
   background: transparent;
 }
 
+
 .btn-outline:hover {
   background-color: var(--primary);
   color: white;
   transform: translateY(-3px);
+}
+
+.btn-outline-red {
+  border: 2px solid var(--error);
+  color: var(--error);
+  background: transparent;
+  padding: 12px 28px;
+  border-radius: 50px;
+  font-weight: 500;
+  transition: var(--transition);
+  cursor: pointer;
+  font-size: 16px;
+  white-space: nowrap;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+}
+
+.btn-outline-red:hover {
+  background-color: var(--error);
+  color: white;
+  transform: translateY(-3px);
+  box-shadow: 0 4px 14px rgba(255, 51, 51, 0.3);
 }
 
 /* Auth Container Styles */
@@ -212,7 +297,7 @@ nav {
 }
 
 .auth-header p {
-  color: var(--gray);
+  color: var(--medium-gray);
   font-size: 1rem;
   max-width: 300px;
   margin: 0 auto;
@@ -294,17 +379,22 @@ nav {
   box-shadow: 0 0 0 2px rgba(67, 97, 238, 0.3);
 }
 
-.password-hint {
-  font-size: 0.8rem;
-  color: var(--medium-gray);
-  margin-top: 4px;
-  display: flex;
+.forgot-password {
+  font-size: 0.9rem;
+  color: var(--primary);
+  text-decoration: none;
+  align-self: flex-end;
+  margin-top: -12px;
+  transition: var(--transition);
+  font-weight: 500;
+  display: inline-flex;
   align-items: center;
   gap: 4px;
 }
 
-.password-hint i {
-  font-size: 0.9rem;
+.forgot-password:hover {
+  text-decoration: underline;
+  color: var(--primary-dark);
 }
 
 .auth-button {
@@ -338,7 +428,7 @@ nav {
 .auth-footer {
   text-align: center;
   font-size: 0.95rem;
-  color: var(--gray);
+  color: var(--medium-gray);
   margin-top: 24px;
 }
 
@@ -353,6 +443,72 @@ nav {
 .auth-footer a:hover {
   text-decoration: underline;
   color: var(--primary-dark);
+}
+
+/* Divider Styles */
+.divider {
+  display: flex;
+  align-items: center;
+  margin: 20px 0;
+  color: var(--medium-gray);
+  font-size: 0.9rem;
+}
+
+.divider::before,
+.divider::after {
+  content: "";
+  flex: 1;
+  border-bottom: 1px solid var(--light-gray);
+}
+
+.divider::before {
+  margin-right: 16px;
+}
+
+.divider::after {
+  margin-left: 16px;
+}
+
+/* Social Login Buttons */
+.social-login {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+.social-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 14px;
+  border-radius: 10px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: var(--transition);
+  border: 1px solid var(--light-gray);
+  background-color: var(--white);
+  color: var(--dark-gray);
+  font-size: 0.95rem;
+}
+
+.social-button:hover {
+  background-color: var(--light);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-sm);
+}
+
+.social-button.google {
+  color: #DB4437;
+}
+
+.social-button.facebook {
+  color: #1877F2;
+}
+
+.social-button.apple {
+  color: var(--dark);
 }
 
 /* Error Message Styling */
@@ -373,16 +529,6 @@ nav {
   box-shadow: 0 0 0 3px rgba(255, 51, 51, 0.2) !important;
 }
 
-/* Success Message Styling */
-.success-message {
-  color: var(--success);
-  font-size: 0.85rem;
-  margin-top: 4px;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-
 /* Responsive Design */
 @media (max-width: 768px) {
   .auth-card {
@@ -396,6 +542,7 @@ nav {
   .auth-logo {
     width: 60px;
     height: 60px;
+  margin-bottom: 16px;
   }
 }
 

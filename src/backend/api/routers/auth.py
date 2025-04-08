@@ -111,8 +111,8 @@ async def login(request: Request,
             value=f"Bearer {token}",
             path="/",
             max_age=60*30,
-            httponly=False,
-            secure=False,
+            httponly=True,
+            secure=True,
         )
 
         response.status_code = 200

@@ -2,6 +2,7 @@ from fastapi import APIRouter, Request, Depends, HTTPException
 from starlette.templating import Jinja2Templates
 from concurrent.futures import ThreadPoolExecutor
 import asyncio
+from playwright.async_api import async_playwright
 
 
 from src.backend.service import get_current_user
@@ -34,12 +35,19 @@ async def results(
         # chart_labels = [skill[0] for skill in sorted_skills]
         # chart_values = [skill[1] for skill in sorted_skills]
         print(vacancies, skills_data)
+
+
         return templates.TemplateResponse(
             "results.html",
             {
                 "request": request,
                 "jobs": vacancies,
                 "skills": skills_data,
+
+                # "chart_data": {
+                #     "labels": chart_labels,
+                #     "values": chart_values
+                # }
             }
         )
     except Exception as e:
