@@ -39,7 +39,8 @@ body {
   padding: 0 20px;
 }
 
-/* Header Styles - Consistent with About.css */
+/* Header Styles */
+/* Header Styles */
 /* Header Styles */
 header {
   background-color: var(--white);
@@ -80,7 +81,7 @@ nav {
   gap: 30px;
 }
 
-.nav-links a {
+.nav-item-links {
   text-decoration: none;
   color: var(--dark-gray);
   font-weight: 500;
@@ -88,35 +89,94 @@ nav {
   transition: color 0.2s ease;
 }
 
-.nav-links a:hover {
+.nav-item-links:hover {
   color: var(--primary);
 }
 
-.btn-outline {
+
+/* Стилі для навігаційних посилань */
+.nav-links {
+  display: flex;
+  list-style: none;
+  align-items: center;
+  gap: 30px;
+}
+
+.nav-item-links {
+  text-decoration: none;
+  color: var(--dark-gray);
+  font-weight: 500;
+  font-size: 0.95rem;
+  transition: color 0.2s ease;
+}
+
+.nav-item-links:hover {
+  color: var(--primary);
+}
+
+/* Загальні стилі для кнопок авторизації */
+.auth-btn {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-  padding: 8px 16px;
-  border-radius: 6px;
-  border: 1px solid var(--primary);
-  color: var(--primary);
-  background: transparent;
+  padding: 10px 25px;
+  border-radius: 30px;
+  font-size: 16px;
   font-weight: 500;
-  transition: all 0.2s ease;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  border: 2px solid;
+  min-width: 100px;
+  margin-left: 15px;
 }
 
-.btn-outline:hover {
+.auth-btn i {
+  margin-left: 8px;
+  transition: transform 0.3s ease;
+}
+
+.auth-btn:hover i {
+  transform: translateX(5px);
+}
+
+/* Стилі для кнопки входу */
+.login-btn {
+  color: var(--primary);
+  border-color: var(--primary);
+  background-color: transparent;
+}
+
+.login-btn:hover {
   background-color: var(--primary);
-  color: var(--white);
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(67, 97, 238, 0.3);
+}
+
+/* Стилі для кнопки виходу */
+.logout-btn {
+  color: var(--error);
+  border-color: var(--error);
+  background-color: transparent;
+}
+
+.logout-btn:hover {
+  background-color: var(--error);
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(255, 51, 51, 0.3);
 }
 
 /* Adjust auth container to account for fixed header */
 .auth-container {
   padding-top: 80px;
 }
+/* Adjust auth container to account for fixed header */
+.auth-container {
+  padding-top: 80px;
+}
 
-
-/* Button Styles - Consistent with About.css */
+/* Button Styles */
+/* Base button styles - remove border:none */
 .btn {
   display: inline-flex;
   align-items: center;
@@ -150,70 +210,35 @@ nav {
   background: transparent;
 }
 
+
 .btn-outline:hover {
   background-color: var(--primary);
   color: white;
   transform: translateY(-3px);
 }
 
-/* Features Hero Section */
-.features-hero {
-  padding: 180px 0 20px;
-  text-align: center;
-  position: relative;
-  overflow: hidden;
+.btn-outline-red {
+  border: 2px solid var(--error);
+  color: var(--error);
+  background: transparent;
+  padding: 12px 28px;
+  border-radius: 50px;
+  font-weight: 500;
+  transition: var(--transition);
+  cursor: pointer;
+  font-size: 16px;
+  white-space: nowrap;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
 }
 
-.features-hero::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: url('/static/img/hero-pattern.png') center/cover;
-  opacity: 0.05;
-  z-index: 0;
-}
-
-.features-hero .container {
-  position: relative;
-  z-index: 1;
-}
-
-.features-hero h1 {
-  font-size: 3.5rem;
-  font-weight: 700;
-  margin-bottom: 20px;
-  line-height: 1.2;
-  animation: fadeInUp 0.8s ease-out;
-}
-
-.features-hero p {
-  font-size: 1.25rem;
-  max-width: 700px;
-  margin: 0 auto;
-  opacity: 0.9;
-  animation: fadeInUp 0.8s ease-out 0.2s both;
-}
-
-.hero-content-title {
-  font-size: 3.5rem;
-  font-weight: 700;
-  margin-bottom: 20px;
-  color: var(--dark);
-  line-height: 1.2;
-  animation: fadeInUp 0.8s ease-out;
-}
-
-
-.hero-content-text{
-  font-size: 3.5rem;
-  font-weight: 700;
-  margin-bottom: 20px;
-  color: var(--dark);
-  line-height: 1.2;
-  animation: fadeInUp 0.8s ease-out;
+.btn-outline-red:hover {
+  background-color: var(--error);
+  color: white;
+  transform: translateY(-3px);
+  box-shadow: 0 4px 14px rgba(255, 51, 51, 0.3);
 }
 
 

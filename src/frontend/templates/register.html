@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Register | Vanacy Hub</title>
     <link rel="icon" href="/static/img/logo.jpg" type="image/jpg">
-    <link rel="stylesheet" href="/static/css/register.css">
+    <link rel="stylesheet" href="/static/css/register1.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
@@ -18,19 +18,18 @@
                     <span>Vanacy Hub</span>
                 </a>
                 <ul class="nav-links">
-                    <li><a href="/">Home</a></li>
-                    <li><a href="/features">Features</a></li>
-                    <li><a href="/about">About Us</a></li>
-                    <li><a href="/privacy">Privacy Policy</a></li>
-                <li>
-                    <a href="{% if is_authenticated %}/auth/logout{% else %}/auth/login{% endif %}"
-                       class="{% if is_authenticated %}btn btn-outline-red{% else %}btn btn-outline{% endif %}">
-                        {% if is_authenticated %}Logout{% else %}Login{% endif %}
-                        <i class="fas fa-arrow-right"></i>
-                    </a>
-                </li>
+                    <li><a class="nav-item-links" href="/">Home</a></li>
+                    <li><a class="nav-item-links"  href="/features">Features</a></li>
+                    <li><a class="nav-item-links"  href="/about">About Us</a></li>
+                    <li><a class="nav-item-links"  href="/privacy">Privacy Policy</a></li>
+                    <li>
+                        <a href="{% if is_authenticated %}/auth/logout/confirm{% else %}/auth/login{% endif %}"
+                            class="auth-btn {% if is_authenticated %}logout-btn{% else %}login-btn{% endif %}">
+                            {% if is_authenticated %}Logout{% else %}Login{% endif %}
+                            <i class="fas fa-arrow-right"></i>
+                        </a>
+                    </li>
                 </ul>
-
             </nav>
         </div>
     </header>
