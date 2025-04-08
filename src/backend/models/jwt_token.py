@@ -16,11 +16,11 @@ class JWT:
         utc_now = datetime.utcnow()
         payload = {
             'sub': email,
-            'exp': utc_now + timedelta(minutes=30),
             'iat': utc_now,
             'type': 'ACCESS_TOKEN_TYPE'
         }
         return jwt.encode(payload, SECRET_KEY, algorithm=TOKEN_ALG)
+
 
     @staticmethod
     def decode_jwt(token: str):

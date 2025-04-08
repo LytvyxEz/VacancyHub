@@ -1,2 +1,14 @@
-from .user_service import get_current_user
-from .scraper_service import analyze_skills, parse_vacancies, get_driver
+from src.backend.service.user_service import get_current_user
+from src.backend.service.scraper_service import WorkUaScraper
+import asyncio
+
+async def parse_vacancies(query: str = "python"):
+    scraper = WorkUaScraper()
+    return await scraper.get_links(search=query)
+
+
+async def analyze_skills(vacancy_links: list[str]):
+    scraper = WorkUaScraper()
+    return await scraper.get_skills_from_links(vacancy_links)
+
+

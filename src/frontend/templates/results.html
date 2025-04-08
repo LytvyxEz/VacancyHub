@@ -98,24 +98,26 @@
         <div class="vacancy-list">
             <h2>Список вакансій</h2>
             <div id="vacancies">
-                {% for job in jobs %}
-                <div class="vacancy-item">
-                    <a href="{{ job }}" target="_blank">{{ job }}</a>
-                </div>
-                {% endfor %}
+                {% if jobs %}
+                    {% for job in jobs %}
+                        <div class="vacancy-item">
+                            <a href="{{ job }}" target="_blank">{{ job }}</a>
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <p>No jobs found for your query. Please try again with different keywords.</p>
+                {% endif %}
             </div>
         </div>
     </div>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // Дані для діаграм з бекенду
             const skillsData = {
                 labels: {{ chart_data.labels|tojson|safe }},
                 values: {{ chart_data.values|tojson|safe }}
             };
 
-            // Кольори для діаграм
             const backgroundColors = [
                 '#FF6384', '#36A2EB', '#FFCE56',
                 '#4BC0C0', '#9966FF', '#FF9F40',
@@ -123,7 +125,7 @@
                 '#9C27B0', '#3F51B5', '#009688'
             ];
 
-            // Кругова діаграма
+            // Pie chart
             const pieCtx = document.getElementById('skillsChart').getContext('2d');
             new Chart(pieCtx, {
                 type: 'pie',
@@ -144,51 +146,37 @@
                         tooltip: {
                             callbacks: {
                                 label: function(context) {
-                                    return `${context.label}: ${context.raw} (${Math.round(context.parsed*100/context.dataset.data.reduce((a, b) => a + b, 0))}%)`;
+                                    return `${context.label}: ${context.raw} (${Math.round(context.raw * 100 / context.dataset.data.reduce((a, b) => a + b, 0))}%)`;
                                 }
-                            }
-                        },
-                        title: {
-                            display: true,
-                            text: 'Топ навичок',
-                            font: {
-                                size: 16
                             }
                         }
                     }
                 }
             });
 
-            // Стовпчикова діаграма
+            // Bar chart
             const barCtx = document.getElementById('barChart').getContext('2d');
             new Chart(barCtx, {
                 type: 'bar',
                 data: {
                     labels: skillsData.labels,
                     datasets: [{
-                        label: 'Кількість згадок',
+                        label: 'Skills Count',
                         data: skillsData.values,
-                        backgroundColor: backgroundColors,
+                        backgroundColor: backgroundColors.slice(0, skillsData.values.length),
                         borderWidth: 1
                     }]
                 },
                 options: {
                     responsive: true,
-                    scales: {
-                        y: {
-                            beginAtZero: true
-                        }
-                    },
                     plugins: {
-                        title: {
+                        datalabels: {
                             display: true,
-                            text: 'Розподіл навичок',
+                            align: 'top',
                             font: {
-                                size: 16
-                            }
-                        },
-                        legend: {
-                            display: false
+                                weight: 'bold'
+                            },
+                            color: '#333'
                         }
                     }
                 }
