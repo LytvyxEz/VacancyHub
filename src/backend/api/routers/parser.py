@@ -1,9 +1,10 @@
-from fastapi import APIRouter, Request
+from fastapi import APIRouter, Request, Depends
 from starlette.templating import Jinja2Templates
 from collections import Counter
 import asyncio
 from concurrent.futures import ThreadPoolExecutor
 
+from src.backend.service import get_current_user
 from src.test.test1 import run, get_info
 
 parser_route = APIRouter()
@@ -21,7 +22,7 @@ def get_info_sync(links):
 
 
 @parser_route.get('/parse/search')
-async def skills(request: Request):
+async def skills(request: Request, user: str = Depends(get_current_user)):
     try:
         with ThreadPoolExecutor() as executor:
             loop = asyncio.get_event_loop()
