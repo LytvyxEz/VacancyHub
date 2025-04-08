@@ -1,80 +1,101 @@
 import asyncio
+import re
 from collections import Counter
-from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
-from selenium.webdriver.chrome.options import Options
-from selenium.webdriver.chrome.service import Service
-from webdriver_manager.chrome import ChromeDriverManager
-from selenium.webdriver import Chrome
+from playwright.async_api import async_playwright
+import sys
 
-async def get_driver():
-    chrome_options = Options()
-    chrome_options.add_argument("--headless")
-    chrome_options.add_argument("--no-sandbox")
-    chrome_options.add_argument("--disable-dev-shm-usage")
 
-    driver = Chrome(
-        service=Service(ChromeDriverManager().install()),
-        options=chrome_options
-    )
-    return driver
 
-async def parse_vacancies(query: str = "python", limit: int = 10) -> list[str]:
-    driver = await get_driver()
-    try:
-        driver.get("https://www.work.ua/")
+class WorkUaScraper:
+    def __init__(self):
+        self.playwright = None
+        self.browser = None
+        self.page = None
 
-        search_input = driver.find_element(By.ID, "search")
-        search_input.clear()
-        search_input.send_keys(query)
-
-        submit_button = driver.find_element(By.ID, "sm-but")
-        submit_button.click()
-
-        WebDriverWait(driver, 10).until(
-            EC.presence_of_element_located((By.CSS_SELECTOR, "#pjax-job-list"))
-        )
-
-        vacancies = []
-        while len(vacancies) < limit:
-            job_elements = driver.find_elements(By.CSS_SELECTOR, "#pjax-job-list .job-link h2 a")
-            vacancies.extend([job.get_attribute("href") for job in job_elements[:limit]])
+        if sys.platform.startswith("win") and sys.version_info >= (3, 8):
+            import asyncio
 
             try:
-                next_button = driver.find_element(By.CSS_SELECTOR, ".pagination .glyphicon-chevron-right")
-                next_button.click()
-                WebDriverWait(driver, 10).until(
-                    EC.presence_of_element_located((By.CSS_SELECTOR, "#pjax-job-list"))
+                from asyncio import (
+                    WindowsProactorEventLoopPolicy,
+                    WindowsSelectorEventLoopPolicy,
                 )
-                await asyncio.sleep(1)
-            except:
-                break
+            except ImportError:
+                pass
+                # not affected
+            else:
+                if type(asyncio.get_event_loop_policy()) is WindowsProactorEventLoopPolicy:
+                    asyncio.set_event_loop_policy(WindowsSelectorEventLoopPolicy())
+                    print(f'do not change to Selector Event Loop')
 
-        return vacancies[:limit]
-    finally:
-        driver.quit()
+    # async def start_browser(self):
+    #     self.playwright = await async_playwright().start()
+    #     self.browser = await self.playwright.chromium.launch(headless=True)
+    #     self.page = await self.browser.new_page()
+    #
+    # async def stop_browser(self):
+    #     if self.browser:
+    #         await self.browser.close()
+    #     if self.playwright:
+    #         await self.playwright.stop()
 
-async def analyze_skills(vacancy_urls: list[str]) -> dict[str, int]:
-    driver = await get_driver()
-    skills_counter = Counter()
+    async def get_links(self, search="python", location="Вся Україна"):
 
-    try:
-        for url in vacancy_urls:
-            try:
-                driver.get(url)
-                WebDriverWait(driver, 10).until(
-                    EC.presence_of_element_located((By.CSS_SELECTOR, ".card.wordwrap"))
+        async with async_playwright() as p:
+            browser = await p.chromium.launch()
+            context = await browser.new_context()
+            page = await context.new_page()
+
+
+
+            await browser.page.goto("https://www.work.ua/", wait_until="networkidle")
+            await browser.page.locator("#search").fill(search)
+            await browser.page.locator(".js-main-region").fill(location)
+            await browser.page.locator("#sm-but").click()
+            await browser.page.wait_for_load_state("networkidle")
+
+            vacancies_text = await browser.page.locator(".col-md-8 #pjax-job-list .mb-lg .mt-8 span").text_content()
+            match = re.search(r"\d+", vacancies_text or "")
+            if not match:
+                await self.stop_browser()
+                return []
+
+            total_vacancies = int(match.group())
+            jobs = []
+
+            while len(jobs) < total_vacancies:
+                page_jobs = await self.page.locator("#pjax-job-list .job-link div h2 a").evaluate_all(
+                    "elements => elements.map(e => e.href)"
                 )
+                jobs.extend(page_jobs)
 
-                skill_elements = driver.find_elements(
-                    By.CSS_SELECTOR, ".js-toggle-block li span, .card.wordwrap .text-indent"
-                )
-                skills = [el.text.strip() for el in skill_elements if el.text.strip()]
-                skills_counter.update(skills)
-            except Exception as e:
-                continue
+                next_button = self.page.locator("nav ul .add-left-default .link-icon .glyphicon-chevron-right")
+                if await next_button.is_visible():
+                    await next_button.click()
+                    await self.page.wait_for_load_state("networkidle")
+                    await asyncio.sleep(1)
+                else:
+                    break
 
-        return dict(skills_counter)
-    finally:
-        driver.quit()
+                await context.close()
+                return jobs
+
+    async def get_skills_from_links(self, links):
+        async with async_playwright() as p:
+            browser = await p.chromium.launch()
+            context = await browser.new_context()
+            page = await context.new_page()
+            all_skills = []
+
+            for link in links:
+                try:
+                    await self.page.goto(link, wait_until="networkidle")
+                    skills = await self.page.locator(".mt-2xl .js-toggle-block li span").all_text_contents()
+                    all_skills.extend(skills)
+                except Exception as e:
+                    print(f"Error parsing {link}: {e}")
+                    continue
+
+            await context.close()
+
+            return dict(Counter(all_skills))
