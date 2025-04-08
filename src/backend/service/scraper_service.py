@@ -1,5 +1,4 @@
 import asyncio
-import re
 from collections import Counter
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
@@ -8,7 +7,6 @@ from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver import Chrome
-
 
 async def get_driver():
     chrome_options = Options()
@@ -22,12 +20,10 @@ async def get_driver():
     )
     return driver
 
-
 async def parse_vacancies(query: str = "python", limit: int = 10) -> list[str]:
     driver = await get_driver()
     try:
         driver.get("https://www.work.ua/")
-
 
         search_input = driver.find_element(By.ID, "search")
         search_input.clear()
@@ -36,11 +32,9 @@ async def parse_vacancies(query: str = "python", limit: int = 10) -> list[str]:
         submit_button = driver.find_element(By.ID, "sm-but")
         submit_button.click()
 
-
         WebDriverWait(driver, 10).until(
             EC.presence_of_element_located((By.CSS_SELECTOR, "#pjax-job-list"))
         )
-
 
         vacancies = []
         while len(vacancies) < limit:
@@ -61,7 +55,6 @@ async def parse_vacancies(query: str = "python", limit: int = 10) -> list[str]:
     finally:
         driver.quit()
 
-
 async def analyze_skills(vacancy_urls: list[str]) -> dict[str, int]:
     driver = await get_driver()
     skills_counter = Counter()
@@ -73,7 +66,6 @@ async def analyze_skills(vacancy_urls: list[str]) -> dict[str, int]:
                 WebDriverWait(driver, 10).until(
                     EC.presence_of_element_located((By.CSS_SELECTOR, ".card.wordwrap"))
                 )
-
 
                 skill_elements = driver.find_elements(
                     By.CSS_SELECTOR, ".js-toggle-block li span, .card.wordwrap .text-indent"

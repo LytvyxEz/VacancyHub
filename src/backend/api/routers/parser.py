@@ -1,23 +1,31 @@
-from fastapi import APIRouter, Request, Depends
+from fastapi import APIRouter, Request, Depends, HTTPException
 from starlette.templating import Jinja2Templates
-from collections import Counter
-import asyncio
 from concurrent.futures import ThreadPoolExecutor
+import asyncio
 
 from src.backend.service import get_current_user
-from src.test.test1 import run, get_info
+from src.backend.service import parse_vacancies, analyze_skills
 
 parser_route = APIRouter()
 templates = Jinja2Templates(directory="frontend/templates")
 
 
-@router.get("/parse", response_class=HTMLResponse)
-async def parse_page(request: Request):
-    return templates.TemplateResponse("parser.html", {"request": request})
+@parser_route.get("/parse")
+async def parse_page(request: Request, user: str = Depends(get_current_user)):
+    return templates.TemplateResponse("parser__.html", {
+        "request": request,
+        "user": user,
+        "is_authenticated": user is not None
+    })
 
 
-@parser_route.get('/parse/search')
-async def skills(request: Request, user: str = Depends(get_current_user)):
+@parser_route.get('/parse/results')
+async def results(
+    request: Request,
+    user: str = Depends(get_current_user),
+    query: str = "python",
+    limit: int = 50
+):
     try:
         with ThreadPoolExecutor() as executor:
             loop = asyncio.get_event_loop()
@@ -43,7 +51,9 @@ async def skills(request: Request, user: str = Depends(get_current_user)):
                     "chart_data": {
                         "labels": chart_labels,
                         "values": chart_values
-                    }
+                    },
+                    "user": user,
+                    "is_authenticated": user is not None
                 }
             )
     except Exception as e:
