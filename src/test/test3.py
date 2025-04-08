@@ -110,13 +110,8 @@ async def scrape_skills(links: List[str]) -> Dict[str, int]:
         driver.quit()
 
 
-@app.get("/vacancies")
-async def get_vacancies():
-    links = await scrape_vacancies()
-    return {"links": links}
 
 
-@app.get("/skills")
 async def get_skills():
     links = await scrape_vacancies()
     skills = await scrape_skills(links)
