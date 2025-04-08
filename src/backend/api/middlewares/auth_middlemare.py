@@ -11,8 +11,7 @@ async def auth_middleware(request: Request, call_next):
     try:
         if token:
             email = JWT.verify_token(token)
-            if email:
-                request.state.user = email
+            request.state.user = email
 
     except Exception as e:
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED)
