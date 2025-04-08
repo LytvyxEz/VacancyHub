@@ -1,4 +1,5 @@
 from fastapi import APIRouter, Request, Depends
+from fastapi.responses import HTMLResponse
 from starlette.templating import Jinja2Templates
 from collections import Counter
 import asyncio
@@ -11,8 +12,8 @@ parser_route = APIRouter()
 templates = Jinja2Templates(directory="frontend/templates")
 
 
-@router.get("/parse", response_class=HTMLResponse)
-async def parse_page(request: Request):
+@parser_route.get("/parse", response_class=HTMLResponse)
+async def parse_page(request: Request, user: str = Depends(get_current_user)):
     return templates.TemplateResponse("parser.html", {"request": request})
 
 
