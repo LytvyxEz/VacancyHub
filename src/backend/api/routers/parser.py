@@ -1,55 +1,51 @@
-from fastapi import APIRouter, Request
+from fastapi import APIRouter, Request, Depends
+from fastapi.responses import HTMLResponse
 from starlette.templating import Jinja2Templates
 from collections import Counter
 import asyncio
 from concurrent.futures import ThreadPoolExecutor
 
+from src.backend.service import get_current_user
 from src.test.test1 import run, get_info
 
 parser_route = APIRouter()
 templates = Jinja2Templates(directory="frontend/templates")
 
 
-def run_sync():
-    """Синхронна обгортка для асинхронного коду"""
-    return asyncio.run(run())
+@parser_route.get("/parse", response_class=HTMLResponse)
+async def parse_page(request: Request, user: str = Depends(get_current_user)):
+    return templates.TemplateResponse("parser.html", {"request": request})
 
 
-def get_info_sync(links):
-    """Синхронна обгортка для асинхронного коду"""
-    return asyncio.run(get_info(links))
-
-
-@parser_route.get('/skills')
-async def skills(request: Request):
+@parser_route.get('/parse/search')
+async def skills(request: Request, user: str = Depends(get_current_user)):
     try:
         with ThreadPoolExecutor() as executor:
             loop = asyncio.get_event_loop()
 
-            # Отримуємо посилання
-            links = await loop.run_in_executor(executor, run_sync)
+            vacancies = await loop.run_in_executor(
+                executor,
+                lambda: asyncio.run(parse_vacancies(query, limit)))
 
-            # Отримуємо навички
             skills_data = await loop.run_in_executor(
                 executor,
-                get_info_sync,
-                links
-            )
+                lambda: asyncio.run(analyze_skills(vacancies)))
+
+            sorted_skills = sorted(skills_data.items(), key=lambda x: x[1], reverse=True)
+            chart_labels = [skill[0] for skill in sorted_skills]
+            chart_values = [skill[1] for skill in sorted_skills]
 
             return templates.TemplateResponse(
-                'parser.html',
+                "results.html",
                 {
                     "request": request,
-                    "jobs": links[:10],  # Перші 10 вакансій
+                    "jobs": vacancies,
                     "skills": skills_data,
                     "chart_data": {
-                        "labels": list(skills_data.keys()),
-                        "values": list(skills_data.values())
+                        "labels": chart_labels,
+                        "values": chart_values
                     }
                 }
             )
     except Exception as e:
-        return templates.TemplateResponse(
-            'error.html',
-            {"request": request, "error": str(e)}
-        )
+        raise HTTPException(status_code=500, detail=str(e))

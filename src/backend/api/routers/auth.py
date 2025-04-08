@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Request, Form, HTTPException, status
+from fastapi import APIRouter, Request, Form, HTTPException, status, Depends
 from fastapi.templating import Jinja2Templates
 from typing import Annotated
 from fastapi.responses import JSONResponse, Response, RedirectResponse
@@ -6,6 +6,7 @@ from passlib.context import CryptContext
 
 from src.backend.data import handlers_manager
 from src.backend.utils import hash_password
+from src.backend.service import get_current_user
 from src.backend.schemas import User, UserInDB
 from src.backend.models import JWT
 
@@ -72,12 +73,12 @@ async def register_user(
 
 
 @auth_router.get('/auth/logout/confirm')
-async def logout_confirm(request: Request):
+async def logout_confirm(request: Request, user: str = Depends(get_current_user)):
     return templates.TemplateResponse('logout.html', {'request': request})
 
 
 @auth_router.get('/auth/logout')
-async def logout(request: Request):
+async def logout(request: Request, user: str = Depends(get_current_user)):
 
     response = RedirectResponse(url="/", status_code=303)
 
@@ -109,9 +110,9 @@ async def login(request: Request,
             key="access_token",
             value=f"Bearer {token}",
             path="/",
-            max_age=60*60*24,
-            httponly=False,
-            secure=False,
+            max_age=60*30,
+            httponly=True,
+            secure=True,
         )
 
         response.status_code = 200

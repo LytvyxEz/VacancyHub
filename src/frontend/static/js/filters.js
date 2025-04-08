@@ -1,11 +1,23 @@
 
 document.addEventListener("DOMContentLoaded", function() {
-    const searchForm = document.querySelector('.search-container');
+    // Toggle filter section
+    const filterToggle = document.getElementById('filterToggle');
+    const filterSection = document.getElementById('filterSection');
+    
+    filterToggle.addEventListener('click', function() {
+        filterSection.classList.toggle('active');
+        const icon = this.querySelector('i');
+        icon.style.transform = filterSection.classList.contains('active') ? 'rotate(180deg)' : 'rotate(0)';
+    });
+
+    // Form submissions
+    const searchForm = document.getElementById('searchForm');
+    const filterForm = document.getElementById('filterForm');
     const searchInput = document.querySelector('.search-input');
-    const filterForm = document.querySelector('.filter-section');
     const experienceSelect = document.querySelector('select[name="experience"]');
     const salaryInput = document.querySelector('input[name="salary_min"]');
     const locationInput = document.querySelector('input[name="location"]');
+
 
     const urlParams = new URLSearchParams(window.location.search);
     const position = urlParams.get('position');
@@ -19,20 +31,16 @@ document.addEventListener("DOMContentLoaded", function() {
         updateCharts();
     }
 
-
-    searchForm.addEventListener('submit', function(e) {
-        e.preventDefault();
-        performSearch();
-    });
-
-    filterForm.addEventListener('submit', function(e) {
-        e.preventDefault();
-        performSearch();
-    });
-
     function performSearch() {
         const params = new URLSearchParams();
-        params.append('position', searchInput.value.trim());
+        const searchValue = searchInput.value.trim();
+        
+        if (!searchValue) {
+            searchInput.focus();
+            return;
+        }
+        
+        params.append('position', searchValue);
 
         if (locationInput.value.trim()) {
             params.append('location', locationInput.value.trim());
@@ -49,16 +57,38 @@ document.addEventListener("DOMContentLoaded", function() {
         window.location.search = params.toString();
     }
 
-    function updateCharts() {
-        const data = JSON.parse('{{ skill_counts | safe }}');
+    searchForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        performSearch();
+    });
 
-        if (!data || Object.keys(data).length === 0) {
+    filterForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        performSearch();
+    });
+
+    function updateCharts() {
+        // This would be replaced with actual data from your backend
+        const sampleData = {
+            "Python": 45,
+            "JavaScript": 38,
+            "SQL": 32,
+            "Java": 28,
+            "AWS": 25,
+            "React": 22,
+            "Docker": 18,
+            "Kubernetes": 15,
+            "Machine Learning": 12,
+            "Data Analysis": 10
+        };
+
+        if (!sampleData || Object.keys(sampleData).length === 0) {
             document.getElementById("skills-chart").innerHTML = "<p>No data available for this search</p>";
             return;
         }
 
-        const sortedSkills = Object.keys(data).sort((a, b) => data[b] - data[a]);
-        const sortedCounts = sortedSkills.map(skill => data[skill]);
+        const sortedSkills = Object.keys(sampleData).sort((a, b) => sampleData[b] - sampleData[a]);
+        const sortedCounts = sortedSkills.map(skill => sampleData[skill]);
 
         const chartData = [{
             x: sortedSkills,
@@ -74,7 +104,7 @@ document.addEventListener("DOMContentLoaded", function() {
         }];
 
         const layout = {
-            title: "",
+            title: "Top Required Skills",
             xaxis: {
                 title: { text: "Skills", standoff: 20 },
                 tickangle: -45,
@@ -84,16 +114,16 @@ document.addEventListener("DOMContentLoaded", function() {
                 title: "Mention Count",
                 gridcolor: 'rgba(0, 0, 0, 0.05)'
             },
-            margin: { t: 0, b: 150, l: 50, r: 20 },
+            margin: { t: 40, b: 150, l: 50, r: 20 },
             hovermode: 'closest'
         };
 
         Plotly.newPlot("skills-chart", chartData, layout, {responsive: true});
     }
 
-
     window.addEventListener('resize', function() {
-        Plotly.Plots.resize('skills-chart');
+        if (document.getElementById("skills-chart")) {
+            Plotly.Plots.resize('skills-chart');
+        }
     });
 });
-</script>

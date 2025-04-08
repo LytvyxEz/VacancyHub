@@ -12,27 +12,26 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
           rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="/static/css/parser_.css">
-
-
+    <link rel="stylesheet" href="static/css/parser__.css">
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 </head>
 <body>
 <header>
     <div class="container">
         <nav>
             <a href="/" class="logo">
-                <img src="/static/img/logo.jpg" alt="Vanacy Hub Logo" loading="lazy">
-                <span>Vanacy Hub</span>
+                <img src="/static/img/logo.jpg" alt="Vacancy Hub Logo" loading="lazy">
+                <span>Vacancy Hub</span>
             </a>
             <ul class="nav-links">
                 <li><a href="/">Home</a></li>
                 <li><a href="/features">Features</a></li>
                 <li><a href="/about">About Us</a></li>
                 <li><a href="/privacy">Privacy Policy</a></li>
-                                <li>
-                    <a href="{% if is_authenticated %}/auth/logout{% else %}/auth/login{% endif %}"
-                       class="{% if is_authenticated %}btn btn-outline-red{% else %}btn btn-outline{% endif %}">
-                        {% if is_authenticated %}Logout{% else %}Login{% endif %}
+                <li>
+                    <a href="/auth/login"
+                       class="btn btn-outline">
+                        Login
                         <i class="fas fa-arrow-right"></i>
                     </a>
                 </li>
@@ -45,18 +44,18 @@
     <div class="container">
         <section class="search-section">
             <h1 class="search-title">Job Market Vacancy Analysis</h1>
-            <div class="search-container">
-                <input type="text" class="search-input" placeholder="Enter keywords, position or company...">
-                <button class="btn btn-primary search-btn"><i class="fas fa-search"></i> Search</button>
-            </div>
+            <form class="search-container" id="searchForm">
+                <input type="text" class="search-input" placeholder="Enter keywords, position or company..." required>
+                <button type="submit" class="btn btn-primary search-btn"><i class="fas fa-search"></i> Search</button>
+            </form>
 
-            <div class="filter-toggle">
+            <div class="filter-toggle" id="filterToggle">
                 <i class="fas fa-sliders-h"></i>
                 <span>Search Filters</span>
             </div>
 
-            <div class="filter-section">
-                <form class="filter-grid">
+            <div class="filter-section" id="filterSection">
+                <form class="filter-grid" id="filterForm">
                     <div class="filter-group">
                         <label class="filter-label">Experience</label>
                         <select class="filter-select" name="experience">
@@ -79,14 +78,20 @@
                     </div>
                 </form>
 
-                <button type="submit" class="btn btn-primary apply-filters">
+                <button type="submit" form="filterForm" class="btn btn-primary apply-filters">
                     <i class="fas fa-check"></i> Apply Filters
                 </button>
             </div>
+        </section>
+
+        <!-- Add chart container -->
+        <section class="results-section">
+            <div id="skills-chart"></div>
         </section>
     </div>
 </main>
 
 <script src="/static/js/filters.js"></script>
+
 </body>
 </html>
