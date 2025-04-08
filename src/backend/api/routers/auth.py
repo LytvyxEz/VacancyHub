@@ -110,7 +110,7 @@ async def login(request: Request,
             key="access_token",
             value=f"Bearer {token}",
             path="/",
-            max_age=60*60*24,
+            max_age=60*30,
             httponly=False,
             secure=False,
         )
