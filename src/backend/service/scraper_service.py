@@ -1,82 +1,88 @@
 import asyncio
-from playwright.async_api import async_playwright
-from collections import Counter
 import re
+from collections import Counter
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.chrome.service import Service
+from webdriver_manager.chrome import ChromeDriverManager
+from selenium.webdriver import Chrome
 
 
-class ScraperService:
-    @staticmethod
-    async def get_links(page, query: str):
-        try:
-            await page.goto("https://www.work.ua/", wait_until="networkidle")
-            await page.locator("#search").fill(query)
-            await page.locator("#sm-but").click()
-            await page.wait_for_load_state("networkidle")
+async def get_driver():
+    chrome_options = Options()
+    chrome_options.add_argument("--headless")
+    chrome_options.add_argument("--no-sandbox")
+    chrome_options.add_argument("--disable-dev-shm-usage")
 
-            # Отримуємо загальну кількість вакансій
-            vacancies_text = await page.locator(".col-md-8 #pjax-job-list .mb-lg .mt-8 span").text_content()
-            match = re.search(r"\d+", vacancies_text or "")
-            total_vacancies = int(match.group()) if match else 0
-            print(f"Знайдено вакансій: {total_vacancies}")
+    driver = Chrome(
+        service=Service(ChromeDriverManager().install()),
+        options=chrome_options
+    )
+    return driver
 
-            # Збираємо всі посилання
-            jobs = []
-            while True:
-                page_jobs = await page.locator("#pjax-job-list .job-link div h2 a").evaluate_all(
-                    "elements => elements.map(e => e.href)"
+
+async def parse_vacancies(query: str = "python", limit: int = 10) -> list[str]:
+    driver = await get_driver()
+    try:
+        driver.get("https://www.work.ua/")
+
+
+        search_input = driver.find_element(By.ID, "search")
+        search_input.clear()
+        search_input.send_keys(query)
+
+        submit_button = driver.find_element(By.ID, "sm-but")
+        submit_button.click()
+
+
+        WebDriverWait(driver, 10).until(
+            EC.presence_of_element_located((By.CSS_SELECTOR, "#pjax-job-list"))
+        )
+
+
+        vacancies = []
+        while len(vacancies) < limit:
+            job_elements = driver.find_elements(By.CSS_SELECTOR, "#pjax-job-list .job-link h2 a")
+            vacancies.extend([job.get_attribute("href") for job in job_elements[:limit]])
+
+            try:
+                next_button = driver.find_element(By.CSS_SELECTOR, ".pagination .glyphicon-chevron-right")
+                next_button.click()
+                WebDriverWait(driver, 10).until(
+                    EC.presence_of_element_located((By.CSS_SELECTOR, "#pjax-job-list"))
                 )
-                jobs.extend(page_jobs)
+                await asyncio.sleep(1)
+            except:
+                break
 
-                next_button = page.locator("nav ul .add-left-default .link-icon .glyphicon-chevron-right")
-                if await next_button.is_visible():
-                    await next_button.click()
-                    await page.wait_for_load_state("networkidle")
-                    await asyncio.sleep(1)
-                else:
-                    break
+        return vacancies[:limit]
+    finally:
+        driver.quit()
 
-            return jobs[:total_vacancies]  # Повертаємо всі знайдені посилання
 
-        except Exception as e:
-            print(f"Помилка при отриманні посилань: {str(e)}")
-            return []
+async def analyze_skills(vacancy_urls: list[str]) -> dict[str, int]:
+    driver = await get_driver()
+    skills_counter = Counter()
 
-    @staticmethod
-    async def analyze_skills(links: list[str]):
-        if not links:
-            return {}
+    try:
+        for url in vacancy_urls:
+            try:
+                driver.get(url)
+                WebDriverWait(driver, 10).until(
+                    EC.presence_of_element_located((By.CSS_SELECTOR, ".card.wordwrap"))
+                )
 
-        async with async_playwright() as p:
-            browser = await p.chromium.launch(headless=True)
-            page = await browser.new_page()
-            skills_counter = Counter()
 
-            for link in links:
-                try:
-                    await page.goto(link, wait_until="networkidle", timeout=15000)
-                    skills = await page.query_selector_all(
-                        ".label-skill, .skill-tag, [class*='skill'] span, .job-description"
-                    )
+                skill_elements = driver.find_elements(
+                    By.CSS_SELECTOR, ".js-toggle-block li span, .card.wordwrap .text-indent"
+                )
+                skills = [el.text.strip() for el in skill_elements if el.text.strip()]
+                skills_counter.update(skills)
+            except Exception as e:
+                continue
 
-                    # Додаємо явні навички
-                    skills_texts = [await skill.inner_text() for skill in skills]
-                    skills_counter.update(
-                        s.strip().lower() for s in skills_texts
-                        if s.strip() and len(s.strip()) < 50  # Фільтр для виключення довгого тексту
-                    )
-
-                    # Аналіз опису вакансії на наявність ключових слів
-                    description = await page.query_selector(".job-description")
-                    if description:
-                        description_text = (await description.inner_text()).lower()
-                        common_skills = ["python", "django", "flask", "sql", "docker", "aws"]
-                        for skill in common_skills:
-                            if skill in description_text:
-                                skills_counter[skill] += 1
-
-                except Exception as e:
-                    print(f"Помилка при парсингу {link}: {str(e)}")
-                    continue
-
-            await browser.close()
-            return dict(skills_counter)
+        return dict(skills_counter)
+    finally:
+        driver.quit()
