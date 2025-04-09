@@ -99,32 +99,106 @@ nav {
 }
 
 /* Button Styles */
+.logout-btn {
+  color: var(--error);
+  border-color: var(--error);
+  background-color: transparent;
+}
+
+.logout-btn:hover {
+  background-color: var(--error);
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(255, 51, 51, 0.3);
+}
+
+.auth-btn {
+  display: inline-flex;
+  align-items: center;
+  padding: 10px 25px;
+  border-radius: 30px;
+  font-size: 16px;
+  font-weight: 500;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  border: 2px solid;
+  min-width: 100px;
+  margin-left: 15px;
+}
+
+.auth-btn i {
+  margin-left: 8px;
+  transition: transform 0.3s ease;
+}
+
+.auth-btn:hover i {
+  transform: translateX(5px);
+}
+
+/* Стилі для кнопки входу */
+.login-btn {
+  color: var(--primary);
+  border-color: var(--primary);
+  background-color: transparent;
+}
+
+.login-btn:hover {
+  background-color: var(--primary);
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(67, 97, 238, 0.3);
+}
+
+/* Стилі для кнопки виходу */
+.logout-btn {
+  color: var(--error);
+  border-color: var(--error);
+  background-color: transparent;
+}
+
+.logout-btn:hover {
+  background-color: var(--error);
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(255, 51, 51, 0.3);
+}
+
+/* Adjust auth container to account for fixed header */
+.auth-container {
+  padding-top: 80px;
+}
+/* Adjust auth container to account for fixed header */
+.auth-container {
+  padding-top: 80px;
+}
+
+/* Button Styles */
+/* Base button styles - remove border:none */
 .btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 10px 24px;
-  border-radius: var(--border-radius);
+  padding: 12px 28px;
+  border-radius: 50px;
   text-decoration: none;
   font-weight: 500;
   transition: var(--transition);
   border: none;
   cursor: pointer;
-  font-size: 15px;
+  font-size: 16px;
   white-space: nowrap;
-  gap: 8px;
 }
 
 .btn-primary {
   background-color: var(--primary);
   color: white;
-  box-shadow: var(--shadow-sm);
+  box-shadow: 0 4px 14px rgba(67, 97, 238, 0.3);
 }
 
 .btn-primary:hover {
   background-color: var(--primary-dark);
-  transform: translateY(-2px);
-  box-shadow: var(--shadow-md);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(67, 97, 238, 0.4);
 }
 
 .btn-outline {
@@ -133,15 +207,35 @@ nav {
   background: transparent;
 }
 
+
 .btn-outline:hover {
   background-color: var(--primary);
   color: white;
-  transform: translateY(-2px);
+  transform: translateY(-3px);
 }
 
-/* Main Content */
-.main-content {
-  padding: 30px 0 50px;
+.btn-outline-red {
+  border: 2px solid var(--error);
+  color: var(--error);
+  background: transparent;
+  padding: 12px 28px;
+  border-radius: 50px;
+  font-weight: 500;
+  transition: var(--transition);
+  cursor: pointer;
+  font-size: 16px;
+  white-space: nowrap;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+}
+
+.btn-outline-red:hover {
+  background-color: var(--error);
+  color: white;
+  transform: translateY(-3px);
+  box-shadow: 0 4px 14px rgba(255, 51, 51, 0.3);
 }
 
 /* Search Section */

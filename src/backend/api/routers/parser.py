@@ -4,7 +4,6 @@ from concurrent.futures import ThreadPoolExecutor
 import asyncio
 from playwright.async_api import async_playwright
 
-
 from src.backend.service import get_current_user
 from src.backend.service import parse_vacancies, analyze_skills
 
@@ -16,16 +15,16 @@ templates = Jinja2Templates(directory="frontend/templates")
 async def parse_page(request: Request, user: str = Depends(get_current_user)):
     return templates.TemplateResponse("parser__.html", {
         "request": request,
-        "user": user,
-        "is_authenticated": user is not None
+        'is_authenticated': True if request.cookies.get(
+            "access_token") else False
     })
 
 
 @parser_route.get('/parse/results')
 async def results(
-    request: Request,
-    user: str = Depends(get_current_user),
-    query: str = "python"
+        request: Request,
+        user: str = Depends(get_current_user),
+        query: str = "python"
 ):
     try:
         vacancies = await parse_vacancies(query)
@@ -36,23 +35,22 @@ async def results(
         # chart_values = [skill[1] for skill in sorted_skills]
         print(vacancies, skills_data)
 
+        return {"jobs": vacancies, 'skills': skills_data}
 
-        return templates.TemplateResponse(
-            "results.html",
-            {
-                "request": request,
-                "jobs": vacancies,
-                "skills": skills_data,
-
-                # "chart_data": {
-                #     "labels": chart_labels,
-                #     "values": chart_values
-                # }
-            }
-        )
+        # return templates.TemplateResponse(
+        #     "results.html",
+        #     {
+        #         "request": request,
+        #         "jobs": vacancies,
+        #         "skills": skills_data,
+        #         'is_authenticated': True if request.cookies.get(
+        #          "access_token") else False
+        #
+        #         # "chart_data": {
+        #         #     "labels": chart_labels,
+        #         #     "values": chart_values
+        #         # }
+        #     }
+        # )
     except Exception as e:
-        pass
-
-
-
-
+        return e

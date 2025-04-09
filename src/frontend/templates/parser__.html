@@ -27,8 +27,9 @@
                 <li><a href="/about">About Us</a></li>
                 <li><a href="/privacy">Privacy Policy</a></li>
                 <li>
-                    <a href="/auth/login" class="btn btn-outline">
-                        Login
+                    <a href="{% if is_authenticated %}/auth/logout/confirm{% else %}/auth/login{% endif %}"
+                        class="auth-btn {% if is_authenticated %}logout-btn{% else %}login-btn{% endif %}">
+                        {% if is_authenticated %}Logout{% else %}Login{% endif %}
                         <i class="fas fa-arrow-right"></i>
                     </a>
                 </li>
@@ -81,7 +82,7 @@
             </div>
         </section>
 
-        <!-- Add chart container -->
+
         <section class="results-section">
             <div id="skills-chart"></div>
         </section>

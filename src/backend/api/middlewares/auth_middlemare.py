@@ -1,4 +1,5 @@
 from fastapi import Request, HTTPException, status
+from fastapi.responses import RedirectResponse
 from src.backend.models import JWT
 
 
@@ -8,10 +9,12 @@ async def auth_middleware(request: Request, call_next):
 
     token = request.cookies.get("access_token")
 
+
     try:
         if token:
             email = JWT.verify_token(token)
             request.state.user = email
+
 
     except Exception as e:
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED)

@@ -18,7 +18,7 @@ class WorkUaScraper:
 
     def _start_driver(self):
         options = webdriver.ChromeOptions()
-        options.add_argument('--headless')
+        # options.add_argument('--headless')
         options.add_argument("--no-sandbox")
         options.add_argument("--disable-dev-shm-usage")
 
@@ -70,15 +70,16 @@ class WorkUaScraper:
                     job_links.append(href)
                     visited_links.add(href)
 
-            try:
-                next_button = self.driver.find_element(By.CSS_SELECTOR,
-                                                       "nav ul .add-left-default .link-icon .glyphicon-chevron-right")
-                if not next_button.is_displayed():
+                try:
+                    next_button = self.driver.find_element(By.CSS_SELECTOR,
+                                                           "nav ul .add-left-default .link-icon .glyphicon-chevron-right")
+                    if not next_button.is_enabled():
+                        break
+                    self.driver.execute_script("arguments[0].click();", next_button)
+                    wait.until(EC.presence_of_element_located((By.ID, "pjax-job-list")))
+                except Exception as e:
+                    print(f"Pagination ended or error: {e}")
                     break
-                next_button.click()
-                wait.until(EC.presence_of_element_located((By.ID, "pjax-job-list")))
-            except Exception:
-                break
 
         self.driver.quit()
         return job_links
@@ -110,14 +111,14 @@ class WorkUaScraper:
         return dict(Counter(all_skills))
 
 
-# async def main():
-#     scraper = WorkUaScraper()
-#     links = await scraper.get_links("Python", "Київ")
-#     print(f"Found {len(links)} links")
-#
-#     if links:
-#         skills = await scraper.get_skills_from_links(links)  # limit for demo
-#         print("Top Skills:", skills)
-#
-#
-# asyncio.run(main())
+async def main():
+    scraper = WorkUaScraper()
+    links = await scraper.get_links("Python", "Київ")
+    print(f"Found {len(links)} links")
+
+    if links:
+        skills = await scraper.get_skills_from_links(links)
+        print("Top Skills:", skills)
+
+
+asyncio.run(main())
