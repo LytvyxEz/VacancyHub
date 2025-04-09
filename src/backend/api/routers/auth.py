@@ -3,6 +3,7 @@ from fastapi.templating import Jinja2Templates
 from typing import Annotated
 from fastapi.responses import JSONResponse, Response, RedirectResponse
 from passlib.context import CryptContext
+import jwt
 
 from src.backend.data import handlers_manager
 from src.backend.utils import hash_password
@@ -84,6 +85,8 @@ async def logout(request: Request, user: str = Depends(get_current_user)):
 
     if request.cookies.get('access_token'):
         response.delete_cookie(key="access_token")
+    if request.cookies.get('refresh_token'):
+        response.delete_cookie(key='refresh_token')
 
     return response
 
@@ -104,15 +107,26 @@ async def login(request: Request,
         if not pwd_context.verify(password, hashed_password):
             raise HTTPException(status_code=400, detail=f'Incorrect password')
 
-        token = JWT.encode_jwt(email)
+        tokens = JWT.create_tokens(email=email)
 
         response.set_cookie(
             key="access_token",
-            value=f"Bearer {token}",
-            path="/",
-            max_age=60*30,
+            value=tokens["access_token"],
+            max_age=60 * 15,
             httponly=True,
             secure=True,
+            samesite="lax",
+            path="/"
+        )
+
+        response.set_cookie(
+            key="refresh_token",
+            value=tokens["refresh_token"],
+            max_age=60 * 60 * 24 * 7,
+            httponly=True,
+            secure=True,
+            samesite="lax",
+            path="/"
         )
 
         response.status_code = 200
@@ -130,3 +144,48 @@ async def login(request: Request,
             status_code=500,
             content={"detail": str(e)}
         )
+
+
+@auth_router.get("/auth/refresh")
+async def refresh(request: Request):
+    refresh_token = request.cookies.get("refresh_token")
+    if not refresh_token:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Refresh token not found"
+        )
+
+    try:
+        payload = JWT.decode_jwt(refresh_token)
+        if payload.get('typ') != "refresh":
+            raise HTTPException(
+                status_code=status.HTTP_401_UNAUTHORIZED,
+                detail="Uncorrect type token"
+            )
+
+        tokens = JWT.create_tokens(email=payload.get("sub"))
+        response = JSONResponse(
+            content={"message": "Tokens updated"},
+            status_code=status.HTTP_200_OK
+        )
+
+        response.set_cookie(
+            key="access_token",
+            value=tokens["access_token"],
+            max_age=60 * 15,
+            httponly=True,
+            secure=True,
+            samesite="lax",
+            path="/"
+        )
+
+        return response
+
+    except jwt.ExpiredSignatureError:
+        response = RedirectResponse(
+            "/auth/login",
+            status_code=status.HTTP_303_SEE_OTHER
+        )
+        response.delete_cookie("access_token")
+        response.delete_cookie("refresh_token")
+        return response
