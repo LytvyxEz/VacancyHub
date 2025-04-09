@@ -12,24 +12,25 @@ SECRET_KEY = os.getenv("SECRET_KEY")
 
 class JWT:
     @staticmethod
-    def encode_jwt(email: EmailStr):
-        utc_now = datetime.utcnow()
+    def encode_jwt(email: EmailStr, token_type: str, expire_time: int = 30):
         payload = {
             'sub': email,
-            'iat': utc_now,
-            'type': 'ACCESS_TOKEN_TYPE'
+            'exp': datetime.utcnow() + timedelta(minutes=expire_time),
+            'iat': datetime.utcnow(),
+            'typ': token_type
         }
         return jwt.encode(payload, SECRET_KEY, algorithm=TOKEN_ALG)
 
-
     @staticmethod
     def decode_jwt(token: str):
-        return jwt.decode(token.split()[1], key=SECRET_KEY, algorithms=[TOKEN_ALG])
+        return jwt.decode(token.replace("Bearer", ""), key=SECRET_KEY, algorithms=[TOKEN_ALG])
 
-    @staticmethod
-    def verify_token(token: str):
-        try:
-            payload = jwt.decode(token, SECRET_KEY, algorithms=[TOKEN_ALG])
-            return payload["sub"]
-        except Exception as e:
-            return None
+    @classmethod
+    def create_tokens(cls, email: EmailStr):
+        access_token = cls.encode_jwt(email, token_type="access", expire_time=15)
+        refresh_token = cls.encode_jwt(email, token_type="refresh", expire_time=60 * 24 * 7)
+
+        print(f"access - {access_token}\nrefresh - {refresh_token}")
+        return {"access_token": access_token,
+                "refresh_token": refresh_token}
+
