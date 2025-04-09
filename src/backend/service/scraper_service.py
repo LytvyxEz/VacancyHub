@@ -19,6 +19,8 @@ class WorkUaScraper:
     def _start_driver(self):
         options = webdriver.ChromeOptions()
         # options.add_argument('--headless')
+        options.add_argument(
+            "user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36")
         options.add_argument("--no-sandbox")
         options.add_argument("--disable-dev-shm-usage")
 
@@ -33,10 +35,13 @@ class WorkUaScraper:
         wait = WebDriverWait(self.driver, 10)
 
         self.driver.get("https://www.work.ua/")
-
+        time.sleep(1)
         search_input = wait.until(EC.presence_of_element_located((By.ID, "search")))
         search_input.clear()
         search_input.send_keys(search)
+
+
+        time.sleep(1)
 
         location_input = self.driver.find_element(By.CLASS_NAME, "js-main-region")
         location_input.clear()
@@ -47,9 +52,13 @@ class WorkUaScraper:
         wait.until(EC.presence_of_element_located((By.ID, "pjax-job-list")))
 
         try:
+            time.sleep(1)
+
             vacancies_text = self.driver.find_element(By.CSS_SELECTOR,
                                                       ".col-md-8 #pjax-job-list .mb-lg .mt-8 span").text
             total_vacancies = int(re.search(r"\d+", vacancies_text).group())
+            time.sleep(1)
+
         except Exception:
             self.driver.quit()
             return []
