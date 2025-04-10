@@ -27,7 +27,7 @@ class JWT:
 
     @classmethod
     def create_tokens(cls, email: EmailStr):
-        access_token = cls.encode_jwt(email, token_type="access", expire_time=15)
+        access_token = cls.encode_jwt(email, token_type="access", expire_time=60 * 24)
         refresh_token = cls.encode_jwt(email, token_type="refresh", expire_time=60 * 24 * 7)
 
         print(f"access - {access_token}\nrefresh - {refresh_token}")

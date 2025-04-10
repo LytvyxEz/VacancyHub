@@ -3,6 +3,7 @@ from fastapi.templating import Jinja2Templates
 from typing import Annotated
 from fastapi.responses import JSONResponse, Response, RedirectResponse
 from passlib.context import CryptContext
+from datetime import datetime, timedelta
 import jwt
 
 from src.backend.data import handlers_manager
@@ -112,7 +113,7 @@ async def login(request: Request,
         response.set_cookie(
             key="access_token",
             value=tokens["access_token"],
-            max_age=60 * 15,
+            expires=(datetime.utcnow() + timedelta(minutes=60 * 24)).strftime("%a, %d %b %Y %H:%M:%S GMT"),
             httponly=True,
             secure=True,
             samesite="lax",
@@ -122,7 +123,7 @@ async def login(request: Request,
         response.set_cookie(
             key="refresh_token",
             value=tokens["refresh_token"],
-            max_age=60 * 60 * 24 * 7,
+            expires=(datetime.utcnow() + timedelta(minutes=60 * 24 * 7)).strftime("%a, %d %b %Y %H:%M:%S GMT"),
             httponly=True,
             secure=True,
             samesite="lax",

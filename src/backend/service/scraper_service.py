@@ -131,4 +131,5 @@ class WorkUaScraper:
 #         print("Top Skills:", skills)
 #
 #
+
 # asyncio.run(main())
