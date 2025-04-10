@@ -4,6 +4,8 @@ import re
 import time
 import random
 from collections import Counter
+
+import selenium
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
@@ -41,9 +43,13 @@ class WorkUaScraper:
         search_input.clear()
         search_input.send_keys(search)
 
+
         location_input = self.driver.find_element(By.CLASS_NAME, "js-main-region")
         location_input.clear()
         location_input.send_keys(location)
+        self.driver.execute_script(f"document.querySelector('.js-main-region').value = '{location}';")
+
+
         time.sleep(1)
 
         self.driver.find_element(By.ID, "sm-but").click()
@@ -67,9 +73,9 @@ class WorkUaScraper:
         while len(job_links) < total_vacancies and current_page < max_pages:
             current_page += 1
 
-            job_anchors = self.driver.find_elements(By.CSS_SELECTOR, "#pjax-job-list .job-link div h2 a")
-            for a in job_anchors:
-                href = a.get_attribute("href")
+            anchors = self.driver.find_elements(By.CSS_SELECTOR, "#pjax-job-list .job-link div h2 a")
+            links = self.driver.execute_script("return arguments[0].map(el => el.href);", anchors)
+            for href in links:
                 if href and href not in visited_links:
                     job_links.append(href)
                     visited_links.add(href)
@@ -119,6 +125,7 @@ class WorkUaScraper:
 
         self.driver.quit()
         return dict(Counter(all_skills))
+
 
 
 # async def main():
