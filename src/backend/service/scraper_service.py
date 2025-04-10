@@ -2,6 +2,7 @@ import asyncio
 import datetime
 import re
 import time
+import random
 from collections import Counter
 from selenium import webdriver
 from selenium.webdriver.common.by import By
@@ -19,10 +20,10 @@ class WorkUaScraper:
     def _start_driver(self):
         options = webdriver.ChromeOptions()
         # options.add_argument('--headless')
-        options.add_argument(
-            "user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36")
         options.add_argument("--no-sandbox")
         options.add_argument("--disable-dev-shm-usage")
+        options.add_argument(
+            "user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/117.0.0.0 Safari/537.36")
 
         service = Service(ChromeDriverManager().install())
         return webdriver.Chrome(service=service, options=options)
@@ -32,39 +33,34 @@ class WorkUaScraper:
 
     def _get_links_sync(self, search, location):
         self.driver = self._start_driver()
-        wait = WebDriverWait(self.driver, 10)
+        wait = WebDriverWait(self.driver, 5)
 
         self.driver.get("https://www.work.ua/")
         time.sleep(1)
+
         search_input = wait.until(EC.presence_of_element_located((By.ID, "search")))
         search_input.clear()
         search_input.send_keys(search)
 
-
-        time.sleep(1)
-
         location_input = self.driver.find_element(By.CLASS_NAME, "js-main-region")
         location_input.clear()
         location_input.send_keys(location)
+        time.sleep(1)
 
         self.driver.find_element(By.ID, "sm-but").click()
 
         wait.until(EC.presence_of_element_located((By.ID, "pjax-job-list")))
+        time.sleep(1)
 
         try:
-            time.sleep(1)
-
             vacancies_text = self.driver.find_element(By.CSS_SELECTOR,
                                                       ".col-md-8 #pjax-job-list .mb-lg .mt-8 span").text
             total_vacancies = int(re.search(r"\d+", vacancies_text).group())
-            time.sleep(1)
-
         except Exception:
             self.driver.quit()
             return []
 
         job_links = []
-
         visited_links = set()
         max_pages = 100
         current_page = 0
@@ -79,16 +75,24 @@ class WorkUaScraper:
                     job_links.append(href)
                     visited_links.add(href)
 
+            try:
+                self.driver.execute_script("window.scrollBy(0, 300);")
+                time.sleep(1)
+
                 try:
                     next_button = self.driver.find_element(By.CSS_SELECTOR,
                                                            "nav ul .add-left-default .link-icon .glyphicon-chevron-right")
-                    if not next_button.is_enabled():
-                        break
-                    self.driver.execute_script("arguments[0].click();", next_button)
-                    wait.until(EC.presence_of_element_located((By.ID, "pjax-job-list")))
+
                 except Exception as e:
-                    print(f"Pagination ended or error: {e}")
+                    print('button not found')
                     break
+
+                self.driver.execute_script("arguments[0].click();", next_button)
+                wait.until(EC.presence_of_element_located((By.ID, "pjax-job-list")))
+
+            except Exception as e:
+                print('error')
+                break
 
         self.driver.quit()
         return job_links
@@ -110,8 +114,6 @@ class WorkUaScraper:
                     print('no skills')
 
                 all_skills.extend([el.text for el in skill_elements if el.text])
-
-
             except Exception as e:
                 print(f"error on link: {link}")
                 continue
@@ -130,4 +132,4 @@ async def main():
         print("Top Skills:", skills)
 
 
-# asyncio.run(main())
+asyncio.run(main())
