@@ -121,6 +121,7 @@ class WorkUaScraper:
         self.driver.quit()
         return dict(Counter(all_skills))
 
+
 async def main():
     scraper = WorkUaScraper()
     links = await scraper.get_links("Python", "Київ")
