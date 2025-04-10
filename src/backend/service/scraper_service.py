@@ -22,8 +22,7 @@ class WorkUaScraper:
         # options.add_argument('--headless')
         options.add_argument("--no-sandbox")
         options.add_argument("--disable-dev-shm-usage")
-        options.add_argument(
-            "user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/117.0.0.0 Safari/537.36")
+
 
         service = Service(ChromeDriverManager().install())
         return webdriver.Chrome(service=service, options=options)
@@ -31,7 +30,7 @@ class WorkUaScraper:
     async def get_links(self, search="python", location="Вся Україна"):
         return await asyncio.to_thread(self._get_links_sync, search, location)
 
-    def _get_links_sync(self, search, location):
+    def _get_links_sync(self, search, filters: dict):
         self.driver = self._start_driver()
         wait = WebDriverWait(self.driver, 5)
 
@@ -122,14 +121,14 @@ class WorkUaScraper:
         return dict(Counter(all_skills))
 
 
-async def main():
-    scraper = WorkUaScraper()
-    links = await scraper.get_links("Python", "Київ")
-    print(f"Found {len(links)} links")
-
-    if links:
-        skills = await scraper.get_skills_from_links(links)
-        print("Top Skills:", skills)
-
-
-asyncio.run(main())
+# async def main():
+#     scraper = WorkUaScraper()
+#     links = await scraper.get_links("Python", "Київ")
+#     print(f"Found {len(links)} links")
+#
+#     if links:
+#         skills = await scraper.get_skills_from_links(links)
+#         print("Top Skills:", skills)
+#
+#
+# asyncio.run(main())

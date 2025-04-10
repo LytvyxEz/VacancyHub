@@ -42,7 +42,7 @@
     <div class="container">
         <section class="search-section">
             <h1 class="search-title">Job Market Vacancy Analysis</h1>
-            <form class="search-container" action="/parse/results" method="get">
+            <form class="search-container" action="/parse/results" method="post">
                 <input type="text" class="search-input" name="query" placeholder="Enter keywords, position or company..." required>
                 <button type="submit" class="btn btn-primary search-btn"><i class="fas fa-search"></i> Search</button>
             </form>
@@ -67,12 +67,12 @@
 
                     <div class="filter-group">
                         <label class="filter-label">Location</label>
-                        <input type="text" class="filter-input" name="location" placeholder="City or region">
+                        <input type="text" class="filter-input" name="location" placeholder="City or region" value="{{location}}">
                     </div>
 
                     <div class="filter-group">
                         <label class="filter-label">Salary from</label>
-                        <input type="number" class="filter-input" name="salary_min" placeholder="UAH">
+                        <input type="number" class="filter-input" name="salary_min" placeholder="UAH" value="{{salary}}">
                     </div>
                 </form>
 
