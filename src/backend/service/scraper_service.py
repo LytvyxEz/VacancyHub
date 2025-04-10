@@ -22,7 +22,8 @@ class WorkUaScraper:
         # options.add_argument('--headless')
         options.add_argument("--no-sandbox")
         options.add_argument("--disable-dev-shm-usage")
-        options.add_argument("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/117.0.0.0 Safari/537.36")
+        options.add_argument(
+            "user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/117.0.0.0 Safari/537.36")
 
         service = Service(ChromeDriverManager().install())
         return webdriver.Chrome(service=service, options=options)
@@ -32,25 +33,24 @@ class WorkUaScraper:
 
     def _get_links_sync(self, search, location):
         self.driver = self._start_driver()
-        wait = WebDriverWait(self.driver, 10)
+        wait = WebDriverWait(self.driver, 5)
 
         self.driver.get("https://www.work.ua/")
-        time.sleep(random.uniform(1, 2))  # затримка
+        time.sleep(1)
 
         search_input = wait.until(EC.presence_of_element_located((By.ID, "search")))
         search_input.clear()
         search_input.send_keys(search)
-        time.sleep(random.uniform(0.5, 1.5))
 
         location_input = self.driver.find_element(By.CLASS_NAME, "js-main-region")
         location_input.clear()
         location_input.send_keys(location)
-        time.sleep(random.uniform(1, 2))
+        time.sleep(1)
 
         self.driver.find_element(By.ID, "sm-but").click()
 
         wait.until(EC.presence_of_element_located((By.ID, "pjax-job-list")))
-        time.sleep(random.uniform(1, 2))
+        time.sleep(1)
 
         try:
             vacancies_text = self.driver.find_element(By.CSS_SELECTOR,
@@ -67,7 +67,6 @@ class WorkUaScraper:
 
         while len(job_links) < total_vacancies and current_page < max_pages:
             current_page += 1
-            time.sleep(random.uniform(1, 2))  # пауза
 
             job_anchors = self.driver.find_elements(By.CSS_SELECTOR, "#pjax-job-list .job-link div h2 a")
             for a in job_anchors:
@@ -77,18 +76,22 @@ class WorkUaScraper:
                     visited_links.add(href)
 
             try:
-                # Симуляція прокрутки сторінки
                 self.driver.execute_script("window.scrollBy(0, 300);")
-                time.sleep(random.uniform(0.5, 1.5))
+                time.sleep(1)
 
-                next_button = self.driver.find_element(By.CSS_SELECTOR,
-                                                       "nav ul .add-left-default .link-icon .glyphicon-chevron-right")
-                if not next_button.is_enabled():
+                try:
+                    next_button = self.driver.find_element(By.CSS_SELECTOR,
+                                                           "nav ul .add-left-default .link-icon .glyphicon-chevron-right")
+
+                except Exception as e:
+                    print('button not found')
                     break
+
                 self.driver.execute_script("arguments[0].click();", next_button)
                 wait.until(EC.presence_of_element_located((By.ID, "pjax-job-list")))
+
             except Exception as e:
-                print(f"Pagination ended or error: {e}")
+                print('error')
                 break
 
         self.driver.quit()
@@ -105,7 +108,6 @@ class WorkUaScraper:
         for link in links:
             try:
                 self.driver.get(link)
-                time.sleep(random.uniform(1, 2))  # пауза
                 wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, ".mt-2xl .js-toggle-block li span")))
                 skill_elements = self.driver.find_elements(By.CSS_SELECTOR, ".mt-2xl .js-toggle-block li span")
                 if not skill_elements:
@@ -118,7 +120,6 @@ class WorkUaScraper:
 
         self.driver.quit()
         return dict(Counter(all_skills))
-
 
 async def main():
     scraper = WorkUaScraper()
