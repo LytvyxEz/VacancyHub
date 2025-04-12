@@ -15,7 +15,7 @@ document.addEventListener("DOMContentLoaded", function() {
     const filterForm = document.getElementById('filterForm');
     const searchInput = document.querySelector('.search-input');
     const experienceSelect = document.querySelector('select[name="experience"]');
-    const salaryInput = document.querySelector('input[name="salary_min"]');
+    const salaryInput = document.querySelector('input[name="salary"]');
     const locationInput = document.querySelector('input[name="location"]');
 
 
@@ -34,12 +34,12 @@ document.addEventListener("DOMContentLoaded", function() {
     function performSearch() {
         const params = new URLSearchParams();
         const searchValue = searchInput.value.trim();
-        
+
         if (!searchValue) {
             searchInput.focus();
             return;
         }
-        
+
         params.append('position', searchValue);
 
         if (locationInput.value.trim()) {
@@ -51,7 +51,7 @@ document.addEventListener("DOMContentLoaded", function() {
         }
 
         if (salaryInput.value) {
-            params.append('salary_min', salaryInput.value);
+            params.append('salary', salaryInput.value);
         }
 
         window.location.search = params.toString();
@@ -67,63 +67,6 @@ document.addEventListener("DOMContentLoaded", function() {
         performSearch();
     });
 
-    function updateCharts() {
-        // This would be replaced with actual data from your backend
-        const sampleData = {
-            "Python": 45,
-            "JavaScript": 38,
-            "SQL": 32,
-            "Java": 28,
-            "AWS": 25,
-            "React": 22,
-            "Docker": 18,
-            "Kubernetes": 15,
-            "Machine Learning": 12,
-            "Data Analysis": 10
-        };
 
-        if (!sampleData || Object.keys(sampleData).length === 0) {
-            document.getElementById("skills-chart").innerHTML = "<p>No data available for this search</p>";
-            return;
-        }
 
-        const sortedSkills = Object.keys(sampleData).sort((a, b) => sampleData[b] - sampleData[a]);
-        const sortedCounts = sortedSkills.map(skill => sampleData[skill]);
-
-        const chartData = [{
-            x: sortedSkills,
-            y: sortedCounts,
-            type: "bar",
-            marker: {
-                color: "rgba(67, 97, 238, 0.7)",
-                line: {
-                    color: 'rgba(67, 97, 238, 1)',
-                    width: 1.5
-                }
-            }
-        }];
-
-        const layout = {
-            title: "Top Required Skills",
-            xaxis: {
-                title: { text: "Skills", standoff: 20 },
-                tickangle: -45,
-                automargin: true
-            },
-            yaxis: {
-                title: "Mention Count",
-                gridcolor: 'rgba(0, 0, 0, 0.05)'
-            },
-            margin: { t: 40, b: 150, l: 50, r: 20 },
-            hovermode: 'closest'
-        };
-
-        Plotly.newPlot("skills-chart", chartData, layout, {responsive: true});
-    }
-
-    window.addEventListener('resize', function() {
-        if (document.getElementById("skills-chart")) {
-            Plotly.Plots.resize('skills-chart');
-        }
-    });
 });

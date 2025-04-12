@@ -1,2 +1,2 @@
 from .user import User, UserInDB
-from .parser import ParserRequest, query_validator
+from .parser import ParserRequest, parser_request
