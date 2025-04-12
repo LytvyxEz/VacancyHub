@@ -90,7 +90,12 @@ async def results(
         salary: Optional[str] = Query()
 ):
     try:
-        vacancies = await parse_vacancies(query)
+        filters = {
+            'experience': experience,
+            'location': location,
+            'salary': salary
+        }
+        vacancies = await parse_vacancies(query, filters)
         skills_data = await analyze_skills(vacancies)
 
         # sorted_skills = sorted(skills_data.items(), key=lambda x: x[1], reverse=True)

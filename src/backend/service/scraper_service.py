@@ -29,10 +29,15 @@ class WorkUaScraper:
         service = Service(ChromeDriverManager().install())
         return webdriver.Chrome(service=service, options=options)
 
-    async def get_links(self, search="python", location="Вся Україна"):
-        return await asyncio.to_thread(self._get_links_sync, search, location)
+    async def get_links(self, search: str, filters: dict):
+        return await asyncio.to_thread(self._get_links_sync, search, filters)
 
-    def _get_links_sync(self, search, filters: dict):
+    def _get_links_sync(self, search: str, filters: dict):
+        location = filters['location'] if filters['location'] else 'Вся Україна'
+        experience = filters['experience'] if filters['experience'] else None
+        salary = filters['salary'] if filters['salary'] else None
+        print(location, experience, salary)
+
         self.driver = self._start_driver()
         wait = WebDriverWait(self.driver, 5)
 
@@ -128,15 +133,15 @@ class WorkUaScraper:
 
 
 
-# async def main():
-#     scraper = WorkUaScraper()
-#     links = await scraper.get_links("Python", "Київ")
-#     print(f"Found {len(links)} links")
-#
-#     if links:
-#         skills = await scraper.get_skills_from_links(links)
-#         print("Top Skills:", skills)
-#
-#
+async def main():
+    scraper = WorkUaScraper()
+    links = await scraper.get_links("Python", {'experience': '1-3', 'salary': 10000, 'location': None})
+    print(f"Found {len(links)} links")
 
-# asyncio.run(main())
+    if links:
+        skills = await scraper.get_skills_from_links(links)
+        print("Top Skills:", skills)
+
+
+
+asyncio.run(main())
