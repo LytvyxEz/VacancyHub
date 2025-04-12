@@ -57,12 +57,13 @@
                     <div class="filter-group">
                         <label class="filter-label">Experience</label>
                         <select class="filter-select" name="experience">
-                            <option value="{{ experience }}">Any</option>
-                            <option value="{{ experience }}">No experience</option>
-                            <option value="{{ experience }}">1-3 years</option>
-                            <option value="{{ experience }}">3-5 years</option>
-                            <option value="{{ experience }}">5+ years</option>
+                            <option value="">Any</option>
+                            <option value="no-experience" {% if experience == 'no-experience' %}selected{% endif %}>No experience</option>
+                            <option value="1-3" {% if experience == '1-3' %}selected{% endif %}>1-3 years</option>
+                            <option value="3-5" {% if experience == '3-5' %}selected{% endif %}>3-5 years</option>
+                            <option value="5-plus" {% if experience == '5-plus' %}selected{% endif %}>5+ years</option>
                         </select>
+                        
                     </div>
 
                     <div class="filter-group">
