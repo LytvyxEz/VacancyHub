@@ -173,7 +173,17 @@ async def refresh(request: Request):
         response.set_cookie(
             key="access_token",
             value=tokens["access_token"],
-            max_age=60 * 15,
+            expires=(datetime.utcnow() + timedelta(minutes=60 * 24)).strftime("%a, %d %b %Y %H:%M:%S GMT"),
+            httponly=True,
+            secure=True,
+            samesite="lax",
+            path="/"
+        )
+
+        response.set_cookie(
+            key="refresh_token",
+            value=tokens["refresh_token"],
+            expires=(datetime.utcnow() + timedelta(minutes=60 * 24 * 7)).strftime("%a, %d %b %Y %H:%M:%S GMT"),
             httponly=True,
             secure=True,
             samesite="lax",
