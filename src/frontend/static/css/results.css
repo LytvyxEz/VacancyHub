@@ -1,183 +1,146 @@
-/* Results Section */
-.results-section {
-  display: grid;
-  grid-template-columns: 300px 1fr;
-  gap: 30px;
+/* Results Page Styles */
+body {
+  background-color: var(--light);
+  padding-top: 80px; /* компенсація для фіксованого хедера */
 }
 
-@media (max-width: 992px) {
-  .results-section {
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 40px 20px;
+}
+
+h1 {
+  font-size: 2.5rem;
+  color: var(--dark);
+  margin-bottom: 40px;
+  text-align: center;
+  position: relative;
+}
+
+h1::after {
+  content: '';
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100px;
+  height: 4px;
+  background-color: var(--primary);
+  border-radius: 2px;
+}
+
+h2, h3 {
+  color: var(--dark);
+  margin-bottom: 20px;
+}
+
+.stats-container {
+  background-color: white;
+  border-radius: 12px;
+  padding: 30px;
+  margin-bottom: 40px;
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--light-gray);
+}
+
+.stats-container h2 {
+  color: var(--primary);
+  margin-bottom: 15px;
+}
+
+.stats-container p {
+  color: var(--medium-gray);
+  font-size: 1.1rem;
+}
+
+.chart-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 30px;
+  margin-bottom: 40px;
+}
+
+@media (max-width: 768px) {
+  .chart-row {
     grid-template-columns: 1fr;
   }
 }
 
-/* Sidebar */
-.sidebar {
-  background-color: var(--white);
-  border-radius: 12px;
-  padding: 25px;
-  box-shadow: var(--shadow-sm);
-  height: fit-content;
-  position: sticky;
-  top: 100px;
-}
-
-.sidebar-title {
-  font-size: 1.2rem;
-  margin-bottom: 20px;
-  color: var(--dark);
-  display: flex;
-  align-items: center;
-}
-
-.sidebar-title i {
-  margin-right: 10px;
-  color: var(--primary);
-}
-
-.quick-stats {
-  margin-bottom: 30px;
-}
-
-.stat-item {
-  display: flex;
-  justify-content: space-between;
-  padding: 12px 0;
-  border-bottom: 1px solid var(--light-gray);
-}
-
-.stat-item:last-child {
-  border-bottom: none;
-}
-
-.stat-label {
-  color: var(--medium-gray);
-  font-size: 0.9rem;
-}
-
-.stat-value {
-  font-weight: 600;
-  color: var(--dark);
-}
-
-.skills-list {
-  list-style: none;
-}
-
-.skills-list li {
-  padding: 8px 0;
-  border-bottom: 1px solid var(--light-gray);
-  color: var(--dark-gray);
-}
-
-.skills-list li:last-child {
-  border-bottom: none;
-}
-
-/* Analytics Section */
-.analytics-section {
-  background-color: var(--white);
+.chart-container {
+  background-color: white;
   border-radius: 12px;
   padding: 30px;
   box-shadow: var(--shadow-sm);
-  margin-bottom: 30px;
-}
-
-.chart-container {
-  width: 100%;
-  margin-bottom: 40px;
-}
-
-.chart-card {
-  background-color: var(--white);
-  border-radius: 12px;
-  padding: 25px;
-  box-shadow: var(--shadow-sm);
-  margin-bottom: 30px;
+  border: 1px solid var(--light-gray);
   transition: var(--transition);
 }
 
-.chart-card:hover {
+.chart-container:hover {
+  transform: translateY(-5px);
   box-shadow: var(--shadow-md);
 }
 
-.chart-title {
-  font-size: 1.2rem;
-  margin-bottom: 20px;
-  color: var(--dark-gray);
-  display: flex;
-  align-items: center;
+.chart-container h3 {
+  text-align: center;
+  color: var(--secondary);
 }
 
-.chart-title i {
-  margin-right: 10px;
+.vacancy-list {
+  background-color: white;
+  border-radius: 12px;
+  padding: 30px;
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--light-gray);
+}
+
+.vacancy-item {
+  padding: 15px 0;
+  border-bottom: 1px solid var(--light-gray);
+}
+
+.vacancy-item:last-child {
+  border-bottom: none;
+}
+
+.vacancy-item a {
   color: var(--primary);
-}
-
-#skills-chart {
-  width: 100%;
-  height: 500px;
-}
-
-/* Footer */
-footer {
-  background-color: var(--dark);
-  color: var(--white);
-  padding: 50px 0 20px;
-  margin-top: 50px;
-}
-
-.footer-content {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 40px;
-  margin-bottom: 30px;
-}
-
-.footer-column h3 {
-  font-size: 1.1rem;
-  margin-bottom: 20px;
-  color: var(--accent);
-}
-
-.footer-links {
-  list-style: none;
-}
-
-.footer-links li {
-  margin-bottom: 12px;
-}
-
-.footer-links a {
-  color: #ccc;
   text-decoration: none;
   transition: var(--transition);
+  display: block;
+  padding: 10px;
+  border-radius: 6px;
 }
 
-.footer-links a:hover {
-  color: var(--white);
-  text-decoration: underline;
+.vacancy-item a:hover {
+  color: var(--primary-dark);
+  background-color: rgba(67, 97, 238, 0.05);
+  transform: translateX(5px);
 }
 
-.copyright {
-  text-align: center;
-  padding-top: 20px;
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
-  color: #888;
-  font-size: 0.9rem;
+/* Chart.js customizations */
+.chart-container canvas {
+  max-height: 400px;
+  width: 100% !important;
+  height: auto !important;
 }
 
-.footer-bottom {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding-top: 20px;
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
+/* Animation for loading */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
-/* Responsive Design */
-@media (max-width: 576px) {
-  #skills-chart {
-    height: 400px;
-  }
+.stats-container,
+.chart-row,
+.vacancy-list {
+  animation: fadeIn 0.6s ease-out forwards;
+}
+
+.chart-row {
+  animation-delay: 0.2s;
+}
+
+.vacancy-list {
+  animation-delay: 0.4s;
 }

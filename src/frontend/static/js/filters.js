@@ -54,6 +54,10 @@ document.addEventListener("DOMContentLoaded", function() {
             params.append('salary', salaryInput.value);
         }
 
+        if (document.querySelector('input[name="max_pages"]').value) {
+            params.append('max_pages', document.querySelector('input[name="max_pages"]').value);
+        }
+
         window.location.search = params.toString();
     }
 

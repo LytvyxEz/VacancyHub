@@ -69,7 +69,7 @@ class WorkUaScraper:
 
         job_links = []
         visited_links = set()
-        max_pages = 100
+        max_pages = filters['max_pages'] if filters['max_pages'] else 20
         current_page = 0
 
         while len(job_links) < total_vacancies and current_page < max_pages:

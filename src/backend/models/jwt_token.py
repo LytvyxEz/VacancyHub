@@ -3,6 +3,7 @@ from pydantic import EmailStr
 from datetime import datetime, timedelta
 import dotenv
 import os
+from src.backend.data import handlers_manager
 
 dotenv.load_dotenv()
 
@@ -30,7 +31,4 @@ class JWT:
         access_token = cls.encode_jwt(email, token_type="access", expire_time=60 * 24)
         refresh_token = cls.encode_jwt(email, token_type="refresh", expire_time=60 * 24 * 7)
 
-        print(f"access - {access_token}\nrefresh - {refresh_token}")
-        return {"access_token": access_token,
-                "refresh_token": refresh_token}
-
+        return access_token, refresh_token

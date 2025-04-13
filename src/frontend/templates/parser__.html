@@ -4,47 +4,50 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Job Analytics Dashboard</title>
-    <meta name="description" content="Get data-driven insights on job market trends, salary benchmarks, and skill requirements to boost your career.">
+    <meta name="description"
+          content="Get data-driven insights on job market trends, salary benchmarks, and skill requirements to boost your career.">
     <link rel="icon" href="static/img/logo.jpg" type="image/jpg">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+          rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="static/css/parser__.css">
     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 </head>
 <body>
-    <header>
-        <div class="container">
-            <nav>
-                <a href="/" class="logo">
-                    <img src="/static/img/logo.jpg" alt="Vanacy Hub Logo" loading="lazy">
-                        <span>Vacancy Hub</span>
-                </a>
-                <ul class="nav-links">
-                    <li><a class="nav-item-links" href="/">Home</a></li>
-                    <li><a class="nav-item-links"  href="/features">Features</a></li>
-                    <li><a class="nav-item-links"  href="/about">About Us</a></li>
-                    <li><a class="nav-item-links"  href="/privacy">Privacy Policy</a></li>
-                    <li>
-                        <a href="{% if is_authenticated %}/auth/logout/confirm{% else %}/auth/login{% endif %}"
-                            class="auth-btn {% if is_authenticated %}logout-btn{% else %}login-btn{% endif %}">
-                            {% if is_authenticated %}Logout{% else %}Login{% endif %}
-                            <i class="fas fa-arrow-right"></i>
-                        </a>
-                    </li>
-                </ul>
-            </nav>
-        </div>
-    </header>
+<header>
+    <div class="container">
+        <nav>
+            <a href="/" class="logo">
+                <img src="/static/img/logo.jpg" alt="Vanacy Hub Logo" loading="lazy">
+                <span>Vacancy Hub</span>
+            </a>
+            <ul class="nav-links">
+                <li><a class="nav-item-links" href="/">Home</a></li>
+                <li><a class="nav-item-links" href="/features">Features</a></li>
+                <li><a class="nav-item-links" href="/about">About Us</a></li>
+                <li><a class="nav-item-links" href="/privacy">Privacy Policy</a></li>
+                <li>
+                    <a href="{% if is_authenticated %}/auth/logout/confirm{% else %}/auth/login{% endif %}"
+                       class="auth-btn {% if is_authenticated %}logout-btn{% else %}login-btn{% endif %}">
+                        {% if is_authenticated %}Logout{% else %}Login{% endif %}
+                        <i class="fas fa-arrow-right"></i>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</header>
 
 <main class="main-content">
     <div class="container">
         <section class="search-section">
             <h1 class="search-title">Job Market Vacancy Analysis</h1>
             <form class="search-container" action="/parse?{{url_query}}" method="post">
-                <input type="text" class="search-input" name="query" placeholder="Enter keywords, position or company..." required>
-                <button  type="submit" class="btn btn-primary search-btn"><i class="fas fa-search"></i> Search</button>
+                <input type="text" class="search-input" name="query"
+                       placeholder="Enter keywords, position or company..." required>
+                <button type="submit" class="btn btn-primary search-btn"><i class="fas fa-search"></i> Search</button>
             </form>
 
             <div class="filter-toggle" id="filterToggle">
@@ -58,21 +61,31 @@
                         <label class="filter-label">Experience</label>
                         <select class="filter-select" name="experience" id="experience">
                             <option value="">Any</option>
-                            <option value="noexperience" {% if experience =='noexperience' %}selected{% endif %}>No experience</option>
-                            <option value="2plus" {% if experience =='2plus' %}selected{% endif %}>2+ years</option>
-                            <option value="5plus" {% if experience =='5plus' %}selected{% endif %}>5+ years</option>
+                            <option value="noexperience" {% if experience=='noexperience' %}selected{% endif %}>No
+                                experience
+                            </option>
+                            <option value="2plus" {% if experience=='2plus' %}selected{% endif %}>2+ years</option>
+                            <option value="5plus" {% if experience=='5plus' %}selected{% endif %}>5+ years</option>
                         </select>
-                        
+
                     </div>
 
                     <div class="filter-group">
                         <label class="filter-label">Location</label>
-                        <input type="text" class="filter-input" name="location" placeholder="City or region" value="{{location}}">
+                        <input type="text" class="filter-input" name="location" placeholder="City or region"
+                               value="{{location}}">
                     </div>
 
                     <div class="filter-group">
                         <label class="filter-label">Salary from</label>
-                        <input type="number" class="filter-input" name="salary" placeholder="UAH" value="{{salary}}">
+                        <input type="number" class="filter-input" name="salary" placeholder="UAH" value="{{salary if salary else 0}}">
+                    </div>
+
+                    <div class="filter-group">
+                        <label class="filter-label">Max pages</label>
+                        <h6><p>Notice: by default value is 20 pages</p></h6>
+                        <input type="number" class="filter-input" name="max_pages" placeholder="Max pages"
+                               value="{{ max_pages if max_pages else 20 }}" min="1">
                     </div>
                 </form>
 
@@ -88,7 +101,37 @@
         </section>
     </div>
 </main>
-
+<footer>
+    <div class="container">
+        <div class="footer-content">
+            <div class="footer-column">
+                <h3>Vanacy Hub</h3>
+                <p>Vacancy analytics platform helping job seekers and recruiters make data-driven decisions.</p>
+            </div>
+            <div class="footer-column">
+                <h3>Product</h3>
+                <ul class="footer-links">
+                    <li><a href="/features">Features</a></li>
+                    <li><a href="/docs">API</a></li>
+                    <li><a href="/about">About Us</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3>Legal</h3>
+                <ul class="footer-links">
+                    <li><a href="/privacy">Privacy Policy</a></li>
+                    <li><a href="/terms">Terms of Service</a></li>
+                    <li><a href="/cookie">Cookie Policy</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <div class="copyright">
+                &copy; 2025 Vanacy Hub. All rights reserved.
+            </div>
+        </div>
+    </div>
+</footer>
 <script src="/static/js/filters.js"></script>
 
 </body>
