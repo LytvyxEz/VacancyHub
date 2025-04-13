@@ -69,7 +69,7 @@ class WorkUaScraper:
 
         job_links = []
         visited_links = set()
-        max_pages = 100
+        max_pages = filters['max_pages'] if filters['max_pages'] else 20
         current_page = 0
 
         while len(job_links) < total_vacancies and current_page < max_pages:
@@ -122,7 +122,6 @@ class WorkUaScraper:
                 skill_elements = self.driver.find_elements(By.CSS_SELECTOR, ".mt-2xl .js-toggle-block li span")
                 if not skill_elements:
                     print('no skills')
-
                 all_skills.extend([el.text for el in skill_elements if el.text])
             except Exception as e:
                 print(f"error on link: {link}")

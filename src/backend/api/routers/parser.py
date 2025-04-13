@@ -21,11 +21,12 @@ async def parse_page(
             query: Optional[str] = Form(None),
             experience: Optional[str] = Form(None),
             location: Optional[str] = Form(None),
-            salary: Optional[int] = Form(None)
+            salary: Optional[int] = Form(None),
+            max_pages: Optional[int] = Form(20)
         ):
 
 
-    parser_query = parser_request(request, query, experience, location, salary)
+    parser_query = parser_request(request, query, experience, location, salary, max_pages)
 
 
     return templates.TemplateResponse("parser__.html", {
@@ -35,6 +36,7 @@ async def parse_page(
         'experience': parser_query['experience'],
         'location': parser_query['location'],
         'salary': parser_query['salary'],
+        'max_pages': parser_query['max_pages'],
         'is_authenticated': True if request.cookies.get("access_token") else False
     })
 
@@ -46,21 +48,23 @@ async def parse_page(
             query: Optional[str] = Form(None),
             experience: Optional[str] = Form(None),
             location: Optional[str] = Form(None),
-            salary: Optional[int] = Form(None)
+            salary: Optional[int] = Form(None),
+            max_pages: Optional[int] = Form(20)
         ):
 
     filters = variable_generator(request=request)
 
-    experience = filters['experience'] if experience else None
-    location = filters['location'] if location else None
-    salary = filters['salary'] if salary else None
+    experience = filters['experience'] if filters['experience'] else None
+    location = filters['location'] if filters['location'] else None
+    salary = filters['salary'] if filters['salary'] else None
+    max_pages = filters['max_pages'] if filters['max_pages'] else 20
 
-    parser_query = parser_request(request, query, experience, location, salary)
+    parser_query = parser_request(request, query, experience, location, salary, max_pages)
 
 
     return RedirectResponse(
         url=
-        f"/parse/results?query={parser_query['query']}&experience={parser_query['experience']}&location={parser_query['location']}&{parser_query['salary']}"
+        f"/parse/results?query={parser_query['query']}&experience={parser_query['experience']}&location={parser_query['location']}&salary={parser_query['salary']}&max_pages={parser_query['max_pages']}"
     )
 
 
