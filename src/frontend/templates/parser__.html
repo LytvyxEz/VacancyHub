@@ -12,7 +12,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
           rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="static/css/parser__.css">
+    <link rel="stylesheet" href="static/css/parser__.css?v=1.0.1">
     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 </head>
 <body>
@@ -39,6 +39,7 @@
         </nav>
     </div>
 </header>
+<br><br><br><br>
 
 <main class="main-content">
     <div class="container">
@@ -60,10 +61,8 @@
                     <div class="filter-group">
                         <label class="filter-label">Experience</label>
                         <select class="filter-select" name="experience" id="experience">
-                            <option value="">Any</option>
-                            <option value="noexperience" {% if experience=='noexperience' %}selected{% endif %}>No
-                                experience
-                            </option>
+                            <option value="None" {% if experience=='None' %}selected{% endif %}>Any</option>
+                            <option value="noexperience" {% if experience=='noexperience' %}selected{% endif %}>No experience</option>
                             <option value="2plus" {% if experience=='2plus' %}selected{% endif %}>2+ years</option>
                             <option value="5plus" {% if experience=='5plus' %}selected{% endif %}>5+ years</option>
                         </select>

@@ -39,8 +39,7 @@ body {
 }
 
 /* Header Styles */
-/* Header Styles */
-/* Header Styles */
+
 header {
   background-color: var(--white);
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
@@ -169,10 +168,7 @@ nav {
 .auth-container {
   padding-top: 80px;
 }
-/* Adjust auth container to account for fixed header */
-.auth-container {
-  padding-top: 80px;
-}
+
 
 /* Button Styles */
 /* Base button styles - remove border:none */

@@ -132,6 +132,7 @@ class WorkUaScraper:
 
 
 
+
 # async def main():
 #     scraper = WorkUaScraper()
 #     links = await scraper.get_links("Python", {'experience': '1-3', 'salary': 10000, 'location': None})

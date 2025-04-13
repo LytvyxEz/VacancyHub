@@ -10,7 +10,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
           rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="static/css/results.css">
+    <link rel="stylesheet" href="/static/css/results_.css?v=1.0.1">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
 </head>
@@ -19,14 +19,14 @@
     <div class="container">
         <nav>
             <a href="/" class="logo">
-                <img src="/static/img/logo.jpg" alt="Vacancy Hub Logo" loading="lazy">
-                <span>Vacancy Hub</span>
+                <img src="/static/img/logo.jpg" alt="Vanacy Hub Logo" loading="lazy">
+                    <span>Vacancy Hub</span>
             </a>
             <ul class="nav-links">
-                <li><a href="/">Home</a></li>
-                <li><a href="/features">Features</a></li>
-                <li><a href="/about">About Us</a></li>
-                <li><a href="/privacy">Privacy Policy</a></li>
+                <li><a class="nav-item-links" href="/">Home</a></li>
+                <li><a class="nav-item-links"  href="/features">Features</a></li>
+                <li><a class="nav-item-links"  href="/about">About Us</a></li>
+                <li><a class="nav-item-links"  href="/privacy">Privacy Policy</a></li>
                 <li>
                     <a href="{% if is_authenticated %}/auth/logout/confirm{% else %}/auth/login{% endif %}"
                         class="auth-btn {% if is_authenticated %}logout-btn{% else %}login-btn{% endif %}">
@@ -44,7 +44,7 @@
 
         <div class="stats-container">
             <h2>Статистика по вакансіям</h2>
-            <p>Проаналізовано вакансій: {{ jobs|length }}</p>-->
+            <p>Проаналізовано вакансій: {{ jobs|length }}</p>
         </div>
 
         <div class="chart-row">
@@ -61,18 +61,48 @@
         <div class="vacancy-list">
             <h2>Список вакансій</h2>
             <div id="vacancies">
-<!--                {% if jobs %}-->
-<!--                    {% for job in jobs %}-->
-<!--                        <div class="vacancy-item">-->
-<!--                            <a href="{{ job }}" target="_blank">{{ job }}</a>-->
-<!--                        </div>-->
-<!--                    {% endfor %}-->
-<!--                {% else %}-->
-<!--                    <p>No jobs found for your query. Please try again with different keywords.</p>-->
-<!--                {% endif %}-->
+                {% if jobs %}
+                    {% for job in jobs %}
+                        <div class="vacancy-item">
+                            <a href="{{ job }}" target="_blank">{{ job }}</a>
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <p>No jobs found for your query. Please try again with different keywords.</p>
+                {% endif %}
             </div>
         </div>
     </div>
-
+<footer>
+    <div class="container">
+        <div class="footer-content">
+            <div class="footer-column">
+                <h3>Vanacy Hub</h3>
+                <p>Vacancy analytics platform helping job seekers and recruiters make data-driven decisions.</p>
+            </div>
+            <div class="footer-column">
+                <h3>Product</h3>
+                <ul class="footer-links">
+                    <li><a href="/features">Features</a></li>
+                    <li><a href="/docs">API</a></li>
+                    <li><a href="/about">About Us</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3>Legal</h3>
+                <ul class="footer-links">
+                    <li><a href="/privacy">Privacy Policy</a></li>
+                    <li><a href="/terms">Terms of Service</a></li>
+                    <li><a href="/cookie">Cookie Policy</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <div class="copyright">
+                &copy; 2025 Vanacy Hub. All rights reserved.
+            </div>
+        </div>
+    </div>
+</footer>
 </body>
 </html>
