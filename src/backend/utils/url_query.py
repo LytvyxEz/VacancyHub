@@ -10,7 +10,6 @@ def variable_generator(request: Request):
         for i in url_query_:
             i = str(i).split('=')
             filters.update({i[0]: i[1]})
-
     except Exception:
         filters = None
         return filters
