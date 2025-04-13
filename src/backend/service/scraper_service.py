@@ -34,7 +34,7 @@ class WorkUaScraper:
 
     def _get_links_sync(self, search: str, filters: dict):
         location = filters['location'] if filters['location'] else 'Вся Україна'
-        salary = filters['salary'] if filters['salary'] else None
+
         self.driver = self._start_driver()
         wait = WebDriverWait(self.driver, 5)
 
@@ -108,8 +108,17 @@ class WorkUaScraper:
         return await asyncio.to_thread(self._get_skills_sync, links, filters)
 
     def _get_skills_sync(self, links, filters):
+        salary = filters['salary'] if filters['salary'] else None
 
         experience = filters['experience'] if filters['experience'] else None
+        if experience is not None and experience != "noexperience":
+            match = re.search(r'\d+', experience)
+            if match:
+                experience = int(match.group())
+            else:
+                experience = None
+
+        print("experience:", experience)
 
         self.driver = self._start_driver()
         wait = WebDriverWait(self.driver, 5)
@@ -120,14 +129,45 @@ class WorkUaScraper:
                 self.driver.get(link)
                 wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, ".mt-2xl .js-toggle-block li span")))
                 skill_elements = self.driver.find_elements(By.CSS_SELECTOR, ".mt-2xl .js-toggle-block li span")
+
+                wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, ".wordwrap .list-unstyled li")))
+                experience_elements = self.driver.find_elements(By.CSS_SELECTOR, ".wordwrap .list-unstyled li")
+                for i in experience_elements:
+                    if "Досвід роботи" in i.text:
+                        print(i.text)
+                        match = re.search(r'\d+', i.text)
+                        if match:
+                            experience_elements_num = int(match.group())
+                            print(experience_elements_num)
+
+
+                # salary_elements = self.driver.find_elements(By.CSS_SELECTOR, ".mt-2xl .js-toggle-block li span")
+
                 if not skill_elements:
                     print('no skills')
-                all_skills.extend([el.text for el in skill_elements if el.text])
+
+                if not experience_elements:
+                    print('no experience')
+
+                if experience == None:
+                    all_skills.extend([el.text for el in skill_elements if el.text])
+                    print("ура: ", link)
+                elif experience == "noexperience":
+                    if experience == "noexperience":
+                        all_skills.extend([el.text for el in skill_elements if el.text])
+                        print("ура: ", link)
+                elif isinstance(experience, int):
+                    if experience_elements_num >= experience:
+                        all_skills.extend([el.text for el in skill_elements if el.text])
+                        print("ура: ", link)
+
+
             except Exception as e:
                 print(f"error on link: {link}")
                 continue
 
         self.driver.quit()
+        print(all_skills)
         return dict(Counter(all_skills))
 
 
