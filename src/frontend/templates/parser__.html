@@ -42,9 +42,9 @@
     <div class="container">
         <section class="search-section">
             <h1 class="search-title">Job Market Vacancy Analysis</h1>
-            <form class="search-container" action="/parse/results" method="get">
+            <form class="search-container" action="/parse?{{url_query}}" method="post">
                 <input type="text" class="search-input" name="query" placeholder="Enter keywords, position or company..." required>
-                <button type="submit" class="btn btn-primary search-btn"><i class="fas fa-search"></i> Search</button>
+                <button  type="submit" class="btn btn-primary search-btn"><i class="fas fa-search"></i> Search</button>
             </form>
 
             <div class="filter-toggle" id="filterToggle">
@@ -53,15 +53,14 @@
             </div>
 
             <div class="filter-section" id="filterSection">
-                <form class="filter-grid" id="filterForm">
+                <form class="filter-grid" id="filterForm" method="get">
                     <div class="filter-group">
                         <label class="filter-label">Experience</label>
-                        <select class="filter-select" name="experience">
+                        <select class="filter-select" name="experience" id="experience">
                             <option value="">Any</option>
-                            <option value="no-experience" {% if experience == 'no-experience' %}selected{% endif %}>No experience</option>
-                            <option value="1-3" {% if experience == '1-3' %}selected{% endif %}>1-3 years</option>
-                            <option value="3-5" {% if experience == '3-5' %}selected{% endif %}>3-5 years</option>
-                            <option value="5-plus" {% if experience == '5-plus' %}selected{% endif %}>5+ years</option>
+                            <option value="noexperience" {% if experience =='noexperience' %}selected{% endif %}>No experience</option>
+                            <option value="2plus" {% if experience =='2plus' %}selected{% endif %}>2+ years</option>
+                            <option value="5plus" {% if experience =='5plus' %}selected{% endif %}>5+ years</option>
                         </select>
                         
                     </div>
@@ -73,11 +72,11 @@
 
                     <div class="filter-group">
                         <label class="filter-label">Salary from</label>
-                        <input type="number" class="filter-input" name="salary_min" placeholder="UAH" value="{{salary}}">
+                        <input type="number" class="filter-input" name="salary" placeholder="UAH" value="{{salary}}">
                     </div>
                 </form>
 
-                <button type="submit" form="filterForm" class="btn btn-primary apply-filters">
+                <button type="submit" form="filterForm" class="btn btn-primary apply-filters" formmethod="get">
                     <i class="fas fa-check"></i> Apply Filters
                 </button>
             </div>
