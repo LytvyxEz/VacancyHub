@@ -35,7 +35,6 @@ class WorkUaScraper:
     def _get_links_sync(self, search: str, filters: dict):
         location = filters['location'] if filters['location'] else 'Вся Україна'
         salary = filters['salary'] if filters['salary'] else None
-        print(location, experience, salary)
 
         self.driver = self._start_driver()
         wait = WebDriverWait(self.driver, 5)
@@ -110,6 +109,9 @@ class WorkUaScraper:
         return await asyncio.to_thread(self._get_skills_sync, links, filters)
 
     def _get_skills_sync(self, links, filters):
+
+        experience = filters['experience'] if filters['experience'] else None
+
         self.driver = self._start_driver()
         wait = WebDriverWait(self.driver, 5)
         all_skills = []

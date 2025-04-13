@@ -56,40 +56,35 @@ async def parse_page(
     return RedirectResponse(url=f"/parse/results?query={parser_query['query']}&{parser_query['url_query']}")
 
 
-@parser_route.post('/parse/results')
+@parser_route.api_route('/parse/results', methods=['GET', 'POST'])
 async def results(
-            request: Request,
-            user: str = Depends(get_current_user),
-            query: Optional[str] = Query(),
-            experience: Optional[str] = Query(None),
-            location: Optional[str] = Query(None),
-            salary: Optional[str] = Query(None)
-        ):
+    request: Request,
+    user: str = Depends(get_current_user),
+    query: Optional[str] = Query(None)
+):
     try:
         filters = variable_generator(request=request)
+
+        experience = filters.get("experience")
+        location = filters.get("location")
+        salary = filters.get("salary")
 
         vacancies = await parse_vacancies(query, filters)
         skills_data = await analyze_skills(vacancies, filters)
 
-        print(vacancies, skills_data)
-
         return templates.TemplateResponse(
-            "results.html",
+            "results_.html",
             {
                 "request": request,
                 "jobs": vacancies,
                 "skills": skills_data,
                 'query': query,
-                'experience': filters['experience'],
-                'location': filters['location'],
-                'salary': filters['salary'],
-                'is_authenticated': True if request.cookies.get(
-                    "access_token") else False
-
+                'experience': experience,
+                'location': location,
+                'salary': salary,
+                'is_authenticated': True if request.cookies.get("access_token") else False
             }
         )
     except Exception as e:
-        return HTMLResponse(
-            content=f"<h1>Something went wrong</h1><p>{str(e)}</p>",
-            status_code=500
-        )
+        print(e)
+

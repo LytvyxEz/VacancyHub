@@ -11,3 +11,4 @@ def variable_generator(request: Request):
         filters.update({i[0]: i[1]})
 
     return filters
+
