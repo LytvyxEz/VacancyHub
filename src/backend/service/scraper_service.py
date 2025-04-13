@@ -35,7 +35,6 @@ class WorkUaScraper:
     def _get_links_sync(self, search: str, filters: dict):
         location = filters['location'] if filters['location'] else 'Вся Україна'
         salary = filters['salary'] if filters['salary'] else None
-
         self.driver = self._start_driver()
         wait = WebDriverWait(self.driver, 5)
 

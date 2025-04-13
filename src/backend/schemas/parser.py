@@ -9,6 +9,13 @@ class ParserRequest(BaseModel):
     location: Optional[str] = Field(None)
     salary: Optional[PositiveInt] = Field(None)
 
+    @field_validator("location")
+    def ensure_utf8(cls, value):
+        if value is not None and isinstance(value, str):
+            return value.encode("utf-8").decode("utf-8")
+        return value
+
+
     @field_validator('salary')
     def validate_salary(cls, v):
         if v == "":

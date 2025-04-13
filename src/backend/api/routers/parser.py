@@ -50,10 +50,18 @@ async def parse_page(
         ):
 
     filters = variable_generator(request=request)
-    parser_query = parser_request(request, query, filters['experience'], filters['location'], filters['salary'])
+
+    experience = filters['experience'] if experience else None
+    location = filters['location'] if location else None
+    salary = filters['salary'] if salary else None
+
+    parser_query = parser_request(request, query, experience, location, salary)
 
 
-    return RedirectResponse(url=f"/parse/results?query={parser_query['query']}&{parser_query['url_query']}")
+    return RedirectResponse(
+        url=
+        f"/parse/results?query={parser_query['query']}&experience={parser_query['experience']}&location={parser_query['location']}&{parser_query['salary']}"
+    )
 
 
 @parser_route.api_route('/parse/results', methods=['GET', 'POST'])
@@ -65,9 +73,15 @@ async def results(
     try:
         filters = variable_generator(request=request)
 
-        experience = filters.get("experience")
-        location = filters.get("location")
-        salary = filters.get("salary")
+        if filters:
+            experience = filters.get("experience") if filters.get("experience") else None
+            location = filters.get("location") if filters.get("location") else None
+            salary = filters.get("salary") if filters.get("salary") else None
+        else:
+            filters = None
+            experience = None
+            location = None
+            salary = None
 
         vacancies = await parse_vacancies(query, filters)
         skills_data = await analyze_skills(vacancies, filters)
