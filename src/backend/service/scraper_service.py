@@ -34,9 +34,7 @@ class WorkUaScraper:
 
     def _get_links_sync(self, search: str, filters: dict):
         location = filters['location'] if filters['location'] else 'Вся Україна'
-        experience = filters['experience'] if filters['experience'] else None
         salary = filters['salary'] if filters['salary'] else None
-        print(location, experience, salary)
 
         self.driver = self._start_driver()
         wait = WebDriverWait(self.driver, 5)
@@ -107,10 +105,13 @@ class WorkUaScraper:
         self.driver.quit()
         return job_links
 
-    async def get_skills_from_links(self, links):
-        return await asyncio.to_thread(self._get_skills_sync, links)
+    async def get_skills_from_links(self, links, filters):
+        return await asyncio.to_thread(self._get_skills_sync, links, filters)
 
-    def _get_skills_sync(self, links):
+    def _get_skills_sync(self, links, filters):
+
+        experience = filters['experience'] if filters['experience'] else None
+
         self.driver = self._start_driver()
         wait = WebDriverWait(self.driver, 5)
         all_skills = []
@@ -133,12 +134,16 @@ class WorkUaScraper:
 
 
 
-async def main():
-    scraper = WorkUaScraper()
-    links = await scraper.get_links("Python", {'experience': '1-3', 'salary': 10000, 'location': None})
-    print(f"Found {len(links)} links")
+# async def main():
+#     scraper = WorkUaScraper()
+#     links = await scraper.get_links("Python", {'experience': '1-3', 'salary': 10000, 'location': None})
+#     print(f"Found {len(links)} links")
+#
+#     if links:
+#         skills = await scraper.get_skills_from_links(links)
+#         print("Top Skills:", skills)
+#
+#
+#
 
-    if links:
-        skills = await scraper.get_skills_from_links(links)
-        print("Top Skills:", skills)
-
+# asyncio.run(main())

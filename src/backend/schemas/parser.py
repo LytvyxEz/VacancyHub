@@ -17,7 +17,6 @@ class ParserRequest(BaseModel):
 
         return v
 
-
     @model_validator(mode='before')
     def request_validator(cls, values):
         for i in ['experience', 'location', 'salary']:
@@ -26,8 +25,25 @@ class ParserRequest(BaseModel):
         return values
 
 
-def query_validator(query):
-    if not query or query == '':
-        raise ValueError('Query is required')
+def parser_request(request: Request, query, experience, location, salary):
+    parser_request = ParserRequest(
+        query=query,
+        experience=experience,
+        location=location,
+        salary=salary
+    )
 
-    return query
+    query = parser_request.query
+    experience = parser_request.experience
+    location = parser_request.location
+    salary = parser_request.salary
+
+    parser_query = {
+        'query': query,
+        'experience': experience,
+        'location': location,
+        'salary': salary,
+        'url_query': request.url.query
+    }
+
+    return parser_query

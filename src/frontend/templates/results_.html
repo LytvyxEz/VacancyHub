@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Аналіз навичок Python-розробників</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f7fa;
+            color: #333;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .chart-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+        .chart-container {
+            flex: 1;
+            min-width: 300px;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.05);
+        }
+        .stats-container {
+            margin-top: 30px;
+        }
+        .vacancy-list {
+            margin-top: 40px;
+        }
+        .vacancy-item {
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+            transition: background 0.3s;
+        }
+        .vacancy-item:hover {
+            background: #f8f9fa;
+        }
+        .skill-badge {
+            display: inline-block;
+            background: #e1f5fe;
+            color: #0288d1;
+            padding: 3px 8px;
+            border-radius: 4px;
+            margin-right: 5px;
+            margin-bottom: 5px;
+            font-size: 0.9em;
+        }
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            .chart-row {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Аналіз навичок Python-розробників</h1>
+
+        <div class="stats-container">
+            <h2>Статистика по вакансіям</h2>
+<!--            <p>Проаналізовано вакансій: {{ jobs|length }}</p>-->
+        </div>
+
+        <div class="chart-row">
+            <div class="chart-container">
+                <h3>Топ навичок</h3>
+                <canvas id="skillsChart"></canvas>
+            </div>
+            <div class="chart-container">
+                <h3>Розподіл навичок</h3>
+                <canvas id="barChart"></canvas>
+            </div>
+        </div>
+
+        <div class="vacancy-list">
+            <h2>Список вакансій</h2>
+            <div id="vacancies">
+<!--                {% if jobs %}-->
+<!--                    {% for job in jobs %}-->
+<!--                        <div class="vacancy-item">-->
+<!--                            <a href="{{ job }}" target="_blank">{{ job }}</a>-->
+<!--                        </div>-->
+<!--                    {% endfor %}-->
+<!--                {% else %}-->
+<!--                    <p>No jobs found for your query. Please try again with different keywords.</p>-->
+<!--                {% endif %}-->
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
