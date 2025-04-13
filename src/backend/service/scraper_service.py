@@ -142,6 +142,3 @@ async def main():
         skills = await scraper.get_skills_from_links(links)
         print("Top Skills:", skills)
 
-
-
-asyncio.run(main())

@@ -7,7 +7,6 @@ from datetime import datetime, timedelta
 import jwt
 
 from src.backend.data import handlers_manager
-from src.backend.utils import hash_password
 from src.backend.service import get_current_user
 from src.backend.schemas import User, UserInDB
 from src.backend.models import JWT
@@ -86,8 +85,9 @@ async def logout(request: Request, user: str = Depends(get_current_user)):
 
     if request.cookies.get('access_token'):
         response.delete_cookie(key="access_token")
-    if request.cookies.get('refresh_token'):
-        response.delete_cookie(key='refresh_token')
+
+    if await handlers_manager.check_refresh_token(email=user):
+        await handlers_manager.remove_refresh_token(email=user)
 
     return response
 
@@ -99,7 +99,6 @@ async def login(request: Request,
                 password: Annotated[str, Form()]):
 
     try:
-
         if not await handlers_manager.check_if_user_exists(email):
             raise HTTPException(status_code=400, detail='User does not exists')
 
@@ -108,22 +107,14 @@ async def login(request: Request,
         if not pwd_context.verify(password, hashed_password):
             raise HTTPException(status_code=400, detail=f'Incorrect password')
 
-        tokens = JWT.create_tokens(email=email)
+        access_token, refresh_token = JWT.create_tokens(email=email)
+
+        await handlers_manager.write_token(token=refresh_token, email=email)
 
         response.set_cookie(
             key="access_token",
-            value=tokens["access_token"],
+            value=access_token,
             expires=(datetime.utcnow() + timedelta(minutes=60 * 24)).strftime("%a, %d %b %Y %H:%M:%S GMT"),
-            httponly=True,
-            secure=True,
-            samesite="lax",
-            path="/"
-        )
-
-        response.set_cookie(
-            key="refresh_token",
-            value=tokens["refresh_token"],
-            expires=(datetime.utcnow() + timedelta(minutes=60 * 24 * 7)).strftime("%a, %d %b %Y %H:%M:%S GMT"),
             httponly=True,
             secure=True,
             samesite="lax",
@@ -148,49 +139,37 @@ async def login(request: Request,
 
 
 @auth_router.get("/auth/refresh")
-async def refresh(request: Request):
-    refresh_token = request.cookies.get("refresh_token")
-    if not refresh_token:
-        raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Refresh token not found"
-        )
-
+async def refresh(request: Request, user: str = Depends(get_current_user)):
     try:
-        payload = JWT.decode_jwt(refresh_token)
-        if payload.get('typ') != "refresh":
-            raise HTTPException(
-                status_code=status.HTTP_401_UNAUTHORIZED,
-                detail="Uncorrect type token"
+        if handlers_manager.check_refresh_token(user):
+
+            new_access_token, new_refresh_token = JWT.create_tokens(user)
+            response = RedirectResponse(
+                url=request.cookies.get("next_url"),
+                status_code=status.HTTP_200_OK
             )
 
-        tokens = JWT.create_tokens(email=payload.get("sub"))
-        response = JSONResponse(
-            content={"message": "Tokens updated"},
-            status_code=status.HTTP_200_OK
-        )
+            handlers_manager.update_refresh_token(email=user,
+                                                  token=new_refresh_token)
 
-        response.set_cookie(
-            key="access_token",
-            value=tokens["access_token"],
-            expires=(datetime.utcnow() + timedelta(minutes=60 * 24)).strftime("%a, %d %b %Y %H:%M:%S GMT"),
-            httponly=True,
-            secure=True,
-            samesite="lax",
-            path="/"
-        )
+            response.set_cookie(
+                key="access_token",
+                value=new_access_token,
+                expires=(datetime.utcnow() + timedelta(days=1)).strftime("%a, %d %b %Y %H:%M:%S GMT"),
+                httponly=True,
+                secure=True,
+                samesite="lax",
+                path="/"
+            )
 
-        response.set_cookie(
-            key="refresh_token",
-            value=tokens["refresh_token"],
-            expires=(datetime.utcnow() + timedelta(minutes=60 * 24 * 7)).strftime("%a, %d %b %Y %H:%M:%S GMT"),
-            httponly=True,
-            secure=True,
-            samesite="lax",
-            path="/"
-        )
+            response.delete_cookie(
+                key="next_url"
+            )
 
-        return response
+            return response
+
+        else:
+            raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED)
 
     except jwt.ExpiredSignatureError:
         response = RedirectResponse(
@@ -198,5 +177,7 @@ async def refresh(request: Request):
             status_code=status.HTTP_303_SEE_OTHER
         )
         response.delete_cookie("access_token")
-        response.delete_cookie("refresh_token")
+        response.delete_cookie(
+            key="next_url"
+        )
         return response

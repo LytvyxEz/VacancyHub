@@ -9,7 +9,6 @@ class ParserRequest(BaseModel):
     location: Optional[str] = Field(None)
     salary: Optional[PositiveInt] = Field(None)
 
-
     @field_validator('salary')
     def validate_salary(cls, v):
         if v == "":
