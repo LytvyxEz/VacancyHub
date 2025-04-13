@@ -1,4 +1,3 @@
-import asyncio
 from datetime import datetime, timedelta, timezone
 from dateutil.parser import parse
 from .database import get_async_client
