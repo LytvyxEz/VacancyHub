@@ -920,11 +920,18 @@ footer {
 }
 
 /* Skills Card Specific Styles */
-.skills-list {
-  min-height: 200px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
+.skills-list li {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 12px;
+    padding: 10px 15px;
+    background-color: var(--light);
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.skills-list li:hover {
+    background-color: var(--light-gray);
 }
 
 /* Chart Card Specific Styles */
@@ -1114,4 +1121,60 @@ footer {
     .card-value {
         font-size: 2.5rem;
     }
+}
+.skills-card {
+    background-color: #1e1e2f;
+    border-radius: 12px;
+    padding: 16px;
+    color: #fff;
+    width: 280px;
+    font-family: 'Segoe UI', sans-serif;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+}
+
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #444;
+    margin-bottom: 12px;
+    padding-bottom: 6px;
+}
+
+.card-header h3 {
+    margin: 0;
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+
+.card-header i {
+    color: #6495ed;
+}
+
+.skills-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.skills-list li {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 8px;
+    padding: 6px 10px;
+    background-color: #2a2a40;
+    border-radius: 8px;
+    transition: background 0.3s ease;
+}
+
+.skills-list li:hover {
+    background-color: #3a3a55;
+}
+
+.skill-name {
+    font-weight: 500;
+}
+
+.skill-value {
+    color: #aaa;
 }

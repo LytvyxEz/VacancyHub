@@ -50,27 +50,20 @@
             <br><br>
             <div class="card-value">{{ jobs|length }}</div>
         </div>
-        <div class="skills-card">
+        <div class="stats-card">
             <div class="card-header">
                 <h3>Top skills</h3>
                 <i class="fas fa-star"></i>
             </div>
-            <div class="skills-list">
+            <ul class="skills-list">
                 {% for key, value in skills.items() %}
                 {% if loop.index <= 3 %}
-                {{ key }}: {{ value }}{% if not loop.last %}, {% endif %}
+                <li><span class="skill-name">{{ key }}</span><span class="skill-value">{{ value }}</span></li>
                 {% endif %}
                 {% endfor %}
-                <!--                {% if jobs %}-->
-                <!--                <canvas id="skillsChart"></canvas>-->
-                <!--                {% else %}-->
-                <!--                <div class="empty-state">-->
-                <!--                    <i class="fas fa-info-circle"></i>-->
-                <!--                    <p></p>-->
-                <!--                </div>-->
-                <!--                {% endif %}-->
-            </div>
+            </ul>
         </div>
+
         <div class="chart-card">
             <div class="card-header">
                 <h3>Skill distribution</h3>

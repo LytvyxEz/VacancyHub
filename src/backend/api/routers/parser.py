@@ -4,11 +4,10 @@ from starlette.templating import Jinja2Templates
 from fastapi.responses import RedirectResponse, HTMLResponse
 from concurrent.futures import ThreadPoolExecutor
 import asyncio
-from playwright.async_api import async_playwright
 
 from src.backend.schemas import ParserRequest, parser_request
 from src.backend.service import parse_vacancies, analyze_skills, get_current_user
-from src.backend.utils import variable_generator
+from src.backend.utils import variable_generator, get_top_skills
 
 parser_route = APIRouter()
 templates = Jinja2Templates(directory="frontend/templates")
@@ -99,6 +98,7 @@ async def results(
 
         vacancies = await parse_vacancies(query, filters)
         skills_data = await analyze_skills(vacancies, filters)
+        top_skills = await get_top_skills(skills_data)
 
         return templates.TemplateResponse(
             "results_.html",
@@ -106,6 +106,7 @@ async def results(
                 "request": request,
                 "jobs": vacancies,
                 "skills": skills_data,
+                "top_skills": top_skills,
                 'query': query,
                 'experience': experience,
                 'location': location,
@@ -118,3 +119,5 @@ async def results(
         raise HTTPException(status_code=400, detail=f"Invalid parameter type: {e}")
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
+
+
