@@ -101,7 +101,7 @@ async def results(
         # skills_data = await analyze_skills(vacancies, filters)
 
         return templates.TemplateResponse(
-            "results.html",
+            "results_.html",
             {
                 "request": request,
                 # "jobs": vacancies,
