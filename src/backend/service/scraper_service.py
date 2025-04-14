@@ -156,17 +156,30 @@ class WorkUaScraper:
                 if not experience_elements:
                     print('no experience')
 
-                if not experience:
-                    all_skills.extend([el.text for el in skill_elements if el.text])
-                    print("ура: ", link)
-                elif experience == "noexperience":
-                    if experience == "noexperience":
+                if not isinstance(salary, int):
+                    if experience == None and numbers_salary >= salary:
                         all_skills.extend([el.text for el in skill_elements if el.text])
                         print("ура: ", link)
-                elif isinstance(experience, int):
-                    if experience_elements_num >= experience:
+                    elif experience == "noexperience" and numbers_salary >= salary:
+                        if experience == "noexperience":
+                            all_skills.extend([el.text for el in skill_elements if el.text])
+                            print("ура: ", link)
+                    elif isinstance(experience, int) and numbers_salary >= salary:
+                        if experience_elements_num >= experience:
+                            all_skills.extend([el.text for el in skill_elements if el.text])
+                            print("ура: ", link)
+                elif salary == None:
+                    if experience == None :
                         all_skills.extend([el.text for el in skill_elements if el.text])
                         print("ура: ", link)
+                    elif experience == "noexperience":
+                        if experience == "noexperience":
+                            all_skills.extend([el.text for el in skill_elements if el.text])
+                            print("ура: ", link)
+                    elif isinstance(experience, int):
+                        if experience_elements_num >= experience:
+                            all_skills.extend([el.text for el in skill_elements if el.text])
+                            print("ура: ", link)
 
 
             except Exception as e:
