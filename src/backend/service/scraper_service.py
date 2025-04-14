@@ -108,7 +108,7 @@ class WorkUaScraper:
         return await asyncio.to_thread(self._get_skills_sync, links, filters)
 
     def _get_skills_sync(self, links, filters):
-        salary = filters['salary'] if filters['salary'] else None
+        salary = filters['salary'] if filters['salary'] else 0
 
         experience = filters['experience'] if filters['experience'] else None
         if experience is not None and experience != "noexperience":
@@ -119,6 +119,7 @@ class WorkUaScraper:
                 experience = None
 
         print("experience:", experience)
+        print("salary:", salary)
 
         self.driver = self._start_driver()
         wait = WebDriverWait(self.driver, 5)
@@ -156,8 +157,10 @@ class WorkUaScraper:
                 if not experience_elements:
                     print('no experience')
 
-                if not isinstance(salary, int):
-                    if experience == None and numbers_salary >= salary:
+
+
+                if salary != 0:
+                    if not experience and numbers_salary >= salary:
                         all_skills.extend([el.text for el in skill_elements if el.text])
                         print("ура: ", link)
                     elif experience == "noexperience" and numbers_salary >= salary:
@@ -168,8 +171,8 @@ class WorkUaScraper:
                         if experience_elements_num >= experience:
                             all_skills.extend([el.text for el in skill_elements if el.text])
                             print("ура: ", link)
-                elif salary == None:
-                    if experience == None :
+                elif salary == 0:
+                    if not experience:
                         all_skills.extend([el.text for el in skill_elements if el.text])
                         print("ура: ", link)
                     elif experience == "noexperience":
