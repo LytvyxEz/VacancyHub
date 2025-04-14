@@ -56,7 +56,7 @@
                 <i class="fas fa-star"></i>
             </div>
             <ul class="skills-list">
-                {% for key, value in skills.items() %}
+                {% for key, value in top_skills.items() %}
                 {% if loop.index <= 3 %}
                 <li><span class="skill-name">{{ key }}</span><span class="skill-value">{{ value }}</span></li>
                 {% endif %}
@@ -67,11 +67,14 @@
         <div class="chart-card">
             <div class="card-header">
                 <h3>Skill distribution</h3>
-                {% for key, value in skills.items() %}
-                    {{ key }}: {{ value }}{% if not loop.last %}, {% endif %}
-                {% endfor %}
+
                 <i class="fas fa-chart-pie"></i>
             </div>
+            <ul class="skills-list">
+                {% for key, value in top_skills.items() %}
+                <li><span class="skill-name">{{ key }}</span><span class="skill-value">{{ value }}</span></li>
+                {% endfor %}
+            </ul>
             <div class="chart-placeholder">
                 {% if jobs %}
                 <canvas id="barChart"></canvas>
