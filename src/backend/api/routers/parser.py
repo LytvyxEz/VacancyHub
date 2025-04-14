@@ -20,7 +20,7 @@ async def parse_page(
         query: Optional[str] = Form(None),
         experience: Optional[str] = Form(None),
         location: Optional[str] = Form(None),
-        salary: Optional[int] = Form(None),
+        salary: Optional[int] = Form(0),
         max_pages: Optional[int] = Form(20)
 ):
     parser_query = parser_request(request, query, experience, location, salary, max_pages)
@@ -50,9 +50,9 @@ async def parse_page(
     filters = variable_generator(request=request)
 
     if filters:
-        experience = filters.get('experience') if experience else experience
-        location = filters.get('location') if location else location
-        salary = filters.get('salary') if salary else salary
+        experience = filters.get('experience') if filters.get('experience') else experience
+        location = filters.get('location') if filters.get('location') else location
+        salary = filters.get('salary') if filters.get('salary') else salary
         max_pages = filters.get('max_pages', max_pages)
     else:
         experience = experience
