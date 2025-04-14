@@ -74,6 +74,9 @@
         <div class="chart-card">
             <div class="card-header">
                 <h3>Skill distribution</h3>
+                {% for key, value in skills.items() %}
+                    {{ key }}: {{ value }}{% if not loop.last %}, {% endif %}
+                {% endfor %}
                 <i class="fas fa-chart-pie"></i>
             </div>
             <div class="chart-placeholder">
