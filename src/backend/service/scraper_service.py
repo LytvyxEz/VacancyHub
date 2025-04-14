@@ -176,7 +176,7 @@ class WorkUaScraper:
                         all_skills.extend([el.text for el in skill_elements if el.text])
                         print("ура: ", link)
                     elif experience == "noexperience":
-                        if experience == "noexperience":
+                        if not isinstance(experience, int):
                             all_skills.extend([el.text for el in skill_elements if el.text])
                             print("ура: ", link)
                     elif isinstance(experience, int):
