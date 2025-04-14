@@ -848,3 +848,270 @@ footer {
         font-size: 2rem;
     }
 }
+
+/* Dashboard Cards Container */
+.dashboard-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 25px;
+  margin: 30px 0;
+}
+
+/* Base Card Styles */
+.stats-card,
+.skills-card,
+.chart-card,
+.jobs-card {
+  background-color: var(--white);
+  border-radius: 12px;
+  padding: 25px;
+  box-shadow: var(--shadow-sm);
+  transition: var(--transition);
+  border: 1px solid var(--light-gray);
+}
+
+.stats-card:hover,
+.skills-card:hover,
+.chart-card:hover,
+.jobs-card:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-md);
+  border-color: var(--primary-light);
+}
+
+/* Card Header Styles */
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid var(--light-gray);
+}
+
+.card-header h3 {
+  font-size: 1.1rem;
+  color: var(--dark);
+  font-weight: 600;
+  margin: 0;
+}
+
+.card-header i {
+  font-size: 1.2rem;
+  color: var(--primary);
+}
+
+/* Stats Card Specific Styles */
+.stats-card {
+  text-align: center;
+}
+
+.card-value {
+  font-size: 3rem;
+  font-weight: 700;
+  color: var(--primary);
+  margin: 20px 0;
+  line-height: 1;
+}
+
+.card-footer {
+  font-size: 0.85rem;
+  color: var(--medium-gray);
+}
+
+/* Skills Card Specific Styles */
+.skills-list {
+  min-height: 200px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+/* Chart Card Specific Styles */
+.chart-placeholder {
+  min-height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Jobs Card Specific Styles */
+.jobs-card {
+  grid-column: 1 / -1; /* Makes this card full width */
+}
+
+.jobs-list {
+  min-height: 300px;
+}
+
+/* Empty State Styles */
+.empty-state {
+  text-align: center;
+  color: var(--medium-gray);
+  padding: 20px;
+}
+
+.empty-state i {
+  font-size: 2rem;
+  color: var(--light-gray);
+  margin-bottom: 15px;
+}
+
+.empty-state p {
+  margin: 0;
+  font-size: 0.95rem;
+}
+
+.empty-state.error i {
+  color: var(--error);
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .dashboard-cards {
+    grid-template-columns: 1fr;
+  }
+
+  .card-value {
+    font-size: 2.5rem;
+  }
+}
+
+/* Dashboard Cards */
+.dashboard-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 25px;
+    margin: 30px 0;
+}
+
+/* Card Base Styles */
+.stats-card,
+.skills-card,
+.chart-card,
+.jobs-card {
+    background-color: var(--white);
+    border-radius: 12px;
+    padding: 25px;
+    box-shadow: var(--shadow-sm);
+    transition: var(--transition);
+    border: 1px solid var(--light-gray);
+}
+
+.stats-card:hover,
+.skills-card:hover,
+.chart-card:hover,
+.jobs-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-md);
+    border-color: var(--primary-light);
+}
+
+/* Card Header */
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid var(--light-gray);
+}
+
+.card-header h3 {
+    font-size: 1.1rem;
+    color: var(--dark);
+    font-weight: 600;
+    margin: 0;
+}
+
+.card-header i {
+    font-size: 1.2rem;
+    color: var(--primary);
+}
+
+/* Stats Card */
+.stats-card {
+    text-align: center;
+}
+
+.card-value {
+    font-size: 3rem;
+    font-weight: 700;
+    color: var(--primary);
+    margin: 20px 0;
+    line-height: 1;
+}
+
+.card-footer {
+    font-size: 0.85rem;
+    color: var(--medium-gray);
+}
+
+/* Content Areas */
+.skills-list,
+.chart-placeholder,
+.jobs-list {
+    min-height: 200px;
+}
+
+.jobs-card {
+    margin-top: 25px;
+}
+
+.jobs-list {
+    min-height: auto;
+}
+
+/* Vacancy Items */
+.vacancy-item {
+    padding: 12px 0;
+    border-bottom: 1px solid var(--light-gray);
+}
+
+.vacancy-item:last-child {
+    border-bottom: none;
+}
+
+.vacancy-item a {
+    color: var(--primary);
+    text-decoration: none;
+    transition: var(--transition);
+}
+
+.vacancy-item a:hover {
+    color: var(--primary-dark);
+    text-decoration: underline;
+}
+
+/* Empty States */
+.empty-state {
+    text-align: center;
+    color: var(--medium-gray);
+    padding: 40px 20px;
+}
+
+.empty-state i {
+    font-size: 2rem;
+    color: var(--light-gray);
+    margin-bottom: 15px;
+}
+
+.empty-state p {
+    margin: 0;
+    font-size: 0.95rem;
+}
+
+.empty-state.error i {
+    color: var(--error);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .dashboard-cards {
+        grid-template-columns: 1fr;
+    }
+
+    .card-value {
+        font-size: 2.5rem;
+    }
+}

@@ -21,16 +21,16 @@
         <nav>
             <a href="/" class="logo">
                 <img src="/static/img/logo.jpg" alt="Vanacy Hub Logo" loading="lazy">
-                    <span>Vacancy Hub</span>
+                <span>Vacancy Hub</span>
             </a>
             <ul class="nav-links">
                 <li><a class="nav-item-links" href="/">Home</a></li>
-                <li><a class="nav-item-links"  href="/features">Features</a></li>
-                <li><a class="nav-item-links"  href="/about">About Us</a></li>
-                <li><a class="nav-item-links"  href="/privacy">Privacy Policy</a></li>
+                <li><a class="nav-item-links" href="/features">Features</a></li>
+                <li><a class="nav-item-links" href="/about">About Us</a></li>
+                <li><a class="nav-item-links" href="/privacy">Privacy Policy</a></li>
                 <li>
                     <a href="{% if is_authenticated %}/auth/logout/confirm{% else %}/auth/login{% endif %}"
-                        class="auth-btn {% if is_authenticated %}logout-btn{% else %}login-btn{% endif %}">
+                       class="auth-btn {% if is_authenticated %}logout-btn{% else %}login-btn{% endif %}">
                         {% if is_authenticated %}Logout{% else %}Login{% endif %}
                         <i class="fas fa-arrow-right"></i>
                     </a>
@@ -39,41 +39,74 @@
         </nav>
     </div>
 </header>
+<br><br><br><br>
 
-    <div class="container">
-        <h1>Аналіз навичок Python-розробників</h1>
-
-        <div class="stats-container">
-            <h2>Статистика по вакансіям</h2>
-            <p>Проаналізовано вакансій: {{ jobs|length }}</p>
-        </div>
-
-        <div class="chart-row">
-            <div class="chart-container">
-                <h3>Топ навичок</h3>
-                <canvas id="skillsChart"></canvas>
+<div class="container">
+    <div class="dashboard-cards">
+        <div class="stats-card">
+            <div class="card-header">
+                <h3>Analyzed vacancies</h3>
+                <i class="fas fa-chart-bar"></i>
             </div>
-            <div class="chart-container">
-                <h3>Розподіл навичок</h3>
-                <canvas id="barChart"></canvas>
-            </div>
+            <br><br>
+            <div class="card-value">{{ jobs|length }}</div>
         </div>
-
-        <div class="vacancy-list">
-            <h2>Список вакансій</h2>
-            <div id="vacancies">
+<!-- START
+        <div class="skills-card">
+            <div class="card-header">
+                <h3>Top skills</h3>
+                <i class="fas fa-star"></i>
+            </div>
+            <div class="skills-list">
                 {% if jobs %}
-                    {% for job in jobs %}
-                        <div class="vacancy-item">
-                            <a href="{{ job }}" target="_blank">{{ job }}</a>
-                        </div>
-                    {% endfor %}
+                <canvas id="skillsChart"></canvas>
                 {% else %}
-                    <p>No jobs found for your query. Please try again with different keywords.</p>
+                <div class="empty-state">
+                    <i class="fas fa-info-circle"></i>
+                    <p></p>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+        <div class="chart-card">
+            <div class="card-header">
+                <h3>Skill distribution</h3>
+                <i class="fas fa-chart-pie"></i>
+            </div>
+            <div class="chart-placeholder">
+                {% if jobs %}
+                <canvas id="barChart"></canvas>
+                {% else %}
+                <div class="empty-state">
+                    <i class="fas fa-chart-line"></i>
+                    <p></p>
+                </div>
                 {% endif %}
             </div>
         </div>
     </div>
+ END-->
+    <div class="jobs-card">
+        <div class="card-header">
+            <h3>Vacancy list</h3>
+            <i class="fas fa-briefcase"></i>
+        </div>
+        <div class="jobs-list">
+            {% if jobs %}
+            {% for job in jobs %}
+            <div class="vacancy-item">
+                <a href="{{ job }}" target="_blank">{{ job }}</a>
+            </div>
+            {% endfor %}
+            {% else %}
+            <div class="empty-state error">
+                <i class="fas fa-exclamation-triangle"></i>
+                <p>No jobs found for your query. Please try again with different keywords.</p>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
 <footer>
     <div class="container">
         <div class="footer-content">
