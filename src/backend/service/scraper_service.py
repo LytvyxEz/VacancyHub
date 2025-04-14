@@ -126,6 +126,8 @@ class WorkUaScraper:
         all_skills = []
 
         for link in links:
+            numbers_salary = None
+            experience_elements_num = None
             try:
                 self.driver.get(link)
                 wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, ".mt-2xl .js-toggle-block li span")))
@@ -137,9 +139,8 @@ class WorkUaScraper:
                     if "Досвід роботи" in i.text:
                         # print(i.text)
                         match = re.search(r'\d+', i.text)
-                        if match:
-                            experience_elements_num = int(match.group())
-                            # print(experience_elements_num)
+                        experience_elements_num = int(match.group())
+                        # print("experience_elements_num: ", experience_elements_num)
 
                 wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, ".wordwrap .list-unstyled .text-indent span")))
                 salary_elements = self.driver.find_elements(By.CSS_SELECTOR, ".wordwrap .list-unstyled .text-indent span")
@@ -148,8 +149,13 @@ class WorkUaScraper:
                         cleaned = re.sub(r'[\s\u202f\u2009]', '', i.text)
                         numbers = re.findall(r'\d+', cleaned)
                         numbers_salary = int(numbers[0])
-                        print(numbers_salary)
+                        # print("numbers_salary: ", numbers_salary)
 
+                if salary != 0 and numbers_salary is None:
+                    continue
+
+                if experience is not None and experience_elements_num is None:
+                    continue
 
                 if not skill_elements:
                     print('no skills')
@@ -157,6 +163,8 @@ class WorkUaScraper:
                 if not experience_elements:
                     print('no experience')
 
+                if salary != 0 and numbers_salary < salary:
+                    continue
 
 
                 if salary != 0:
