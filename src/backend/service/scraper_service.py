@@ -134,14 +134,21 @@ class WorkUaScraper:
                 experience_elements = self.driver.find_elements(By.CSS_SELECTOR, ".wordwrap .list-unstyled li")
                 for i in experience_elements:
                     if "Досвід роботи" in i.text:
-                        print(i.text)
+                        # print(i.text)
                         match = re.search(r'\d+', i.text)
                         if match:
                             experience_elements_num = int(match.group())
-                            print(experience_elements_num)
+                            # print(experience_elements_num)
 
+                wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, ".wordwrap .list-unstyled .text-indent span")))
+                salary_elements = self.driver.find_elements(By.CSS_SELECTOR, ".wordwrap .list-unstyled .text-indent span")
+                for i in salary_elements:
+                    if "грн" in i.text:
+                        cleaned = re.sub(r'[\s\u202f\u2009]', '', i.text)
+                        numbers = re.findall(r'\d+', cleaned)
+                        numbers_salary = int(numbers[0])
+                        print(numbers_salary)
 
-                # salary_elements = self.driver.find_elements(By.CSS_SELECTOR, ".mt-2xl .js-toggle-block li span")
 
                 if not skill_elements:
                     print('no skills')
