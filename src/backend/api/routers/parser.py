@@ -97,15 +97,15 @@ async def results(
             salary = 0
             max_pages = 20
 
-        # vacancies = await parse_vacancies(query, filters)
-        # skills_data = await analyze_skills(vacancies, filters)
+        vacancies = await parse_vacancies(query, filters)
+        skills_data = await analyze_skills(vacancies, filters)
 
         return templates.TemplateResponse(
             "results_.html",
             {
                 "request": request,
-                # "jobs": vacancies,
-                # "skills": skills_data,
+                "jobs": vacancies,
+                "skills": skills_data,
                 'query': query,
                 'experience': experience,
                 'location': location,
