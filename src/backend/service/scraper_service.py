@@ -108,104 +108,76 @@ class WorkUaScraper:
         return await asyncio.to_thread(self._get_skills_sync, links, filters)
 
     def _get_skills_sync(self, links, filters):
-        salary = filters['salary'] if filters['salary'] else 0
+        salary_filter = filters.get('salary', 0)
+        experience_filter = filters.get('experience')
 
-        experience = filters['experience'] if filters['experience'] else None
-        if experience is not None and experience != "noexperience":
-            match = re.search(r'\d+', experience)
+        # Convert experience if it's a digit string
+        if experience_filter and experience_filter != "noexperience":
+            match = re.search(r'\d+', experience_filter)
             if match:
-                experience = int(match.group())
+                experience_filter = int(match.group())
             else:
-                experience = None
+                experience_filter = None
 
-        print("experience:", experience)
-        print("salary:", salary)
+        print("experience_filter:", experience_filter)
+        print("salary_filter:", salary_filter)
 
         self.driver = self._start_driver()
         wait = WebDriverWait(self.driver, 5)
         all_skills = []
+        links_return = []
 
         for link in links:
             try:
                 self.driver.get(link)
+
+                # Wait and extract skills
                 wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, ".mt-2xl .js-toggle-block li span")))
                 skill_elements = self.driver.find_elements(By.CSS_SELECTOR, ".mt-2xl .js-toggle-block li span")
 
-                wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, ".wordwrap .list-unstyled li")))
+                # Extract experience
                 experience_elements = self.driver.find_elements(By.CSS_SELECTOR, ".wordwrap .list-unstyled li")
-                for i in experience_elements:
-                    if "Досвід роботи" in i.text:
-                        # print(i.text)
-                        match = re.search(r'\d+', i.text)
+                experience_value = None
+                for el in experience_elements:
+                    if "Досвід роботи" in el.text:
+                        match = re.search(r'\d+', el.text)
                         if match:
-                            experience_elements_num = int(match.group())
-                            # print(experience_elements_num)
+                            experience_value = int(match.group())
+                            break
 
-                wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, ".wordwrap .list-unstyled .text-indent span")))
-                salary_elements = self.driver.find_elements(By.CSS_SELECTOR, ".wordwrap .list-unstyled .text-indent span")
-                for i in salary_elements:
-                    if "грн" in i.text:
-                        cleaned = re.sub(r'[\s\u202f\u2009]', '', i.text)
+                # Extract salary
+                salary_elements = self.driver.find_elements(By.CSS_SELECTOR,
+                                                            ".wordwrap .list-unstyled .text-indent span")
+                salary_value = None
+                for el in salary_elements:
+                    if "грн" in el.text:
+                        cleaned = re.sub(r'[\s\u202f\u2009]', '', el.text)
                         numbers = re.findall(r'\d+', cleaned)
-                        numbers_salary = int(numbers[0])
-                        print(numbers_salary)
+                        if numbers:
+                            salary_value = int(numbers[0])
+                            break
 
+                # Filtering logic
+                pass_salary = salary_value is None or salary_value >= salary_filter
+                pass_experience = False
 
-                if not skill_elements:
-                    print('no skills')
+                if experience_filter is None:
+                    pass_experience = True
+                elif experience_filter == "noexperience" and (experience_value is None or experience_value == 0):
+                    pass_experience = True
+                elif isinstance(experience_filter, int) and experience_value is not None:
+                    pass_experience = experience_value >= experience_filter
 
-                if not experience_elements:
-                    print('no experience')
-
-
-
-                if salary != 0:
-                    if not experience and numbers_salary >= salary:
-                        all_skills.extend([el.text for el in skill_elements if el.text])
-                        print("ура: ", link)
-                    elif experience == "noexperience" and numbers_salary >= salary:
-                        if experience == "noexperience":
-                            all_skills.extend([el.text for el in skill_elements if el.text])
-                            print("ура: ", link)
-                    elif isinstance(experience, int) and numbers_salary >= salary:
-                        if experience_elements_num >= experience:
-                            all_skills.extend([el.text for el in skill_elements if el.text])
-                            print("ура: ", link)
-                elif salary == 0:
-                    if not experience:
-                        all_skills.extend([el.text for el in skill_elements if el.text])
-                        print("ура: ", link)
-                    elif experience == "noexperience":
-                        if experience == "noexperience":
-                            all_skills.extend([el.text for el in skill_elements if el.text])
-                            print("ура: ", link)
-                    elif isinstance(experience, int):
-                        if experience_elements_num >= experience:
-                            all_skills.extend([el.text for el in skill_elements if el.text])
-                            print("ура: ", link)
-
+                if pass_salary and pass_experience:
+                    all_skills.extend([el.text for el in skill_elements if el.text])
+                    links_return.append(link)
+                    print("Accepted:", link)
 
             except Exception as e:
-                print(f"error on link: {link}")
+                print(f"Error on link: {link} -> {e}")
                 continue
 
         self.driver.quit()
-        print(all_skills)
-        return dict(Counter(all_skills))
+        print("Collected skills:", all_skills)
+        return dict(Counter(all_skills)), links_return
 
-
-
-
-# async def main():
-#     scraper = WorkUaScraper()
-#     links = await scraper.get_links("Python", {'experience': '1-3', 'salary': 10000, 'location': None})
-#     print(f"Found {len(links)} links")
-#
-#     if links:
-#         skills = await scraper.get_skills_from_links(links)
-#         print("Top Skills:", skills)
-#
-#
-#
-
-# asyncio.run(main())

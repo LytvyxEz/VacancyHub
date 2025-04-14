@@ -59,7 +59,7 @@
             <div class="scrollable-content">
                 <ul class="skills-list">
                     {% for key, value in top_skills.items() %}
-                    <li><span class="skill-name">{{ key }}</span><span class="skill-value">{{ value }}</span></li>
+                    <li><span class="skill-name">     {{ key }}</span><span class="skill-value">{{ value }}     </span></li>
                     {% endfor %}
                 </ul>
             </div>
@@ -67,16 +67,17 @@
 
         <div class="chart-card">
             <div class="card-header">
+
                 <h3>Skill distribution</h3>
                 <i class="fas fa-chart-pie"></i>
             </div>
-            <div class="skills-container">
-                <ul class="skills-list">
-                    {% for key, value in skills.items() %}
-                    <li><span class="skill-name">  {{ key }}</span><span class="skill-value">{{ value }}  </span></li>
-                    {% endfor %}
-                </ul>
-            </div>
+                <div class="skills-container">
+                    <ul class="skills-list">
+                        {% for key, value in skills.items() %}
+                        <li><span class="skill-name">  {{ key }}</span><span class="skill-value">{{ value }}  </span></li>
+                        {% endfor %}
+                    </ul>
+                </div>
         </div>
 
         <div class="jobs-card scrollable-card">
