@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Аналіз навичок Python-розробників</title>
+    <title>Vacancy Hub | Results</title>
     <link rel="icon" href="static/img/logo.jpg">
     <link rel="stylesheet" href="/static/css/results__.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -53,22 +53,22 @@
         <div class="skills-card">
             <div class="card-header">
                 <h3>Top skills</h3>
-                {% for key, value in skills.items() %}
-                    {% if loop.index <= 3 %}
-                        {{ key }}: {{ value }}{% if not loop.last %}, {% endif %}
-                    {% endif %}
-                {% endfor %}
                 <i class="fas fa-star"></i>
             </div>
             <div class="skills-list">
-<!--                {% if jobs %}-->
-<!--                <canvas id="skillsChart"></canvas>-->
-<!--                {% else %}-->
-<!--                <div class="empty-state">-->
-<!--                    <i class="fas fa-info-circle"></i>-->
-<!--                    <p></p>-->
-<!--                </div>-->
-<!--                {% endif %}-->
+                {% for key, value in skills.items() %}
+                {% if loop.index <= 3 %}
+                {{ key }}: {{ value }}{% if not loop.last %}, {% endif %}
+                {% endif %}
+                {% endfor %}
+                <!--                {% if jobs %}-->
+                <!--                <canvas id="skillsChart"></canvas>-->
+                <!--                {% else %}-->
+                <!--                <div class="empty-state">-->
+                <!--                    <i class="fas fa-info-circle"></i>-->
+                <!--                    <p></p>-->
+                <!--                </div>-->
+                <!--                {% endif %}-->
             </div>
         </div>
         <div class="chart-card">
