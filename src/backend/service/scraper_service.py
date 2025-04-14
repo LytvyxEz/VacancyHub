@@ -156,7 +156,7 @@ class WorkUaScraper:
                 if not experience_elements:
                     print('no experience')
 
-                if experience == None:
+                if not experience:
                     all_skills.extend([el.text for el in skill_elements if el.text])
                     print("ура: ", link)
                 elif experience == "noexperience":
