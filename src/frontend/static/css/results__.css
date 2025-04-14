@@ -1206,3 +1206,116 @@ footer {
 .skill-value {
     color: #aaa;
 }
+/* Card Layout Improvements */
+.dashboard-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 25px;
+    margin: 30px 0;
+    align-items: start; /* Align cards to top */
+}
+
+/* Base Card Styles */
+.stats-card,
+.chart-card,
+.jobs-card {
+    background-color: var(--white);
+    border-radius: 12px;
+    padding: 25px;
+    box-shadow: var(--shadow-sm);
+    transition: var(--transition);
+    border: 1px solid var(--light-gray);
+    height: 100%; /* Make cards equal height */
+    display: flex;
+    flex-direction: column;
+}
+
+/* Scrollable Cards */
+.scrollable-card {
+    max-height: 400px; /* Set max height for scrollable cards */
+    overflow: hidden; /* Hide overflow */
+}
+
+.scrollable-content {
+    overflow-y: auto; /* Enable vertical scrolling */
+    flex-grow: 1; /* Take remaining space */
+    padding-right: 5px; /* Prevent content from touching scrollbar */
+    scrollbar-width: thin;
+    scrollbar-color: var(--primary-light) var(--light-gray);
+}
+
+/* Custom scrollbar */
+.scrollable-content::-webkit-scrollbar {
+    width: 6px;
+}
+
+.scrollable-content::-webkit-scrollbar-track {
+    background: var(--light-gray);
+    border-radius: 3px;
+}
+
+.scrollable-content::-webkit-scrollbar-thumb {
+    background-color: var(--primary-light);
+    border-radius: 3px;
+}
+
+/* Card Content Styles */
+.card-value {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--primary);
+    margin: 15px 0;
+    line-height: 1;
+    text-align: center;
+}
+
+/* Skills List */
+.skills-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.skills-list li {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--light-gray);
+}
+
+.skills-list li:last-child {
+    border-bottom: none;
+}
+
+/* Jobs List */
+.jobs-list {
+    padding: 0;
+}
+
+.vacancy-item {
+    padding: 12px 0;
+    border-bottom: 1px solid var(--light-gray);
+}
+
+.vacancy-item:last-child {
+    border-bottom: none;
+}
+
+/* Chart Placeholder */
+.chart-placeholder {
+    min-height: 250px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .dashboard-cards {
+        grid-template-columns: 1fr;
+    }
+
+    .scrollable-card {
+        max-height: 300px;
+    }
+}

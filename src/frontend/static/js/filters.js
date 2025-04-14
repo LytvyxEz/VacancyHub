@@ -50,8 +50,8 @@ document.addEventListener("DOMContentLoaded", function() {
             params.append('experience', experienceSelect.value);
         }
 
-        if (salaryInput.value) {
-            params.append('salary', salaryInput.value);
+        if (document.querySelector('input[name="salary"]').value) {
+            params.append('salary', document.querySelector('input[name="salary"]').value);
         }
 
         if (document.querySelector('input[name="max_pages"]').value) {
