@@ -2,9 +2,30 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Logout</title>
-
+    <title>Vacancy Hub | Logout</title>
+    <link rel="icon" href="/static/img/logo.jpg" type="image/jpg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="/static/css/logout.css">
+        <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('confirmYes').addEventListener('click', async function() {
+                const response = await fetch('/auth/logout/confirm', {
+                    method: 'GET',
+                    credentials: 'include'
+                });
+                if (response.ok) {
+                    window.location.href = '/auth/logout';
+                }
+            });
+
+            document.getElementById('confirmNo').addEventListener('click', function() {
+                window.location.href = '/';
+            });
+        });
+    </script>
 </head>
 <body>
     <div id="customConfirm" class="custom-modal show">
@@ -14,13 +35,12 @@
             </div>
             <div class="modal-message">Are you sure you want to logout?</div>
             <div class="modal-buttons">
-                <button id="confirmYes" class="modal-button yes-button"><a href="/auth/logout">
+                <button id="confirmYes" class="modal-button yes-button">
                     <i class="fas fa-sign-in-alt"></i> Yes, Logout
-                    </a>
                 </button>
-                <button id="confirmNo" class="modal-button no-button"><a href="/">
+                <button id="confirmNo" class="modal-button no-button">
                     <i class="fas fa-times"></i> Cancel
-                </a></button>
+                </button>
             </div>
         </div>
     </div>

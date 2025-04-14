@@ -68,7 +68,7 @@ class DatabaseHandlers:
             response = await self.async_client.table("refresh_tokens").insert(info).execute()
 
         except Exception as e:
-            raise e
+            raise "Token already exists"
 
     async def remove_refresh_token(self, email: str) -> None:
         if not self.async_client:

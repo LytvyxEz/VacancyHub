@@ -149,6 +149,7 @@ class WorkUaScraper:
                         numbers_salary = int(numbers[0])
                         print(numbers_salary)
 
+
                 if not skill_elements:
                     print('no skills')
 
@@ -179,6 +180,7 @@ class WorkUaScraper:
                         if experience_elements_num >= experience:
                             all_skills.extend([el.text for el in skill_elements if el.text])
                             print("ура: ", link)
+
 
             except Exception as e:
                 print(f"error on link: {link}")

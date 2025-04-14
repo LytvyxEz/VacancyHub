@@ -98,6 +98,7 @@ async def results(
 
         vacancies = await parse_vacancies(query, filters)
         skills_data = await analyze_skills(vacancies, filters)
+        skills_data = dict(sorted(skills_data.items(), key=lambda item: item[1], reverse=True))
         top_skills = await get_top_skills(skills_data)
 
         return templates.TemplateResponse(
@@ -107,10 +108,6 @@ async def results(
                 "jobs": vacancies,
                 "skills": skills_data,
                 "top_skills": top_skills,
-                'query': query,
-                'experience': experience,
-                'location': location,
-                'salary': salary,
                 'max_pages': max_pages,
                 'is_authenticated': True if request.cookies.get("access_token") else False
             }

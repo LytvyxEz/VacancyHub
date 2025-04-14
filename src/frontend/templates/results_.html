@@ -96,7 +96,7 @@
             {% if jobs %}
             {% for job in jobs %}
             <div class="vacancy-item">
-                <a href="{{ job }}" target="_blank">Vacancy</a>
+                <a href="{{ job }}" target="_blank">Vacancy #{{ loop.index }}</a>
             </div>
             {% endfor %}
             {% else %}

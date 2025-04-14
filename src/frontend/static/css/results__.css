@@ -879,6 +879,34 @@ footer {
   border-color: var(--primary-light);
 }
 
+/* Salary Card Specific Styles */
+.salary-card {
+  background-color: var(--white);
+  border-radius: 12px;
+  padding: 25px;
+  box-shadow: var(--shadow-sm);
+  transition: var(--transition);
+  border: 1px solid var(--light-gray);
+  text-align: center;
+  max-width: 2000px;
+}
+
+/* Hover effect */
+.salary-card:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-md);
+  border-color: var(--primary-light);
+}
+
+.card-header-salary {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid var(--light-gray);
+  max-width: 2000px;
+}
 /* Card Header Styles */
 .card-header {
   display: flex;
