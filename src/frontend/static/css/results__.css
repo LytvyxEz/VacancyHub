@@ -1188,16 +1188,24 @@ footer {
 .skills-list li {
     display: flex;
     justify-content: space-between;
-    margin-bottom: 8px;
-    padding: 6px 10px;
-    background-color: #2a2a40;
-    border-radius: 8px;
-    transition: background 0.3s ease;
+    align-items: center;
+    margin-bottom: 10px;
+    padding: 10px 16px;
+    background-color: #2f2f44;
+    border-radius: 14px;
+    color: #f1f1f7;
+    font-weight: 500;
+    font-size: 0.95rem;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
 }
 
 .skills-list li:hover {
-    background-color: #3a3a55;
+    background-color: #3c3c5c;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
 }
+
 
 .skill-name {
     font-weight: 500;

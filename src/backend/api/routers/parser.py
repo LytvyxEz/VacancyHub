@@ -97,7 +97,10 @@ async def results(
             max_pages = 20
 
         vacancies = await parse_vacancies(query, filters)
-        skills_data = await analyze_skills(vacancies, filters)
+        skills_and_jobs = await analyze_skills(vacancies, filters)
+        skills_data = skills_and_jobs[0]
+        vacancies = skills_and_jobs[1]
+
         skills_data = dict(sorted(skills_data.items(), key=lambda item: item[1], reverse=True))
         top_skills = await get_top_skills(skills_data)
 
