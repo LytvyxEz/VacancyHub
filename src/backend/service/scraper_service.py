@@ -109,8 +109,9 @@ class WorkUaScraper:
 
     def _get_skills_sync(self, links, filters):
         salary = filters['salary'] if filters['salary'] else 0
-
         experience = filters['experience'] if filters['experience'] else None
+        jobs_list = []
+
         if experience is not None and experience != "noexperience":
             match = re.search(r'\d+', experience)
             if match:
@@ -137,10 +138,8 @@ class WorkUaScraper:
                 experience_elements = self.driver.find_elements(By.CSS_SELECTOR, ".wordwrap .list-unstyled li")
                 for i in experience_elements:
                     if "Досвід роботи" in i.text:
-                        # print(i.text)
                         match = re.search(r'\d+', i.text)
                         experience_elements_num = int(match.group())
-                        # print("experience_elements_num: ", experience_elements_num)
 
                 wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, ".wordwrap .list-unstyled .text-indent span")))
                 salary_elements = self.driver.find_elements(By.CSS_SELECTOR, ".wordwrap .list-unstyled .text-indent span")
@@ -149,7 +148,6 @@ class WorkUaScraper:
                         cleaned = re.sub(r'[\s\u202f\u2009]', '', i.text)
                         numbers = re.findall(r'\d+', cleaned)
                         numbers_salary = int(numbers[0])
-                        # print("numbers_salary: ", numbers_salary)
 
                 if salary != 0 and numbers_salary is None:
                     continue
@@ -169,37 +167,34 @@ class WorkUaScraper:
 
                 if salary != 0:
                     if not experience and numbers_salary >= salary:
+                        jobs_list.append(link)
                         all_skills.extend([el.text for el in skill_elements if el.text])
-                        print("ура: ", link)
                     elif experience == "noexperience" and numbers_salary >= salary:
                         if experience == "noexperience":
+                            jobs_list.append(link)
                             all_skills.extend([el.text for el in skill_elements if el.text])
-                            print("ура: ", link)
                     elif isinstance(experience, int) and numbers_salary >= salary:
                         if experience_elements_num >= experience:
+                            jobs_list.append(link)
                             all_skills.extend([el.text for el in skill_elements if el.text])
-                            print("ура: ", link)
                 elif salary == 0:
                     if not experience:
                         all_skills.extend([el.text for el in skill_elements if el.text])
-                        print("ура: ", link)
                     elif experience == "noexperience":
                         if not isinstance(experience, int):
+                            jobs_list.append(link)
                             all_skills.extend([el.text for el in skill_elements if el.text])
-                            print("ура: ", link)
                     elif isinstance(experience, int):
                         if experience_elements_num >= experience:
+                            jobs_list.append(link)
                             all_skills.extend([el.text for el in skill_elements if el.text])
-                            print("ура: ", link)
 
 
             except Exception as e:
-                print(f"error on link: {link}")
                 continue
 
         self.driver.quit()
-        print(all_skills)
-        return dict(Counter(all_skills))
+        return dict(Counter(all_skills)), jobs_list
 
 
 
