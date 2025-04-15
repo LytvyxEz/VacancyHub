@@ -1,7 +1,7 @@
 from pydantic import BaseModel, Field, PositiveInt, model_validator, field_validator
 from fastapi import Request, HTTPException
 from typing import Optional
-
+from urllib.parse import unquote
 
 class ParserRequest(BaseModel):
     query: Optional[str] = Field(min_length=1, max_length=30)
@@ -11,11 +11,11 @@ class ParserRequest(BaseModel):
     max_pages: Optional[PositiveInt] = Field(default=20)
 
     @field_validator("location")
-    def ensure_utf8(cls, value):
-        if value is not None and isinstance(value, str):
-            return value.encode("utf-8").decode("utf-8")
+    def decode_ukrainian(cls, value):
+        if value and isinstance(value, str):
+            decoded = unquote(value)
+            return decoded
         return value
-
 
     @field_validator('salary')
     def validate_salary(cls, v):

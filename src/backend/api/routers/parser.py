@@ -98,6 +98,7 @@ async def results(
 
         vacancies = await parse_vacancies(query, filters)
         skills_and_jobs = await analyze_skills(vacancies, filters)
+        print(skills_and_jobs)
         skills_data = skills_and_jobs[0]
         vacancies = skills_and_jobs[1]
 
@@ -118,6 +119,6 @@ async def results(
     except ValueError as e:
         raise HTTPException(status_code=400, detail=f"Invalid parameter type: {e}")
     except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
+        raise e
 
 

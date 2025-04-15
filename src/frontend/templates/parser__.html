@@ -70,10 +70,37 @@
                     </div>
 
                     <div class="filter-group">
-                        <label class="filter-label">Location</label>
-                        <input type="text" class="filter-input" name="location" placeholder="City or region"
-                               value="{{location}}">
+                        <label class="filter-label" for="location">Location</label>
+                        <select class="filter-input" name="location" id="location">
+                            <option value="">Select a city</option>
+                            <option value="Дистанційно" {% if location =="Дистанційно" %}selected{% endif %}>Дистанційно</option>
+                            <option value="Київ" {% if location =="Київ" %}selected{% endif %}>Київ</option>
+                            <option value="Харків" {% if location =="Харків" %}selected{% endif %}>Харків</option>
+                            <option value="Одеса" {% if location =="Одеса" %}selected{% endif %}>Одеса</option>
+                            <option value="Дніпро" {% if location =="Дніпро" %}selected{% endif %}>Дніпро</option>
+                            <option value="Львів" {% if location =="Львів" %}selected{% endif %}>Львів</option>
+                            <option value="Запоріжжя" {% if location =="Запоріжжя" %}selected{% endif %}>Запоріжжя</option>
+                            <option value="Кривий Ріг" {% if location =="Кривий-Ріг" %}selected{% endif %}>Кривий Ріг</option>
+                            <option value="Миколаїв" {% if location =="Миколаїв" %}selected{% endif %}>Миколаїв</option>
+                            <option value="Маріуполь" {% if location =="Маріуполь" %}selected{% endif %}>Маріуполь</option>
+                            <option value="Вінниця" {% if location =="Вінниця" %}selected{% endif %}>Вінниця</option>
+                            <option value="Херсон" {% if location =="Херсон" %}selected{% endif %}>Херсон</option>
+                            <option value="Чернігів" {% if location =="Чернігів" %}selected{% endif %}>Чернігів</option>
+                            <option value="Полтава" {% if location =="Полтава" %}selected{% endif %}>Полтава</option>
+                            <option value="Черкаси" {% if location =="Черкаси" %}selected{% endif %}>Черкаси</option>
+                            <option value="Суми" {% if location =="Суми" %}selected{% endif %}>Суми</option>
+                            <option value="Житомир" {% if location =="Житомир" %}selected{% endif %}>Житомир</option>
+                            <option value="Рівне" {% if location =="Рівне" %}selected{% endif %}>Рівне</option>
+                            <option value="Івано-Франківськ" {% if location =="Івано-Франківськ" %}selected{% endif %}>Івано-Франківськ</option>
+                            <option value="Тернопіль" {% if location =="Тернопіль" %}selected{% endif %}>Тернопіль</option>
+                            <option value="Ужгород" {% if location =="Ужгород" %}selected{% endif %}>Ужгород</option>
+                            <option value="Чернівці" {% if location =="Чернівці" %}selected{% endif %}>Чернівці</option>
+                            <option value="Луцьк" {% if location =="Луцьк" %}selected{% endif %}>Луцьк</option>
+                            <option value="Краматорськ" {% if location =="Краматорськ" %}selected{% endif %}>Краматорськ</option>
+                            <option value="Слов’янськ" {% if location =="Слов’янськ" %}selected{% endif %}>Слов’янськ</option>
+                        </select>
                     </div>
+
 
                     <div class="filter-group">
                         <label class="filter-label">Salary from</label>
