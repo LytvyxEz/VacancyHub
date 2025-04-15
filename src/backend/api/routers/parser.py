@@ -103,8 +103,7 @@ async def results(
             'salary': parser_query['salary'],
             'max_pages': parser_query['max_pages']
         }
-        print(filters)
-        print(parser_query['query'])
+
         vacancies = await parse_vacancies(parser_query['query'], filters)
         skills_and_jobs = await analyze_skills(vacancies, filters)
         skills_data = skills_and_jobs[0]
