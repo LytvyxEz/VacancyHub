@@ -10,19 +10,16 @@ async def auth_middleware(request: Request, call_next):
         return await call_next(request)
 
     access_token = request.cookies.get("access_token")
-    response = RedirectResponse(url='/error?msg=Not+Authorized')
-    response.set_cookie(key="next_url",
-                        value=request.url.path,
-                        )
+
     try:
         if access_token:
             payload = JWT.decode_jwt(access_token)
             if payload.get('typ') != "access":
-                return response
+                return RedirectResponse(url='/error?msg=Not+Authorized')
             request.state.user = payload["sub"]
 
     except jwt.ExpiredSignatureError:
-        return response
+        return RedirectResponse(url='/error?msg=Not+Authorized')
 
     except Exception as e:
         return RedirectResponse(url=f'/error?msg={e}')
