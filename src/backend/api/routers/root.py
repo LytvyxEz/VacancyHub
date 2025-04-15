@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Request
+from fastapi import APIRouter, Request, Query
 from fastapi.responses import RedirectResponse
 from fastapi.templating import Jinja2Templates
 from fastapi import Depends
@@ -48,3 +48,13 @@ async def privacy(request: Request):
     return templates.TemplateResponse('cookie.html', {"request": request,
                                                       'is_authenticated': True if request.cookies.get(
                                                           "access_token") else False})
+
+
+@root_router.get("/error")
+async def error_page(request: Request, msg: str = Query(default="Something went wrong.")):
+    return templates.TemplateResponse("error.html", {
+        "request": request,
+        "is_authenticated": True if request.cookies.get("access_token") else False,
+        "error": msg
+    })
+
