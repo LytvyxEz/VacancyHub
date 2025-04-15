@@ -97,17 +97,16 @@ async def results(
             max_pages = 20
 
         parser_query = parser_request(request, query, experience, location, salary, max_pages)
-        print(parser_query)
         filters = {
             'experience': parser_query['experience'],
             'location': parser_query['location'],
             'salary': parser_query['salary'],
             'max_pages': parser_query['max_pages']
         }
-
+        print(filters)
+        print(parser_query['query'])
         vacancies = await parse_vacancies(parser_query['query'], filters)
         skills_and_jobs = await analyze_skills(vacancies, filters)
-        print(skills_and_jobs)
         skills_data = skills_and_jobs[0]
         vacancies = skills_and_jobs[1]
 

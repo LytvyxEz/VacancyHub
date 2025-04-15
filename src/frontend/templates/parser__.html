@@ -77,7 +77,7 @@
                     <div class="filter-group">
                         <label class="filter-label" for="location">Location</label>
                         <select class="filter-input" name="location" id="location">
-                            <option value="">Select a city</option>
+                            <option value="Any" {% if location =="Any" %}selected{% endif %}>Any</option>
                             <option value="Дистанційно" {% if location =="Дистанційно" %}selected{% endif %}>Дистанційно</option>
                             <option value="Київ" {% if location =="Київ" %}selected{% endif %}>Київ</option>
                             <option value="Харків" {% if location =="Харків" %}selected{% endif %}>Харків</option>

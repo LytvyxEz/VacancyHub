@@ -14,7 +14,6 @@ class ParserRequest(BaseModel):
     def decode_ukrainian(cls, value):
         if value and isinstance(value, str):
             decoded = unquote(value)
-            print(decoded)
             return decoded
         return value
 

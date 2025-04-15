@@ -100,6 +100,7 @@ class WorkUaScraper:
             except Exception as e:
                 print('error')
                 break
+        print(f"Vacancies found: {total_vacancies}")
 
         self.driver.quit()
         return job_links
@@ -119,8 +120,6 @@ class WorkUaScraper:
             else:
                 experience = None
 
-        print("experience:", experience)
-        print("salary:", salary)
 
         self.driver = self._start_driver()
         wait = WebDriverWait(self.driver, 5)
@@ -179,6 +178,7 @@ class WorkUaScraper:
                             all_skills.extend([el.text for el in skill_elements if el.text])
                 elif salary == 0:
                     if not experience:
+                        jobs_list.append(link)
                         all_skills.extend([el.text for el in skill_elements if el.text])
                     elif experience == "noexperience":
                         if not isinstance(experience, int):
@@ -192,23 +192,10 @@ class WorkUaScraper:
 
             except Exception as e:
                 continue
-
+        print(jobs_list)
         self.driver.quit()
         return dict(Counter(all_skills)), jobs_list
 
 
 
 
-# async def main():
-#     scraper = WorkUaScraper()
-#     links = await scraper.get_links("Python", {'experience': '1-3', 'salary': 10000, 'location': None})
-#     print(f"Found {len(links)} links")
-#
-#     if links:
-#         skills = await scraper.get_skills_from_links(links)
-#         print("Top Skills:", skills)
-#
-#
-#
-
-# asyncio.run(main())
